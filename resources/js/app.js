@@ -17,6 +17,8 @@ Vue.use(VueRouter);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('main-component', require('./components/MainComponent.vue').default);
+Vue.component('default-modal', require('./components/commons/DefaultModal.vue').default);
+Vue.component('b-loading', require('./components/commons/BlueLoading.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -18,14 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'api'],function(){
-    Route::post('/article/{id}', 'API\EmployeeController@index');
-});
+// 認証なし
+// group
+Route::get('group', 'API\GroupController@index');
+Route::get('group/{group_id}', 'API\GroupController@show');
+Route::post('group', 'API\GroupController@store');
 
+// 認証あり
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('employee', 'API\EmployeeController@index');
-    Route::post('employee', 'API\EmployeeController@store');
-    Route::get('employee/{employee}', 'API\EmployeeController@show');
-    Route::put('employee/{employee}', 'API\EmployeeController@update');
-    Route::delete('employee/{employee}', 'API\EmployeeController@destroy');
+    Route::get('user/list', 'API\UserController@index');
+
+    // message
+    Route::get('message', 'API\MessageController@index');
+    Route::post('message', 'API\MessageController@store');
 });

@@ -6,6 +6,15 @@ export default new Router({
         // home
         { name: 'home', path: '/', component: require('./components/HomeComponent.vue').default },
 
+        // user
+        { name: 'user', path: '/user', component: require('./components/user/Index.vue').default },
+
+        // group
+        { name: 'group', path: '/group', component: require('./components/group/Index.vue').default },
+
+        // chat
+        { name: 'chat', path: '/group/chat/:group_id', component: require('./components/chat/Index.vue').default, props: true },
+
         // not found
         { name: 'not.fount', path: '*', component: require('./components/commons/NotFoundComponent.vue').default },
         // unauthorized

@@ -8,7 +8,11 @@
 
 <script>
 export default {
-    //
+    mounted () {
+        if (window.Laravel.api_token == "Unauthorized") {
+            alert("ゲストユーザーです。\nチャット機能を利用する場合は、ログインしてください。")
+        }
+    }
 }
 </script>
 
