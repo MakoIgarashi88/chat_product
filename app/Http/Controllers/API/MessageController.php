@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Events\MessageCreated;
 use App\Message;
 use App\Http\Resources\Message as MessageResource;
 
@@ -32,11 +33,12 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
-            $company = new Message;
-            $company->user_id = Auth::user()->id;
-            $company->group_id = $request->group_id;
-            $company->body = $request->body;
-            $company->save();
+            $message = new Message;
+            $message->user_id = Auth::user()->id;
+            $message->group_id = $request->group_id;
+            $message->body = $request->body;
+            $message->save();
+            event(new MessageCreated($message));
         });
 
         return response()->json([

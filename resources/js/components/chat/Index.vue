@@ -81,6 +81,9 @@ export default {
     },
     mounted () {
         this.getInit()
+        Echo.channel('chat').listen('MessageCreated', (e) => {
+            this.getMessage()
+        })
     },
     methods: {
         getInit () {
@@ -108,14 +111,6 @@ export default {
                 this.isLoading = false
             })
         },
-        getAddMessage () {
-            var count = 0;
-            var countup = function(){
-                console.log(count++)
-                clearInterval(interval_id)
-            }
-            var interval_id = setInterval(countup, 1000);
-        },
         onStore () {
             if (!this.message) {
                 alert('メッセージを入力してください。')
@@ -132,11 +127,10 @@ export default {
                 this.message = null
             }).catch(error => {
                 alert('送信に失敗しました。')
-            }).finally(resp => {
-                this.getMessage()
             })
         },
         onBack () {
+            Echo.leave('chat')
             this.$router.push({ name: 'group' })
         },
     },
