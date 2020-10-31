@@ -29,4 +29,9 @@ Vue.component('b-loading', require('./components/commons/BlueLoading.vue').defau
 const app = new Vue({
     el: '#app',
     router,
+    watch: {
+        '$route': function () {
+            Echo.leave('chat')
+        }
+    }
 });

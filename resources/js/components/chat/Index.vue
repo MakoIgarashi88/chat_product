@@ -48,7 +48,12 @@
                                 <div class="bg-light">
                                     <div class="input-group">
                                         <!-- <textarea placeholder="メッセージを入力してください" class="form-message form-control bg-light" v-model="message"></textarea> -->
-                                        <input v-model="message" type="text" placeholder="メッセージを入力してください" class="form-control rounded-0 border-0 py-4 bg-light">
+                                        <input
+                                            v-model="message"
+                                            @keyup.enter.ctrl="onStore"
+                                            type="text"
+                                            placeholder="メッセージを入力してください"
+                                            class="form-control rounded-0 border-0 py-4 bg-light">
                                         <div class="input-group-append">
                                             <button class="btn btn-link" type="button" @click="onStore">
                                                 <i class="fa fa-paper-plane"></i>
@@ -130,7 +135,6 @@ export default {
             })
         },
         onBack () {
-            Echo.leave('chat')
             this.$router.push({ name: 'group' })
         },
     },

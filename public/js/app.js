@@ -2057,6 +2057,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['group_id'],
   data: function data() {
@@ -2128,7 +2133,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     onBack: function onBack() {
-      Echo.leave('chat');
       this.$router.push({
         name: 'group'
       });
@@ -66337,6 +66341,24 @@ var render = function() {
                         },
                         domProps: { value: _vm.message },
                         on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            if (!$event.ctrlKey) {
+                              return null
+                            }
+                            return _vm.onStore($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -82208,7 +82230,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('b-loading', __webpack_requ
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  router: _router__WEBPACK_IMPORTED_MODULE_2__["default"]
+  router: _router__WEBPACK_IMPORTED_MODULE_2__["default"],
+  watch: {
+    '$route': function $route() {
+      Echo.leave('chat');
+    }
+  }
 });
 
 /***/ }),
