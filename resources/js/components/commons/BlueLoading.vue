@@ -5,7 +5,7 @@
         :height="100"
         :width="100"
         loader="dots"
-        color="#00BFFF">
+        color="#920d0d">
     </loading>
 </template>
 

@@ -6,3 +6,9 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.card-header {
+    background-color: $secondary;
+    color: white;
+    font-weight: bold;
+}

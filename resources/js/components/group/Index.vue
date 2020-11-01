@@ -5,8 +5,8 @@
                 <div class="row justify-content-between align-items-center">
                     <div class="col-auto"><h5>グループ一覧</h5></div>
                     <div class="col-auto form-inline">
-                        <CreateUpdate @update="getItems"/>
-                        <button class="btn btn-dark ml-2" @click="onBack">戻る</button>
+                        <GroupCreate @update="getItems"/>
+                        <button class="btn btn-light ml-2" @click="onBack">戻る</button>
                     </div>
                 </div>
 
@@ -38,9 +38,7 @@
 
 <script>
 import moment from "moment";
-import CreateUpdate from './CreateUpdate.vue'
 export default {
-    components: { CreateUpdate },
     data () {
         return {
             groups: [],
@@ -63,7 +61,7 @@ export default {
             })
         },
         onShow (group_id) {
-            this.$router.push({ name: 'chat', params: {'group_id': group_id} }) 
+            this.$router.push({ name: 'chat.group', params: {'group_id': group_id} }) 
         },
         onBack () {
             this.$router.push({ name: 'home' })
