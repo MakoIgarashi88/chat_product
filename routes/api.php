@@ -14,21 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// 認証なし
-// group
-Route::get('group', 'API\GroupController@index');
-Route::get('group/{group_id}', 'API\GroupController@show');
-Route::post('group', 'API\GroupController@store');
-
-// 認証あり
 Route::middleware(['auth:api'])->group(function () {
+    // user
     Route::get('user/list', 'API\UserController@index');
+    Route::get('user/{user}', 'API\UserController@show');
 
     // message
     Route::get('message', 'API\MessageController@index');
     Route::post('message', 'API\MessageController@store');
+
+    // group
+    Route::get('group', 'API\GroupController@index');
+    Route::get('group/{group_id}', 'API\GroupController@show');
+    Route::post('group', 'API\GroupController@store');
 });
