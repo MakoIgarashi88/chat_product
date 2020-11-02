@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:api'])->group(function () {
     // user
     Route::get('user/list', 'API\UserController@index');
+    Route::get('user', 'API\UserController@show');
     Route::get('user/{user}', 'API\UserController@show');
 
     // message

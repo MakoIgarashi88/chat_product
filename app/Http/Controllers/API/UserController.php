@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 use App\Http\Resources\User as UserResource;
@@ -31,6 +32,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        if (!isset($user->id)) {
+            $user = User::find(Auth::id());
+        }
+        logger($user->group_users);
         return response()->json([
             'user' => new UserResource($user),
             'friends' => UserFriendForListResource::collection($user->user_friends),

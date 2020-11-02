@@ -8,6 +8,6 @@ class UserFriend extends Model
 {
     public function user()
     {
-        return $this->hasOne('App\User', 'id');
+        return $this->hasOne('App\User', 'id', 'friend_id');
     }
 }

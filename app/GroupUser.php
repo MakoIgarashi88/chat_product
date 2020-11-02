@@ -8,6 +8,6 @@ class GroupUser extends Model
 {
     public function group()
     {
-        return $this->hasOne('App\Group', 'id');
+        return $this->belongsTo('App\Group');
     }
 }
