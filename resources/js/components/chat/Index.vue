@@ -6,11 +6,11 @@
                     <div class="card-header bg-primary text-white text-center">
                         <div class="row justify-content-between">
                             <div class="col-auto">
-                                <button class="btn btn-light" @click="onBack"><i class="fas fa-home"></i> ホーム</button>
+                                <button class="btn btn-light" @click="onBack"><i class="fas fa-home"></i></button>
                             </div>
                             <div class="col-auto"><span class="h3">{{group.name}}</span></div>
                             <div class="col-auto">
-                                <button class="btn btn-light" @click="onDeleted"><i class="fas fa-door-open"></i> 退会</button>
+                                <GroupSetting />
                             </div>
                         </div>
                     </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import GroupSetting from './GroupSetting'
 export default {
     props: ['group_id'],
     data () {
@@ -141,6 +142,9 @@ export default {
 
         }
     },
+    components: {
+        GroupSetting
+    }
 }
 </script>
 <style lang="scss" scoped>

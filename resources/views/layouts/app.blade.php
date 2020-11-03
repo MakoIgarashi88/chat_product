@@ -39,7 +39,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <router-link :to="{ name: 'home' }">
+                            <button class="btn btn-light btn-outline-secondary"><i class="fas fa-home"></i></button>
+                        </router-link>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
