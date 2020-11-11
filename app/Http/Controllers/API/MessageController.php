@@ -24,6 +24,21 @@ class MessageController extends Controller
         return MessageResource::collection($messages);
     }
 
+    public function private($friend_id)
+    {
+        $message_ids = [];
+        $submit_messages = Message::where('user_id', Auth::id())->where('submit_user_id', $friend_id)->get();
+        $resive_messages = Message::where('user_id', $friend_id)->where('submit_user_id', Auth::id())->get();
+        foreach ($submit_messages as $message) {
+            array_push($message_ids, $message->id);
+        }
+        foreach ($resive_messages as $message) {
+            array_push($message_ids, $message->id);
+        }
+        $messages = Message::whereIn('id', $message_ids)->get();
+        return MessageResource::collection($messages);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -33,6 +48,7 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
+            logger($request);
             $message = new Message;
             $message->user_id = Auth::user()->id;
             $message->group_id = $request->group_id;
@@ -44,5 +60,17 @@ class MessageController extends Controller
         return response()->json([
             'result' => true,
         ]);
+    }
+
+    public function privateStore(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $message = new Message;
+            $message->user_id = Auth::user()->id;
+            $message->submit_user_id = $request->friend_id;
+            $message->body = $request->body;
+            $message->save();
+            event(new MessageCreated($message));
+        });
     }
 }

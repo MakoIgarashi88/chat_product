@@ -29,6 +29,7 @@
         "pusher-js": "^7.0.0",
         "vue-loading-overlay": "^3.4.1",
         "vue-mg-date-picker-standard": "^1.0.4",
+        "vue-mg-paginate": "^1.0.10",
         "vue-router": "^3.4.3"
     }
 }

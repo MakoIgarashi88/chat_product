@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-auto"><span class="h3">{{group.name}}</span></div>
                             <div class="col-auto">
-                                <GroupSetting />
+                                <GroupSetting :group_id="group_id" @update="getInit" />
                             </div>
                         </div>
                     </div>
@@ -85,9 +85,9 @@ export default {
     },
     mounted () {
         this.getInit()
-        // Echo.channel('chat').listen('MessageCreated', (e) => {
-        //     this.getMessage()
-        // })
+        Echo.channel('chat').listen('MessageCreated', (e) => {
+            this.getMessage()
+        })
     },
     methods: {
         getInit () {
@@ -132,7 +132,7 @@ export default {
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
-                this.getInit()
+                // this.getInit()
             })
         },
         onBack () {

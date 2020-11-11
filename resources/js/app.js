@@ -16,6 +16,9 @@ Vue.use(VueRouter);
 import DatePickerStandard from 'vue-mg-date-picker-standard'
 Vue.component('DatePickerStandard', DatePickerStandard)
 
+import MgPaginate from 'vue-mg-paginate'
+Vue.component('MgPaginate', MgPaginate)
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -23,6 +26,7 @@ Vue.component('main-component', require('./components/MainComponent.vue').defaul
 Vue.component('default-modal', require('./components/commons/DefaultModal.vue').default);
 Vue.component('b-loading', require('./components/commons/BlueLoading.vue').default);
 Vue.component('GroupCreate', require('./components/commons/GroupCreate.vue').default);
+Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

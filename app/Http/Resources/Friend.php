@@ -3,10 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Carbon\Carbon;
-use App\Image;
+use Illuminate\Support\Facades\Auth;
+use App\UserFriend;
 
-class User extends JsonResource
+class Friend extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,13 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        $image = Image::where('id', $this->image_id)->first();
         return [
             'id' => $this->id,
             'name' => $this->name,
             'nickname' => $this->nickname,
             'birthday' => $this->birthday,
-            'image_id' => $this->image_id,
-            'image_name' => isset($image) ? $image->name : 'storage/images/default.png',
-            // 'age' => Carbon::createFromDate($this->birthday)->age,
+            'is_friend' => UserFriend::where('user_id', Auth::id())->where('friend_id', $this->id)->exists(),
         ];
     }
+
 }

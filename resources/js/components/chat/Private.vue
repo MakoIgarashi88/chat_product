@@ -31,7 +31,7 @@
                             </div>
                             <div class="row" v-else>
                                 <div class="col">
-                                    <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media w-50 mb-3"><img src="/storage/images/amaterasu.png" alt="user" width="50" class="rounded-circle">
                                         <div class="media-body ml-3">
                                             <div class="bg-light rounded py-2 px-3 mb-2">
                                                 <p class="text-small mb-0 text-muted">{{message.body}}</p>
@@ -73,21 +73,12 @@
 
 <script>
 export default {
+    props: ['user_id'],
     data () {
         return {
-            friend: {
-                id: 1,
-                name: 'fuuga',
-            },
+            friend: [],
             message: null,
-            messages: [
-                {
-                    id: 1,
-                    is_myself: false,
-                    body: 'hello',
-                    created_at: '2020/11/01',
-                }
-            ],
+            messages: [],
             isLoading: false,
         }
     },
@@ -99,9 +90,9 @@ export default {
     },
     methods: {
         getInit () {
-            axios.get('/api/group/' + this.group_id)
+            axios.get('/api/friend/' + this.user_id)
             .then(resp => {
-                this.group = resp.data
+                this.friend = resp.data
             }).catch(error => {
                 alert('グループ情報が読み込めませんでした。')
                 this.onBack()
@@ -110,18 +101,15 @@ export default {
             })
         },
         getMessage () {
-            // this.isLoading = true
-            // axios.get('/api/message', {
-            //     params: {
-            //         group_id: this.group_id,
-            //     }
-            // }).then(resp => {
-            //     this.messages = resp.data
-            // }).catch(error => {
-            //     alert(error)
-            // }).finally(resp => {
-            //     this.isLoading = false
-            // })
+            this.isLoading = true
+            axios.get('/api/message/' + this.user_id)
+            .then(resp => {
+                this.messages = resp.data
+            }).catch(error => {
+                alert(error)
+            }).finally(resp => {
+                this.isLoading = false
+            })
         },
         onStore () {
             if (!this.message) {
@@ -132,8 +120,8 @@ export default {
                 alert('メッセージは200文字以下で入力してください。')
                 return
             }
-            axios.post('/api/message', {
-                group_id: this.group_id,
+            axios.post('/api/message/private/', {
+                friend_id: this.user_id,
                 body: this.message,
             }).then(resp => {
                 this.message = null
