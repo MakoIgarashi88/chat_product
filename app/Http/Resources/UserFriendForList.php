@@ -15,6 +15,6 @@ class UserFriendForList extends JsonResource
      */
     public function toArray($request)
     {
-        return new UserResource($this->user);
+        return new UserResource($this->friends);
     }
 }

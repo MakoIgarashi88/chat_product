@@ -16,14 +16,13 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        $image = Image::where('id', $this->image_id)->first();
         return [
             'id' => $this->id,
             'name' => $this->name,
             'nickname' => $this->nickname,
             'birthday' => $this->birthday,
             'image_id' => $this->image_id,
-            'image_name' => isset($image) ? $image->name : 'storage/images/default.png',
+            'image_name' => isset($this->image) ? $this->image->name : 'storage/images/default.png',
             // 'age' => Carbon::createFromDate($this->birthday)->age,
         ];
     }

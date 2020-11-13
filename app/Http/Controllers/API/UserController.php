@@ -13,6 +13,7 @@ use App\Image;
 
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Friend as FriendResource;
+use App\Http\Resources\Group as GroupResource;
 use App\Http\Resources\GroupUserForList as GroupUserForListResource;
 use App\Http\Resources\UserFriendForList as UserFriendForListResource;
 
@@ -42,8 +43,8 @@ class UserController extends Controller
         }
         return response()->json([
             'user' => new UserResource($user),
-            'friends' => UserFriendForListResource::collection($user->user_friends),
-            'groups' => GroupUserForListResource::collection($user->group_users)
+            'friends' => UserResource::collection($user->friends),
+            'groups' => GroupResource::collection($user->groups)
         ]);
     }
 

@@ -37,13 +37,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function group_users()
+    // public function group_users()
+    // {
+    //     return $this->hasMany('App\GroupUser');
+    // }
+
+    // public function user_friends()
+    // {
+    //     return $this->hasMany('App\UserFriend');
+    // }
+
+    public function image()
     {
-        return $this->hasMany('App\GroupUser');
+        return $this->belongsTo('App\Image');
     }
 
-    public function user_friends()
+    public function groups()
     {
-        return $this->hasMany('App\UserFriend');
+        return $this->belongsToMany('App\Group', 'group_users', 'user_id', 'group_id');
+    }
+    public function friends()
+    {
+        return $this->belongsToMany('App\User', 'user_friends', 'user_id', 'friend_id');
     }
 }

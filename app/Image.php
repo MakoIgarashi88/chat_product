@@ -45,4 +45,5 @@ class Image extends Model
             $image->delete();
         }
     }
+
 }

@@ -15,6 +15,6 @@ class GroupUserForList extends JsonResource
      */
     public function toArray($request)
     {
-        return new GroupResource($this->group);
+        return new GroupResource($this->groups);
     }
 }
