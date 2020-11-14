@@ -1,59 +1,47 @@
-# Name（リポジトリ/プロジェクト/OSSなどの名前）
+# Chat_Product
  
-分かりやすくてカッコイイ名前をつける（今回は"hoge"という名前をつける）
+チャットツール
+
+# 差別化
  
-"hoge"が何かを簡潔に紹介する
++ 登録の手順が簡単
++ 個人同士でも、集団でもチャットができる
  
-# DEMO
- 
-"hoge"の魅力が直感的に伝えわるデモ動画や図解を載せる
- 
-# Features
- 
-"hoge"のセールスポイントや差別化などを説明する
- 
-# Requirement
+# 使用環境
  
 "hoge"を動かすのに必要なライブラリなどを列挙する
  
-* huga 3.5.2
-* hogehuga 1.0.2
- 
-# Installation
- 
-Requirementで列挙したライブラリなどのインストール方法を説明する
- 
-```bash
-pip install huga_package
-```
- 
-# Usage
- 
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
+* Composer
+* Node.js
+* Mysql
+
+# 使い方
+ ## データベース作成
  
 ```bash
-git clone https://github.com/hoge/~
-cd examples
-python demo.py
+create database chat_product_dev;
+ ```
+
+```bash
+git clone https://github.com/fuuga000/chat_product.git
+cd chat_product
 ```
+ .envファイル作成（環境に合わせて）
+ ```bash
+ composer install
+ npm install
+php artisan migrate --seed
+npm run dev
+php artisan serve
+ ```
+ http://localhost:8000 にアクセス
+# 注意
  
-# Note
+通知は来ません
  
-注意点などがあれば書く
- 
-# Author
+# 作成者情報
  
 作成情報を列挙する
  
-* 作成者
-* 所属
-* E-mail
- 
-# License
-ライセンスを明示する
- 
-"hoge" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
- 
-社内向けなら社外秘であることを明示してる
- 
-"hoge" is Confidential.
+* mako
+* 無所属
