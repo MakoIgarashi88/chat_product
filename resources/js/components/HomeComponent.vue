@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header text-center">
                         <div class="row justify-content-between">
@@ -36,7 +36,7 @@
                             <div class="col-md-9">
                                 <!-- ニックネーム -->
                                 <div class="row mt-3 mb-1 align-items-center">
-                                    <div class="col-md-3 text-md-right">ニックネーム : </div>
+                                    <div class="col-5 col-md-4 text-right">ニックネーム : </div>
                                     <div class="col-auto form-inline" v-if="is_edit">
                                         <input type="text" class="form-control" v-model="user.nickname">
                                     </div>
@@ -44,12 +44,12 @@
                                 </div>
                                 <!-- 年齢 -->
                                 <div class="row mt-1 mb-1">
-                                    <div class="col-md-3 text-md-right">年齢 : </div>
+                                    <div class="col-5 col-md-4 text-right">年齢 : </div>
                                     <div class="col-auto">{{userAge}}</div>
                                 </div>
                                 <!-- 誕生日 -->
                                 <div class="row mt-1 mb-3 align-items-center">
-                                    <div class="col-md-3 text-md-right">誕生日 : </div>
+                                    <div class="col-5 col-md-4 text-right">誕生日 : </div>
                                     <div class="col-auto">
                                         <date-picker-standard v-model="user.birthday" v-if="is_edit"/>
                                         <div v-else>{{user.birthday}}</div>
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="card mt-3">
                     <div class="card-body">
                         <div class="row justify-content-between align-items-end mb-2">
@@ -78,17 +78,17 @@
                                 <table class="table table-hover">
                                     <thead class="bg-secondary text-white">
                                         <tr>
-                                            <th>お名前</th>
                                             <th></th>
+                                            <th>お名前</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(friend) in paginate_frinds" :key="friend.id">
                                             <!-- <td><router-link :to="{ path: '/user/' + friend.id }">{{friend.name}}</router-link></td> -->
+                                            <td><img :src="friend.image_name" class="cut rounded-circle mt-2"></td>
                                             <td class="user-link" @click="onFriendShow(friend.id)">{{friend.name}}</td>
                                             <td><button class="btn btn-light" @click="onMessage(friend.id)"><i class="far fa-comment-dots"> {{friend.name}}にメッセージを送信</i></button></td>
-                                            <td><i class="far fa-lightbulb"></i></td>
                                         </tr>
                                         <!-- <tr v-for="(group, index) in groups" :key="index" @click="onShow(group.id)">
                                             <th>{{index+1}}</th>
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="card mt-3">
                     <div class="card-body">
                         <div class="row justify-content-between align-items-end mb-2">
@@ -119,14 +119,12 @@
                                 <table class="table table-hover">
                                     <thead class="bg-secondary text-white">
                                         <tr>
-                                            <th>#</th>
                                             <th>参加中グループ名</th>
                                             <th>作成日</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(group,index) in paginate_groups" :key="index" @click="onGroupShow(group.id)">
-                                            <th>{{index+1}}</th>
                                             <td class="user-link">{{group.name}}</td>
                                             <td>{{group.created_at | formatDate}}</td>
                                         </tr>
@@ -142,7 +140,7 @@
             </div>
         </div>
         <div class="row justify-content-center" v-if="invites.length">
-            <div class="col ">
+            <div class="col-12">
                 <div class="card mt-3">
                     <div class="card-body">
                         <div class="row mb-2">
@@ -154,20 +152,19 @@
                                 <table class="table table-hover">
                                     <thead class="bg-secondary text-white">
                                         <tr>
-                                            <th class="text-center">#</th>
                                             <th class="text-center">グループ名</th>
                                             <th class="text-center">招待人</th>
-                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(invite,index) in invites" :key="index">
-                                            <td align="center">{{ index+1}}</td>
                                             <td align="center">{{ invite.group_name }}</td>
                                             <td align="center" class="user-link" @click="onFriendShow(invite.friend_id)">{{ invite.friend_name }}</td>
-                                            <td align="center"><button class="btn btn-primary" @click="onJoin(invite.group_id)">承認</button></td>
-                                            <td align="center"><button class="btn btn-primary" @click="onReject(invite.id)">拒否</button></td>
+                                            <td align="center">
+                                                <button class="btn-responsive btn btn-outline-success" @click="onJoin(invite.group_id)"><i class="fas fa-check"></i></button>
+                                                <button class="btn-responsive btn btn-outline-danger" @click="onReject(invite.id)"><i class="fas fa-times"></i></button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -350,5 +347,21 @@ export default {
     margin: 0;
     font-size: 100px;
     cursor: pointer;
+}
+.btn-responsive {
+    padding: .5rem 1rem;
+    width: 3rem;
+}
+@media screen and (max-width: 768px) {
+/* 768pxまでの幅の場合に適応される */
+    .btn-responsive {
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+    }
+    .col-12 {
+        padding: 0;
+    }
 }
 </style>
