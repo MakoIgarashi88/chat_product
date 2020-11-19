@@ -102,7 +102,7 @@ export default {
         },
         getMessage () {
             this.isLoading = true
-            axios.get('/api/message/' + this.user_id)
+            axios.get('/api/private/message/' + this.user_id)
             .then(resp => {
                 this.messages = resp.data
             }).catch(error => {
@@ -120,7 +120,7 @@ export default {
                 alert('メッセージは200文字以下で入力してください。')
                 return
             }
-            axios.post('/api/message/private/', {
+            axios.post('/api/private/message/', {
                 friend_id: this.user_id,
                 body: this.message,
             }).then(resp => {

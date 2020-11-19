@@ -48,7 +48,6 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
-            logger($request);
             $message = new Message;
             $message->user_id = Auth::user()->id;
             $message->group_id = $request->group_id;

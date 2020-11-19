@@ -103,7 +103,7 @@ export default {
         },
         getMessage () {
             this.isLoading = true
-            axios.get('/api/message', {
+            axios.get('/api/group/message', {
                 params: {
                     group_id: this.group_id,
                 }
@@ -124,7 +124,7 @@ export default {
                 alert('メッセージは200文字以下で入力してください。')
                 return
             }
-            axios.post('/api/message', {
+            axios.post('/api/group/message', {
                 group_id: this.group_id,
                 body: this.message,
             }).then(resp => {

@@ -22,10 +22,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('user', 'API\UserController@update');
 
     // message
-    Route::get('message', 'API\MessageController@index');
-    Route::get('message/{user_id}', 'API\MessageController@private');
-    Route::post('message', 'API\MessageController@store');
-    Route::post('message/private', 'API\MessageController@privateStore');
+    Route::get('group/message', 'API\GroupMessageController@index');
+    Route::post('group/message', 'API\GroupMessageController@store');
+
+    // private message
+    Route::get('private/message/{user_id}', 'API\PrivateMessageController@index');
+    Route::post('private/message/', 'API\PrivateMessageController@store');
 
     // group
     Route::get('group', 'API\GroupController@index');
