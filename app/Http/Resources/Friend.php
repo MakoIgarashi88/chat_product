@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use App\UserFriend;
+use App\Image;
+
 
 class Friend extends JsonResource
 {
@@ -21,6 +23,8 @@ class Friend extends JsonResource
             'name' => $this->name,
             'nickname' => $this->nickname,
             'birthday' => $this->birthday,
+            'image_id' => $this->image_id,
+            'image_name' => isset($this->image) ? $this->image->name : 'storage/images/default.png',
             'is_friend' => UserFriend::where('user_id', Auth::id())->where('friend_id', $this->id)->exists(),
         ];
     }

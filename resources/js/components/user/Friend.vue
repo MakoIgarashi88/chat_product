@@ -13,7 +13,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <div>サムネイルを表示</div>
+                                <div>{{user.image_name}}</div>
+                                <div><img :src="user.image_name" class="cut rounded-circle mt-2"></div>
                             </div>
                         </div>
                         <div class="row mt-3 mb-1 align-items-center">
@@ -56,6 +57,8 @@ export default {
                 name: null,
                 nickname: null,
                 birthday: null,
+                image_id: null,
+                image_name: null,
                 is_friend: false,
             },
             isLoading: false,
@@ -105,3 +108,12 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import 'resources/sass/variables';
+.cut {
+    width: 7rem;
+    height: 7rem;
+    object-fit: contain;
+    border: 1px solid $primary;
+}
+</style>
