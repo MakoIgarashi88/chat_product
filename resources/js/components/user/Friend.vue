@@ -13,7 +13,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <div>{{user.image_name}}</div>
                                 <div><img :src="user.image_name" class="cut rounded-circle mt-2"></div>
                             </div>
                         </div>

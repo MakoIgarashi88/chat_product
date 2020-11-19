@@ -64,7 +64,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-12">
                                 <v-btn type="submit" color="secondary" elevation="0" block large>
-                                    {{ __('Login') }}
+                                    ログイン
                                 </v-btn>
                                 <!-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">

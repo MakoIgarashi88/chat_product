@@ -22,7 +22,7 @@ class User extends JsonResource
             'nickname' => $this->nickname,
             'birthday' => $this->birthday,
             'image_id' => $this->image_id,
-            'image_name' => isset($this->image) ? $this->image->name : 'storage/images/default.png',
+            'image_name' => isset($this->image) ? '/' . $this->image->name : '/storage/images/default.png',
             // 'age' => Carbon::createFromDate($this->birthday)->age,
         ];
     }
