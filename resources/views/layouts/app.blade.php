@@ -26,59 +26,46 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+    <v-app id="app">
+        <v-app-bar app color="secondary" dark dense>
+            <v-toolbar-title>
+                <v-btn text href="/">
                     {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                </v-btn>
+            </v-toolbar-title>
+            
+            <v-spacer></v-spacer>
+            <!-- Authentication Links -->
+            @guest
+                <v-btn small text href="/login">
+                    ログイン
+                </v-btn>
+                <v-btn small text href="/register">
+                    新規登録
+                </v-btn>
+            @else
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn text v-bind="attrs" v-on="on" >
+                            {{ Auth::user()->name }}
+                        </v-btn>
+                    </template>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <router-link :to="{ name: 'home' }">
-                            <button class="btn btn-light btn-outline-secondary"><i class="fas fa-home"></i></button>
-                        </router-link>
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                    <v-list>
+                        <v-list-item href="/logout" onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                            <v-list-item-title>ログアウト</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item to="/">
+                            <v-list-item-title>マイページ</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            @endguest
+        </v-app-bar>
 
         <main class="py-4">
             @yield('content')
@@ -86,6 +73,6 @@
                 <main-component/>
             @endif
         </main>
-    </div>
+    </v-app>
 </body>
 </html>

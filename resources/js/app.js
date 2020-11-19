@@ -13,6 +13,10 @@ import router from './router'
 window.Vue = Vue;
 Vue.use(VueRouter);
 
+import Vuetify from 'vuetify';
+Vue.use(Vuetify);
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
 import DatePickerStandard from 'vue-mg-date-picker-standard'
 Vue.component('DatePickerStandard', DatePickerStandard)
 
@@ -36,6 +40,19 @@ Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').
 
 const app = new Vue({
     el: '#app',
+    vuetify: new Vuetify({
+        iconfont: 'mdi',
+        theme: {
+            themes: {
+              light: {
+                primary: '#FFB74D',
+                secondary: '#795548',
+                accent: '#8c9eff',
+                error: '#b71c1c',
+              },
+            },
+          },
+    }),
     router,
     watch: {
         '$route': function () {

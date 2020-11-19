@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<v-container>
+    <v-row justify="center">
+        <v-col cols="12" sm="8" md="6">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
@@ -85,7 +85,7 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </v-col>
+    </v-row>
+</v-container>
 @endsection

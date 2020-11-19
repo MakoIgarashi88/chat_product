@@ -5,10 +5,23 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootstrap';
 
-.card-header {
-    background-color: $secondary;
-    color: white;
-    font-weight: bold;
+// Vuetify
+@import '~vuetify/dist/vuetify.min.css';
+
+// mdiアイコン
+// @import '~@mdi/font/css/materialdesignicons.min.css';
+
+// .card-header {
+//     background-color: $secondary;
+//     color: white;
+//     font-weight: bold;
+// }
+
+#app {
+    background: rgb(250, 250, 250);
+}
+.v-btn__content {
+    text-transform: none;
 }
