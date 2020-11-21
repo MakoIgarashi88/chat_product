@@ -7,6 +7,7 @@ export default new Router({
         { name: 'home', path: '/', component: require('./components/HomeComponent.vue').default },
 
         // user
+        { name: 'user', path: '/mypage', component: require('./components/user/Mypage.vue').default },
         { name: 'user.show', path: '/user/:user_id', component: require('./components/user/Friend.vue').default, props: true },
 
         // group

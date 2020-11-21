@@ -1,367 +1,102 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <div class="row justify-content-between">
-                            <div class="col-auto"></div>
-                            <div class="col-8 h3" >{{user.name}} のページ</div>
-                            <div class="col-auto h3" @click="is_edit=!is_edit">
-                                <button class="btn btn-light btn-outline-primary"><i class="fas fa-cog"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- サムネイル -->
-                            <div class="col-md-3" v-if="is_edit">
-                                <div class="row">
-                                    <div class="col-12 box">
-                                        <img :src="upload_image" class="cut rounded-circle mt-2" v-show="upload_image">
-                                        <img :src="user.image_name" class="cut rounded-circle mt-2" v-show="!upload_image">
-                                    </div>
-                                    <div class="col-12 box">
-                                        <div class="file-uploder">
-                                            画像を選択してください
-                                            <input type="file" @change="changeImage" accept="image/*">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 box" v-else>
-                                <img class="cut rounded-circle" :src="user.image_name">
-                            </div>
-                            <div class="col-md-9">
-                                <!-- ニックネーム -->
-                                <div class="row mt-3 mb-1 align-items-center">
-                                    <div class="col-5 col-md-4 text-right">ニックネーム : </div>
-                                    <div class="col-auto form-inline" v-if="is_edit">
-                                        <input type="text" class="form-control" v-model="user.nickname">
-                                    </div>
-                                    <div class="col-auto" v-else>{{user.nickname}}</div>
-                                </div>
-                                <!-- 年齢 -->
-                                <div class="row mt-1 mb-1">
-                                    <div class="col-5 col-md-4 text-right">年齢 : </div>
-                                    <div class="col-auto">{{userAge}}</div>
-                                </div>
-                                <!-- 誕生日 -->
-                                <div class="row mt-1 mb-3 align-items-center">
-                                    <div class="col-5 col-md-4 text-right">誕生日 : </div>
-                                    <div class="col-auto">
-                                        <date-picker-standard v-model="user.birthday" v-if="is_edit"/>
-                                        <div v-else>{{user.birthday}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center mt-4" v-if="is_edit">
-                            <div class="col-4"><button class="btn btn-light btn-outline-primary btn-block" @click="onUserUpdate">変更</button></div>
-                        </div>
-                    </div>                   
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row justify-content-between align-items-end mb-2">
-                            <div class="col-auto"><h5>友だち一覧</h5></div>
-                            <div class="col-auto"><UserSerch @update="getItems"/></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-hover">
-                                    <thead class="bg-secondary text-white">
+    <v-container>
+        <v-row class="justify-center">
+            <v-col cols="12">
+                <v-card outlined>
+                    <v-row class="justify-center">
+                        <v-col cols="8">
+                            <v-card outlined>
+                                <v-card-title class="justify-center pa-3">
+                                    人気トピック
+                                </v-card-title>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="11">
+                            <v-expansion-panels accordion>
+                            <v-expansion-panel v-for="(item,index) in desserts" :key="item.name">
+                                <v-expansion-panel-header>
+                                    <div>{{index+1}}</div>
+                                    <div>{{item.name}}</div>
+                                    <v-spacer></v-spacer>
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            {{item.detail}}
+                                        </v-col>
+                                        <v-col cols="12">
+                                            tags
+                                        </v-col>
+                                    </v-row>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                            </v-expansion-panels>
+                        </v-col>
+                        <!-- <v-col cols="11">
+                            <v-card outlined>
+                                <v-simple-table fixed-header height="300px">
+                                    <template v-slot:default>
+                                    <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>お名前</th>
-                                            <th></th>
+                                            <th class="text-center">
+                                                topic_name
+                                            </th>
+                                            <th class="text-center">
+                                                detail
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(friend) in paginate_frinds" :key="friend.id">
-                                            <!-- <td><router-link :to="{ path: '/user/' + friend.id }">{{friend.name}}</router-link></td> -->
-                                            <td><img :src="friend.image_name" class="cut rounded-circle mt-2"></td>
-                                            <td class="user-link" @click="onFriendShow(friend.id)">{{friend.name}}</td>
-                                            <td><button class="btn btn-light" @click="onMessage(friend.id)"><i class="far fa-comment-dots"> {{friend.name}}にメッセージを送信</i></button></td>
-                                        </tr>
-                                        <!-- <tr v-for="(group, index) in groups" :key="index" @click="onShow(group.id)">
-                                            <th>{{index+1}}</th>
-                                            <td>{{group.name}}</td>
-                                            <td>{{group.created_at | formatDate}}</td>
-                                        </tr> -->
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-center">
-                                    <mg-paginate :data="friends" :count-per-page="5" @change="paginate_frinds=$event" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row justify-content-between align-items-end mb-2">
-                            <div class="col-auto"><h5>グループ一覧</h5></div>
-                            <div class="col-auto"><GroupCreate @update="getItems"/></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-hover">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <th>参加中グループ名</th>
-                                            <th>作成日</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(group,index) in paginate_groups" :key="index" @click="onGroupShow(group.id)">
-                                            <td class="user-link">{{group.name}}</td>
-                                            <td>{{group.created_at | formatDate}}</td>
+                                        <tr v-for="item in desserts" :key="item.name">
+                                            <td class="text-center">{{ item.name }}</td>
+                                            <td class="text-center">{{ item.detail}}</td>
                                         </tr>
                                     </tbody>
-                                </table>
-                                <div class="d-flex justify-content-center">
-                                    <mg-paginate :data="groups" :count-per-page="5" @change="paginate_groups=$event" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center" v-if="invites.length">
-            <div class="col-12">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-auto"><h5>招待されているグループ</h5></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-hover">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <th class="text-center">グループ名</th>
-                                            <th class="text-center">招待人</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(invite,index) in invites" :key="index">
-                                            <td align="center">{{ invite.group_name }}</td>
-                                            <td align="center" class="user-link" @click="onFriendShow(invite.friend_id)">{{ invite.friend_name }}</td>
-                                            <td align="center">
-                                                <button class="btn-responsive btn btn-outline-success" @click="onJoin(invite.group_id)"><i class="fas fa-check"></i></button>
-                                                <button class="btn-responsive btn btn-outline-danger" @click="onReject(invite.id)"><i class="fas fa-times"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                    </template>
+                                </v-simple-table>
+                            </v-card>
+                        </v-col> -->
+                    </v-row>
+                </v-card>
+            </v-col>
+        </v-row>
         <b-loading :isLoading.sync="isLoading" />
-    </div>
+    </v-container>
 </template>
 
 <script>
 import moment from "moment";
-import UserSerch from "./user/UserSerch"
 export default {
     data () {
         return {
-            user: {
-                id: null,
-                name: null,
-                nickname: null,
-                birthday: null,
-                image_id: null,
-                image_name: null,
-            },
-            friends: [],
-            paginate_frinds: [],
-            is_edit: false,
-            groups: [],
-            paginate_groups: [],
             isLoading: false,
-            invites: [],
-            upload_image: null,
+            desserts: [
+                {
+                    name: "暇人",
+                    detail: "暇すぎちょっとだけはなそ",
+                },
+                {
+                    name: "しのぶさんが好き",
+                    detail: "しのぶさんのためだけのトピック",
+                },
+                {
+                    name: "まじ病み",
+                    detail: "誹謗中傷しないでください",
+                },
+                {
+                    name: "バスケが好き",
+                    detail: "サークル感覚ではなく本気でバスケが好きな人はなそー！",
+                },
+                {
+                    name: "JK会",
+                    detail: "参加条件：JK（女子高校生）であること！",
+                },
+            ]
         }
-    },
-    computed: {
-        isLogin () {
-            return !(window.Laravel.api_token == "Unauthorized")
-        },
-        userAge () {
-            if (!this.user.birthday) return ''
-            let birthday = moment(this.user.birthday)
-            return moment().diff(birthday, 'years')
-        }
-    },
-    mounted () {
-        this.getItems()
-    },
-    methods: {
-        onFriendShow: function (id) {
-            this.$router.push({ name: 'user.show', params: { 'user_id': id} })
-        },
-        onGroupShow: function (id) {
-            this.$router.push({ name: 'chat.group', params: { 'group_id': id} })
-        },
-        onMessage: function (id) {
-            this.$router.push({ name: 'chat.private', params: { 'user_id': id} })
-        },
-        onJoin (group_id) {
-            axios.post('/api/group/' + group_id)
-            .then(res => {
-                console.log(res.data)
-            }).catch(error => {
-                alert('グループ参加に失敗しました')
-            }).finally(resp => {
-                this.getItems()
-            })
-        },
-        onReject (id) {
-            if (confirm('本当に参加を拒否しますか？')) {
-                axios.delete('/api/invite/' + id)
-                .then(resp => {
-                }).catch(error => {
-                    alert('グループ参加拒否に失敗しました')
-                }).finally(resp => {
-                    this.getItems()
-                })
-            }
-        },
-        getItems () {
-            this.isLoading = true
-            const api = axios.create()
-            axios.all([
-                api.get('/api/user/'),
-                api.get('/api/invite/')
-            ]).then(axios.spread((res,res2) => {
-                this.user = res.data.user
-                this.groups = res.data.groups
-                this.friends = res.data.friends
-                this.invites = res2.data
-            })).catch(error => {
-                alert(error)
-            }).finally(resp => {
-                this.isLoading = false
-                this.is_edit = false
-            })
-        },
-        async onUserUpdate () {
-            this.isLoading = true
-            axios.put('/api/user/', {
-                id: this.user.id,
-                nickname: this.user.nickname,
-                birthday: this.user.birthday,
-                upload_image: this.upload_image
-            }).then(res => {
-                console.log(res.data)
-                this.getItems()
-            }).catch(error => {
-                alert('変更に失敗しました。')
-            })
-        },
-        myCallBack (value) {
-            console.log(value)
-        },
-        changeImage (e) {
-            let file = e.target.files[0]
-            if (file) {
-                let reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = e => {
-                    this.upload_image = e.target.result
-                }
-            } else {
-                this.upload_image = null
-            }
-        }
-    },
-    filters: {
-        formatDate (date) {
-            return moment(date).format('YYYY年MM月DD日 HH時mm分')
-        }
-    },
-    components: {
-        UserSerch
     }
-
 }
 </script>
 <style lang="scss" scoped>
 @import 'resources/sass/variables';
-.user-link {
-    color: $blue;
-    cursor: pointer;
-    text-decoration: underline;
-}
-.cut {
-    width: 7rem;
-    height: 7rem;
-    object-fit: contain;
-    border: 1px solid $primary;
-}
-.box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.file-uploder {
-    display: inline-block;
-    overflow: hidden;
-    position: relative;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.25rem;
-    border: 1px solid $primary;
-    background: $light;
-    color: $primary;
-    transition: background-color .3s, color .3s;
-}
-.file-uploder:hover {
-    background-color: $primary;
-    color: $light;
-}
-.file-uploder input[type="file"] {
-    opacity: 0;
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: 0;
-    font-size: 100px;
-    cursor: pointer;
-}
-.btn-responsive {
-    padding: .5rem 1rem;
-    width: 3rem;
-}
-@media screen and (max-width: 768px) {
-/* 768pxまでの幅の場合に適応される */
-    .btn-responsive {
-        padding: 0;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-    }
-    .col-12 {
-        padding: 0;
-    }
-}
+
 </style>

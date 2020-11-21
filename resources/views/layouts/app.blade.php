@@ -56,7 +56,7 @@
                                                 document.getElementById('logout-form').submit();">
                             <v-list-item-title>ログアウト</v-list-item-title>
                         </v-list-item>
-                        <v-list-item to="/">
+                        <v-list-item to="/mypage">
                             <v-list-item-title>マイページ</v-list-item-title>
                         </v-list-item>
                     </v-list>
