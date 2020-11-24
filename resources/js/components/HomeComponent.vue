@@ -2,6 +2,9 @@
     <v-container>
         <v-row class="justify-center">
             <v-col cols="12">
+                <section class="home">
+                    <HomeHero/>
+                </section>
                 <v-card outlined>
                     <v-row class="justify-center">
                         <v-col cols="8">
@@ -66,7 +69,11 @@
 
 <script>
 import moment from "moment";
+import HomeHero from './HomeHero.vue'
 export default {
+    components: {
+        HomeHero
+    },
     data () {
         return {
             isLoading: false,
@@ -98,5 +105,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import 'resources/sass/variables';
-
+.home {
+  padding-bottom: 50px;
+}
 </style>
