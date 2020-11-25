@@ -11,7 +11,7 @@ export default new Router({
 
         // user
         { name: 'user', path: '/mypage', component: require('./components/user/Mypage.vue').default },
-        { name: 'user.show', path: '/user/:user_id', component: require('./components/user/Friend.vue').default, props: true },
+        { name: 'user.show', path: '/user', component: require('./components/user/Show.vue').default },
 
         // group
         { name: 'group', path: '/group', component: require('./components/group/Index.vue').default },
