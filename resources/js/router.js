@@ -8,6 +8,7 @@ export default new Router({
 
         //topic
         { name: 'topic', path: '/topic', component: require('./components/topic/Index.vue').default },
+        { name: 'topic.show', path: '/topic/first', component: require('./components/topic/Show.vue').default },
 
         // user
         { name: 'user', path: '/mypage', component: require('./components/user/Mypage.vue').default },

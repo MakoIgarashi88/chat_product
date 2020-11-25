@@ -21,8 +21,10 @@
                             <v-col cols="12" sm="3" v-if="is_edit">
                                 <v-row>
                                     <v-col cols="12" class="text-center">
-                                        <img :src="upload_image" class="cut rounded-circle mt-2" v-show="upload_image">
-                                        <img :src="user.image_name" class="cut rounded-circle mt-2" v-show="!upload_image">
+                                        <v-avatar size="150">
+                                            <img :src="upload_image" v-show="upload_image">
+                                            <img :src="user.image_name" v-show="!upload_image">
+                                        </v-avatar>
                                     </v-col>
                                     <v-col cols="12" class="text-center">
                                         <div class="file-uploder">
@@ -33,7 +35,7 @@
                                 </v-row>
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
-                                <img class="cut rounded-circle" :src="user.image_name">
+                                <v-avatar size="150"><img :src="user.image_name"></v-avatar>
                             </v-col>
                             <v-col cols="12" sm="9">
                                 <!--ニックネーム-->
@@ -258,12 +260,6 @@ export default {
     color: $blue;
     cursor: pointer;
     text-decoration: underline;
-}
-.cut {
-    width: 7rem;
-    height: 7rem;
-    object-fit: contain;
-    border: 1px solid $primary;
 }
 .box {
     display: flex;
