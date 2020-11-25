@@ -1,39 +1,13 @@
 <template>
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-auto"><h5>グループ一覧</h5></div>
-                    <div class="col-auto form-inline">
-                        <GroupCreate @update="getItems"/>
-                        <button class="btn btn-light ml-2" @click="onBack">戻る</button>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col">
-                        <table class="table table-hover">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th>#</th>
-                                <th>グループ名</th>
-                                <th>作成日</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(group, index) in groups" :key="index" @click="onShow(group.id)">
-                                <th>{{index+1}}</th>
-                                <td>{{group.name}}</td>
-                                <td>{{group.created_at | formatDate}}</td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <v-container>
+        <v-card>
+            <v-card-title>
+                トピック一覧
+            </v-card-title>
+            aaa
+        </v-card>
         <b-loading :isLoading.sync="isLoading" />
-    </div>
+    </v-container>
 </template>
 
 <script>

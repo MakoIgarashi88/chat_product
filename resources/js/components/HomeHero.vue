@@ -13,7 +13,7 @@
 </template>
 <style  lang="scss" scoped>
 .home-hero__content {
-    background: url("../../../public/storage/images/happy.jpg");
+    background: url("/images/happy.jpg");
     background-size: cover;
     background-position: center center;
     width: 100%;

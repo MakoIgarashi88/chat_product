@@ -10,7 +10,8 @@
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto" @click="is_edit=!is_edit">
-                                    <button class="btn btn-light btn-outline-primary"><i class="fas fa-cog"></i></button>
+                                <!-- <v-icon>mdi-cog-outline</v-icon> -->
+                                <button class="btn btn-light btn-outline-primary"><i class="fas fa-cog"></i></button>
                             </v-col>
                         </v-row>
                     </v-card-title>
@@ -123,6 +124,7 @@
 import moment from "moment";
 import UserSerch from "./UserSerch"
 import MypageTabs from "./MypageTabs"
+// import { mdiCogOutline } from '@mdi/js';
 export default {
     data () {
         return {

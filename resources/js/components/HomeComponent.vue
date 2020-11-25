@@ -35,30 +35,11 @@
                             </v-expansion-panel>
                             </v-expansion-panels>
                         </v-col>
-                        <!-- <v-col cols="11">
-                            <v-card outlined>
-                                <v-simple-table fixed-header height="300px">
-                                    <template v-slot:default>
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">
-                                                topic_name
-                                            </th>
-                                            <th class="text-center">
-                                                detail
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="item in desserts" :key="item.name">
-                                            <td class="text-center">{{ item.name }}</td>
-                                            <td class="text-center">{{ item.detail}}</td>
-                                        </tr>
-                                    </tbody>
-                                    </template>
-                                </v-simple-table>
-                            </v-card>
-                        </v-col> -->
+                    </v-row>
+                    <v-row class="justify-center">
+                        <v-col cols="12" sm="4" class="text-center">
+                            <v-btn to="/topic">トピック探す</v-btn>
+                        </v-col>
                     </v-row>
                 </v-card>
             </v-col>
