@@ -35,18 +35,18 @@ import Group from './tabs/Group'
 import Friend from './tabs/Friend'
 import Topic from './tabs/Topic'
 export default {
-  data () {
-    return {
-      dialog: false,
-      tab: 0,
-    }
-  },
-  components: {
-    Board,
-    Group,
-    Friend,
-    Topic,
-  }
+	data () {
+		return {
+			dialog: false,
+			tab: 0,
+		}
+	},
+	components: {
+		Board,
+		Group,
+		Friend,
+		Topic,
+	}
 }
 </script>
 

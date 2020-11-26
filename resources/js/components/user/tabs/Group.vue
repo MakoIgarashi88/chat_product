@@ -1,54 +1,87 @@
-
-        // <div class="row">
-
-        //     <div class="col-12 col-md-6">
-        //         <div class="card mt-3">
-        //             <div class="card-body">
-        //                 <div class="row justify-content-between align-items-end mb-2">
-        //                     <div class="col-auto"><h5>グループ一覧</h5></div>
-        //                     <div class="col-auto"><GroupCreate @update="getItems"/></div>
-        //                 </div>
-
-        //                 <div class="row">
-        //                     <div class="col">
-        //                         <table class="table table-hover">
-        //                             <thead class="bg-secondary text-white">
-        //                                 <tr>
-        //                                     <th>参加中グループ名</th>
-        //                                     <th>作成日</th>
-        //                                 </tr>
-        //                             </thead>
-        //                             <tbody>
-        //                                 <tr v-for="(group,index) in paginate_groups" :key="index" @click="onGroupShow(group.id)">
-        //                                     <td class="user-link">{{group.name}}</td>
-        //                                     <td>{{group.created_at | formatDate}}</td>
-        //                                 </tr>
-        //                             </tbody>
-        //                         </table>
-        //                         <div class="d-flex justify-content-center">
-        //                             <mg-paginate :data="groups" :count-per-page="5" @change="paginate_groups=$event" />
-        //                         </div>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div>
-
-
 <template>
     <v-card>
-        <v-card-text>c</v-card-text>
+        <v-row justify="center">
+            <v-col cols="11">
+                <v-card outlined>
+                    <v-list two-line>
+                        <v-list-item-group v-model="selected" active-class="pink--text">
+                            <template v-for="(friend, index) in friends">
+                                <v-list-item :key="friend.name">
+                                    <template>
+                                        <v-row>
+                                            <v-col cols="2" class="text-center">
+                                                <v-badge overlap bordered content="6" color="error">
+                                                    <v-avatar color="grey lighten-3">
+                                                        <img :src="friend.image">
+                                                    </v-avatar>
+                                                </v-badge>
+                                            </v-col>
+                                            <v-col cols="10">
+                                                <v-list-item-content>
+                                                    <v-list-item-title v-text="friend.name"></v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-col>
+                                        </v-row>
+                                    </template>
+                                </v-list-item>
+                                <v-divider v-if="index < friends.length - 1" :key="index"></v-divider>
+                            </template>
+                        </v-list-item-group>
+                    </v-list>
+                    
+                    <div class="text-center pt-2 pb-2">
+                        <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-card-text>
+
+            <!-- this is second tabs -->
+            <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on, attr }">
+                    <v-btn v-bind="attr" v-on="on">open</v-btn>
+                </template>
+                <v-card>
+                    <v-card-title>testing</v-card-title>
+                    <v-card-text>hello</v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        text
+                        @click="dialog = false"
+                    >
+                        I accept
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-card-text>
     </v-card>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-
+    data () {
+        return {
+            page: 1,
+            pageCount: 5,
+            dialog: false,
+            selected: [2],
+            friends: [
+                {
+                    name: 'ueno',
+                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+                },
+                {
+                    name: 'mako',
+                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+                },
+            ]
+        }
     }
-  }
 }
 </script>
 

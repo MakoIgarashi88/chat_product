@@ -15,7 +15,7 @@
                             </v-card>
                         </v-col>
                         <v-col cols="11">
-                            <v-expansion-panels accordion>
+                            <v-expansion-panels>
                             <v-expansion-panel v-for="(item,index) in desserts" :key="item.name">
                                 <v-expansion-panel-header>
                                     <div>{{index+1}}</div>
@@ -28,7 +28,9 @@
                                             {{item.detail}}
                                         </v-col>
                                         <v-col cols="12">
-                                            tags
+                                            <v-chip class="ma-2" color="green" text-color="white">
+                                                アニメ
+                                            </v-chip>
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-content>

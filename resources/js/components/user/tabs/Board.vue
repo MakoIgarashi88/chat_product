@@ -1,17 +1,17 @@
 <template>
     <v-card outlined>
         <v-row justify="center">
-            <v-col cols="12" md="8">
+            <v-col cols="12" sm="8">
                 <Detail />
             </v-col>
         </v-row>
         <v-row justify="center">
-            <v-col cols="12" md="8">
+            <v-col cols="12" sm="8">
                 <CommentList />
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
+        <v-row justify="center">
+            <v-col cols="12" sm="8">
                 <Message />
             </v-col>
         </v-row>

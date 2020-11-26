@@ -1,36 +1,33 @@
 <template>
     <v-card>
-        <v-card-text>
+        <v-row justify="center">
+            <v-col cols="11">
+                <v-card outlined>
+                    <v-list two-line>
+                        <v-list-item-group v-model="selected" active-class="pink--text">
+                            <template v-for="(item, index) in items">
+                                <v-list-item :key="item.title">
+                                    <template>
+                                        <v-list-item-avatar>
+                                            <img :src="item.image">
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="item.title"></v-list-item-title>
+                                            <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+                                        </v-list-item-content>
 
-            <v-badge overlap bordered content="99+" color="error">
-                <v-avatar color="grey lighten-3">
-                    <img
-                        src="/favicon.ico"
-                    >
-                </v-avatar>
-            </v-badge>
-            <!-- this is second tabs -->
-            <v-dialog v-model="dialog" width="500">
-                <template v-slot:activator="{ on, attr }">
-                    <v-btn v-bind="attr" v-on="on">open</v-btn>
-                </template>
-                <v-card>
-                    <v-card-title>testing</v-card-title>
-                    <v-card-text>hello</v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="primary"
-                        text
-                        @click="dialog = false"
-                    >
-                        I accept
-                    </v-btn>
-                    </v-card-actions>
+                                        <v-list-item-action>
+                                                <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+                                        </v-list-item-action>
+                                    </template>
+                                </v-list-item>
+                                <v-divider v-if="index < items.length - 1" :key="index"></v-divider>
+                            </template>
+                        </v-list-item-group>
+                    </v-list>
                 </v-card>
-            </v-dialog>
-        </v-card-text>
+            </v-col>
+        </v-row>
     </v-card>
 </template>
 
@@ -38,7 +35,27 @@
 export default {
   data () {
     return {
-        dialog: false,
+      selected: [2],
+      items: [
+        {
+          action: '15 min',
+          title: 'しのぶさん好きな人たち',
+          subtitle: '本誌派多数',
+          image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+        },
+        {
+          action: '15 min',
+          title: '呪術廻戦',
+          subtitle: '呪術メイン、他の話もオッケー',
+          image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+        },
+        {
+          action: '15 min',
+          title: '韓国人になる',
+          subtitle: '反韓は立ち去れ',
+          image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+        },
+      ],
     }
   }
 }
