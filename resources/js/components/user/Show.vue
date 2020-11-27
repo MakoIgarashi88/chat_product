@@ -8,6 +8,10 @@
                             <v-col cols="auto">
                                 {{user.name}}のページ
                             </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col class="text-right"><!-- v-show="!friend" -->
+                                <v-btn>友達申請</v-btn>
+                            </v-col>
                         </v-row>
                     </v-card-title>
                     <v-card-text>

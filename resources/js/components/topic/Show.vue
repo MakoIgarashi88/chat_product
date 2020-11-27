@@ -8,7 +8,7 @@
             </v-row>
             <v-row justify="center" align="center">
                 <v-col cols="12" sm="3" class="text-center">
-                    <v-avatar size="120">
+                    <v-avatar size="150">
                         <img :src="user.image">
                     </v-avatar>
                 </v-col>

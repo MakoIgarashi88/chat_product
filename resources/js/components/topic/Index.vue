@@ -4,6 +4,8 @@
             <v-card-title>
                 トピック一覧
                 <v-spacer></v-spacer>
+                <CreateModal />
+                <v-spacer></v-spacer>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="キーワード" single-line hide-details></v-text-field>
             </v-card-title>
             <v-data-table :headers="headers" :items="desserts" :search="search"></v-data-table>
@@ -13,6 +15,7 @@
 
 <script>
 import moment from "moment";
+import CreateModal from "../topic/CreateModal.vue";
 export default {
     data () {
         return {
@@ -48,6 +51,7 @@ export default {
     methods: {
     },
     components: {
+        CreateModal,
     }
 
 }

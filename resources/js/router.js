@@ -21,6 +21,10 @@ export default new Router({
         { name: 'chat.private', path: '/chat/private/:user_id', component: require('./components/chat/Private.vue').default, props: true },
         { name: 'chat.group', path: '/chat/group/:group_id', component: require('./components/chat/Index.vue').default, props: true },
 
+        // sample
+        { name: 'sample', path: '/sample', component: require('./components/Sample.vue').default },
+
+
         // not found
         { name: 'not.fount', path: '*', component: require('./components/commons/NotFoundComponent.vue').default },
         // unauthorized

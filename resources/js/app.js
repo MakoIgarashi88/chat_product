@@ -34,6 +34,8 @@ Vue.component('GroupCreate', require('./components/commons/GroupCreate.vue').def
 Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').default);
 Vue.component('Detail', require('./components/commons/Detail.vue').default);
 Vue.component('BackButton', require('./components/commons/buttons/BackButton.vue').default);
+Vue.component('IconLg', require('./components/commons/icons/IconLg.vue').default);
+Vue.component('IconSm', require('./components/commons/icons/IconSm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

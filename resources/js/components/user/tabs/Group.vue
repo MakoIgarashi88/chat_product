@@ -72,12 +72,12 @@ export default {
             selected: [2],
             friends: [
                 {
-                    name: 'ueno',
-                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+                    name: 'いつめん',
+                    image: '/storage/images/yAyRulAQaz6f7DIV.png',
                 },
                 {
-                    name: 'mako',
-                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+                    name: '同中',
+                    image: '/storage/images/Z4Wm6pZfqcoD6Hu1.png',
                 },
             ]
         }

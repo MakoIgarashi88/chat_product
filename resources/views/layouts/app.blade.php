@@ -44,7 +44,7 @@
                     新規登録
                 </v-btn>
             @else
-                <v-menu offset-y>
+                <v-menu offset-y open-on-hover>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn text v-bind="attrs" v-on="on" >
                             {{ Auth::user()->name }}
@@ -58,6 +58,9 @@
                         </v-list-item>
                         <v-list-item to="/mypage">
                             <v-list-item-title>マイページ</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item to="/topic">
+                            <v-list-item-title>トピック</v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>

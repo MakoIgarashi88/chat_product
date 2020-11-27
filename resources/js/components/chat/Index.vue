@@ -1,20 +1,27 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-                <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
-                        <div class="row justify-content-between">
-                            <div class="col-auto">
-                                <button class="btn btn-light" @click="onBack"><i class="fas fa-home"></i></button>
-                            </div>
-                            <div class="col-auto"><span class="h3">{{group.name}}</span></div>
-                            <div class="col-auto">
-                                <GroupSetting :group_id="group_id" @update="getInit" />
-                            </div>
-                        </div>
-                    </div>
-
+    <v-container>
+        <v-row justify="center">
+            <v-col>
+                <v-card>
+                    <v-card-title>
+                        <v-row>
+                            <v-col>
+                                <v-btn><i class="fas fa-home"></i></v-btn>
+                            </v-col>
+                            <v-col>{{group.name}}</v-col>
+                            <v-col><GroupSetting /></v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-card-text v-for="message in messages" :key="message.id">
+                        <v-row v-if="message.is_myself">
+                            <v-col></v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+<!--
                     <div class="card-body chat-body">
                         <div v-for="message in messages" :key="message.id">
                             <div class="row" v-if="message.is_myself">
@@ -48,7 +55,6 @@
                     <footer class="card-footer p-1">
                         <div class="bg-white">
                             <div class="input-group">
-                                <!-- <textarea placeholder="メッセージを入力してください" class="form-message form-control bg-light" v-model="message"></textarea> -->
                                 <input
                                     v-model="message"
                                     @keyup.enter.ctrl="onStore"
@@ -69,6 +75,7 @@
         </div>
         <b-loading :isLoading.sync="isLoading" />
     </div>
+ -->
 </template>
 
 <script>
