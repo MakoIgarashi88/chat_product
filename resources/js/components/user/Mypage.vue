@@ -35,7 +35,7 @@
                                 </v-row>
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
-                                <v-avatar size="150"><img :src="user.image_name"></v-avatar>
+                                <IconLg :src="user.image_name" />
                             </v-col>
                             <v-col cols="12" sm="9">
                                 <!--ニックネーム-->

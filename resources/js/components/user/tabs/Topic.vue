@@ -9,7 +9,7 @@
                                 <v-list-item :key="item.title">
                                     <template>
                                         <v-list-item-avatar>
-                                            <img :src="item.image">
+                                          	<IconSm :src="item.image" />
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -17,7 +17,7 @@
                                         </v-list-item-content>
 
                                         <v-list-item-action>
-                                                <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+                                            <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
                                         </v-list-item-action>
                                     </template>
                                 </v-list-item>
@@ -41,13 +41,13 @@ export default {
           action: '15 min',
           title: 'しのぶさん好きな人たち',
           subtitle: '本誌派多数',
-          image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+          image: null,
         },
         {
           action: '15 min',
           title: '呪術廻戦',
           subtitle: '呪術メイン、他の話もオッケー',
-          image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+          image: '/storage/images/Z4Wm6pZfqcoD6Hu1.png',
         },
         {
           action: '15 min',

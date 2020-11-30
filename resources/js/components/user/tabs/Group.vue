@@ -5,26 +5,24 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(friend, index) in friends">
-                                <v-list-item :key="friend.name">
+                            <template v-for="(group, index) in groups">
+                                <v-list-item :key="group.name">
                                     <template>
                                         <v-row>
                                             <v-col cols="2" class="text-center">
                                                 <v-badge overlap bordered content="6" color="error">
-                                                    <v-avatar color="grey lighten-3">
-                                                        <img :src="friend.image">
-                                                    </v-avatar>
+                                                    <IconSm :src="group.image"/>
                                                 </v-badge>
                                             </v-col>
                                             <v-col cols="10">
                                                 <v-list-item-content>
-                                                    <v-list-item-title v-text="friend.name"></v-list-item-title>
+                                                    <v-list-item-title v-text="group.name"></v-list-item-title>
                                                 </v-list-item-content>
                                             </v-col>
                                         </v-row>
                                     </template>
                                 </v-list-item>
-                                <v-divider v-if="index < friends.length - 1" :key="index"></v-divider>
+                                <v-divider v-if="index < groups.length - 1" :key="index"></v-divider>
                             </template>
                         </v-list-item-group>
                     </v-list>
@@ -70,14 +68,14 @@ export default {
             pageCount: 5,
             dialog: false,
             selected: [2],
-            friends: [
+            groups: [
                 {
                     name: 'いつめん',
-                    image: '/storage/images/yAyRulAQaz6f7DIV.png',
+                    image: '/storage/images/AxjoQSN8CYhihwNc.png',
                 },
                 {
                     name: '同中',
-                    image: '/storage/images/Z4Wm6pZfqcoD6Hu1.png',
+                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
                 },
             ]
         }

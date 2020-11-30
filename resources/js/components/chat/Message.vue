@@ -1,32 +1,35 @@
 <template>
-    <v-container>
-        <v-row align="center">
-            <v-col cols="auto" class="text-right">
-                <v-avatar>
-                    <img :src="image">
-                </v-avatar>
-            </v-col>
+    <div>
+        <!--自分-->
+        <v-row align="center" justify="end" v-if="is_myself">
             <v-col cols="auto">
                 <div class="right">
                     <p>自分。こんにちわんわん</p>
                 </div>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col class="text-center">
+
+        <!--相手-->
+        <v-row align="center" v-else>
+            <v-col cols="auto">
+                <IconSm :src="image"/>
+            </v-col>
+            <v-col class="auto">
                 <div class="left">
                     <p>相手だよ～～～～～～～～～～～～～んおなかいたーい</p>
                 </div>
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 </template>
 
 <script>
 export default {
+    props: [''],
     data () {
         return {
-            image: '/storage/images/yAyRulAQaz6f7DIV.png',
+            image: '/storage/images/1z2M3ouOdb74r93Q.png',
+            is_myself: false,
         }
     }
 }

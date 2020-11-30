@@ -9,7 +9,7 @@
                                 <v-list-item :key="friend.name">
                                     <template>
                                         <v-list-item-avatar>
-                                            <img :src="friend.image">
+                                            <IconSm :src="friend.image" />
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             <v-list-item-title v-text="friend.name"></v-list-item-title>
@@ -40,11 +40,11 @@ export default {
       friends: [
           {
               name: 'ueno',
-              image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+              image: '/storage/images/4y7OKZg4ANOxwO5p.png',
           },
           {
               name: 'mako',
-              image: '/storage/images/QPZUNpPqoz4RPHY2.png',
+              image: '/storage/images/t99bXtwJWwe6FmHe.png',
           },
       ]
     }

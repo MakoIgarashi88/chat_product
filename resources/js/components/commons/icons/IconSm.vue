@@ -1,6 +1,6 @@
 <template>
     <v-avatar>
-        <img :src="src">
+        <img :src="src_copy">
     </v-avatar>
 </template>
 
@@ -12,10 +12,13 @@ export default {
             default: '/storage/images/yAyRulAQaz6f7DIV.png'
         }
     },
-    mounted() {
-        if (!this.src) {
-            src = '/storage/images/yAyRulAQaz6f7DIV.png'
+    data() {
+        return {
+            src_copy: '/storage/images/yAyRulAQaz6f7DIV.png',
         }
+    },
+    mounted() {
+        if (this.src) this.src_copy = this.src
     }
 }
 </script>
