@@ -12,7 +12,7 @@
         </v-row>
         <v-row justify="center">
             <v-col cols="12" sm="8">
-                <Message />
+                <MessageForm />
             </v-col>
         </v-row>
     </v-card>

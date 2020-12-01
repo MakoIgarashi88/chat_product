@@ -6,7 +6,7 @@
             </v-col>
         </v-row>
         <v-row justify="center">
-            <v-col cols="12" sm="5">
+            <v-col>
                 <v-file-input label="画像を選択してください" outlined dense prepend-icon="mdi-camera"></v-file-input>
             </v-col>
         </v-row>

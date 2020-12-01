@@ -10,7 +10,6 @@
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto" @click="is_edit=!is_edit">
-                                <!-- <v-icon>mdi-cog-outline</v-icon> -->
                                 <v-btn outlined color="primary"><i class="fas fa-cog"></i></v-btn>
                             </v-col>
                         </v-row>
@@ -19,7 +18,8 @@
                         <v-row>
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" v-if="is_edit">
-                                <v-row>
+                                <FileUp />
+                                <!-- <v-row>
                                     <v-col cols="12" class="text-center">
                                         <v-avatar size="150">
                                             <img :src="upload_image" v-show="upload_image">
@@ -32,7 +32,7 @@
                                             <input type="file" @change="changeImage" accept="image/*">
                                         </div>
                                     </v-col>
-                                </v-row>
+                                </v-row> -->
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
                                 <IconLg :src="user.image_name" />
@@ -62,9 +62,6 @@
                                             v-model="user.detail"
                                         />
                                     </v-col>
-                                    <!-- <v-col v-else-if="!is_edit && user.detail.length">
-                                        <v-textarea name="input-7-4"  v-model="user.detail"></v-textarea>
-                                    </v-col> -->
                                 </v-row>
                             </v-col>
                             <v-row class="mt-4 justify-center" v-show="is_edit">
@@ -82,41 +79,6 @@
                 <MypageTabs />
             </v-col>
         </v-row>
-        <div class="row justify-content-center" v-if="invites.length">
-            <div class="col-12">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-auto"><h5>招待されているグループ</h5></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <table class="table table-hover">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <th class="text-center">グループ名</th>
-                                            <th class="text-center">招待人</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(invite,index) in invites" :key="index">
-                                            <td align="center">{{ invite.group_name }}</td>
-                                            <td align="center" class="user-link" @click="onFriendShow(invite.friend_id)">{{ invite.friend_name }}</td>
-                                            <td align="center">
-                                                <button class="btn-responsive btn btn-outline-success" @click="onJoin(invite.group_id)"><i class="fas fa-check"></i></button>
-                                                <button class="btn-responsive btn btn-outline-danger" @click="onReject(invite.id)"><i class="fas fa-times"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <b-loading :isLoading.sync="isLoading" />
     </v-container>
 
@@ -134,7 +96,6 @@ export default {
                 id: null,
                 name: null,
                 nickname: null,
-                birthday: null,
                 image_id: null,
                 image_name: null,
                 detail: "",
@@ -149,50 +110,10 @@ export default {
             upload_image: null,
         }
     },
-    computed: {
-        isLogin () {
-            return !(window.Laravel.api_token == "Unauthorized")
-        },
-        userAge () {
-            if (!this.user.birthday) return ''
-            let birthday = moment(this.user.birthday)
-            return moment().diff(birthday, 'years')
-        }
-    },
     mounted () {
         this.getItems()
     },
     methods: {
-        onFriendShow: function (id) {
-            this.$router.push({ name: 'user.show', params: { 'user_id': id} })
-        },
-        onGroupShow: function (id) {
-            this.$router.push({ name: 'chat.group', params: { 'group_id': id} })
-        },
-        onMessage: function (id) {
-            this.$router.push({ name: 'chat.private', params: { 'user_id': id} })
-        },
-        onJoin (group_id) {
-            axios.post('/api/group/' + group_id)
-            .then(res => {
-                console.log(res.data)
-            }).catch(error => {
-                alert('グループ参加に失敗しました')
-            }).finally(resp => {
-                this.getItems()
-            })
-        },
-        onReject (id) {
-            if (confirm('本当に参加を拒否しますか？')) {
-                axios.delete('/api/invite/' + id)
-                .then(resp => {
-                }).catch(error => {
-                    alert('グループ参加拒否に失敗しました')
-                }).finally(resp => {
-                    this.getItems()
-                })
-            }
-        },
         getItems () {
             this.isLoading = true
             const api = axios.create()
@@ -226,9 +147,6 @@ export default {
                 alert('変更に失敗しました。')
             })
         },
-        myCallBack (value) {
-            console.log(value)
-        },
         changeImage (e) {
             let file = e.target.files[0]
             if (file) {
@@ -242,11 +160,6 @@ export default {
             }
         }
     },
-    filters: {
-        formatDate (date) {
-            return moment(date).format('YYYY年MM月DD日 HH時mm分')
-        }
-    },
     components: {
         UserSerch,
         MypageTabs
@@ -256,16 +169,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import 'resources/sass/variables';
-.user-link {
-    color: $blue;
-    cursor: pointer;
-    text-decoration: underline;
-}
-.box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .file-uploder {
     display: inline-block;
     overflow: hidden;
@@ -290,21 +193,5 @@ export default {
     margin: 0;
     font-size: 100px;
     cursor: pointer;
-}
-.btn-responsive {
-    padding: .5rem 1rem;
-    width: 3rem;
-}
-@media screen and (max-width: 768px) {
-/* 768pxまでの幅の場合に適応される */
-    .btn-responsive {
-        padding: 0;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-    }
-    .col-12 {
-        padding: 0;
-    }
 }
 </style>

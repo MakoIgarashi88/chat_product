@@ -17,16 +17,7 @@
                 </v-card-title>
 
                 <v-card-text>
-                    <v-row>
-                        <v-col class="text-center">
-                            <IconLg />
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col class="text-center">
-                            <v-btn>画像を選択</v-btn>
-                        </v-col>
-                    </v-row>
+                    <FileUp />
                     <v-row justify="center">
                         <v-col>
                             <v-textarea label="トピックタイトル" outlined rows="1" row-height="15" hide-details></v-textarea>
