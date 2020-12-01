@@ -7,7 +7,7 @@
         </v-row>
         <v-row justify="center" class="pa-0">
             <v-col cols="auto" class="pa-0 pb-2">
-                <v-btn>送信</v-btn>
+                <v-btn color="primary">送信</v-btn>
             </v-col>
         </v-row>
     </div>

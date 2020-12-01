@@ -23,7 +23,7 @@
             </v-row>
             <v-row justify="center">
                 <v-col cols="12" sm="8">
-                    <Message />
+                    <MessageForm />
                 </v-col>
             </v-row>
         </v-card>
@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import CommentList from '../commons/CommentList.vue'
-import Message from '../commons/MessageForm.vue'
 export default {
   data () {
     return {
@@ -47,10 +45,6 @@ export default {
         },
     }
   },
-  components: {
-    CommentList,
-    Message 
-  }
 }
 </script>
 

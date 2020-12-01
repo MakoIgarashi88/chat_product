@@ -14,6 +14,11 @@
                     <v-textarea auto-grow outlined rows="1" row-height="15" hide-details></v-textarea>
                 </v-col>
             </v-row>
+            <v-row>
+                <v-col class="text-center">
+                    <v-btn color="primary">招待</v-btn>
+                </v-col>
+            </v-row>
         </v-card-text>
     </v-card>
 </template>

@@ -11,8 +11,11 @@
                                         <v-list-item-avatar>
                                             <IconSm :src="friend.image" />
                                         </v-list-item-avatar>
-                                        <v-list-item-content>
-                                            <v-list-item-title v-text="friend.name"></v-list-item-title>
+                                        <v-list-item-content class="pa-0">
+                                            <v-row align="center">
+                                                <v-col class="pa-0"><v-list-item v-text="friend.name"></v-list-item></v-col>
+                                                <v-col class="text-end pa-0"><v-list-item><v-btn color="primary">メッセージを送信</v-btn></v-list-item></v-col>
+                                            </v-row>
                                         </v-list-item-content>
                                     </template>
                                 </v-list-item>
@@ -21,6 +24,7 @@
                         </v-list-item-group>
                     </v-list>
 
+                    <v-divider></v-divider>
                     <div class="text-center pt-2 pb-2">
                         <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
                     </div>

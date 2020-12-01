@@ -11,7 +11,7 @@
                             <v-spacer></v-spacer>
                             <v-col cols="auto" @click="is_edit=!is_edit">
                                 <!-- <v-icon>mdi-cog-outline</v-icon> -->
-                                <button class="btn btn-light btn-outline-primary"><i class="fas fa-cog"></i></button>
+                                <v-btn outlined color="primary"><i class="fas fa-cog"></i></v-btn>
                             </v-col>
                         </v-row>
                     </v-card-title>

@@ -23,6 +23,14 @@
             </tbody>
             </template>
         </v-simple-table>
+        <v-divider></v-divider>
+        <v-card-text class="pa-0">
+            <v-row>
+                <v-col class="text-center">
+                    <v-btn color="primary">招待</v-btn>
+                </v-col>
+            </v-row>
+        </v-card-text>        
     </v-card>
 </template>
 

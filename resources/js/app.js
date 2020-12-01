@@ -36,6 +36,9 @@ Vue.component('Detail', require('./components/commons/Detail.vue').default);
 Vue.component('BackButton', require('./components/commons/buttons/BackButton.vue').default);
 Vue.component('IconLg', require('./components/commons/icons/IconLg.vue').default);
 Vue.component('IconSm', require('./components/commons/icons/IconSm.vue').default);
+Vue.component('Detail', require('./components/commons/Detail').default);
+Vue.component('CommentList', require('./components/commons/CommentList').default);
+Vue.component('MessageForm', require('./components/commons/MessageForm').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

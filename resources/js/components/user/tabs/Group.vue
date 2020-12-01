@@ -26,6 +26,8 @@
                             </template>
                         </v-list-item-group>
                     </v-list>
+                    <v-divider></v-divider>
+
                     
                     <div class="text-center pt-2 pb-2">
                         <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
@@ -34,7 +36,6 @@
             </v-col>
         </v-row>
         <v-card-text>
-
             <!-- this is second tabs -->
             <v-dialog v-model="dialog" width="500">
                 <template v-slot:activator="{ on, attr }">

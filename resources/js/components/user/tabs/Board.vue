@@ -20,9 +20,6 @@
 </template>
 
 <script>
-import Detail from '../../commons/Detail.vue'
-import CommentList from '../../commons/CommentList.vue'
-import Message from '../../commons/MessageForm.vue'
 export default {
   data () {
     return {
@@ -32,11 +29,6 @@ export default {
         },
     }
   },
-  components: {
-    Detail,
-    CommentList,
-    Message
-  }
 }
 </script>
 
