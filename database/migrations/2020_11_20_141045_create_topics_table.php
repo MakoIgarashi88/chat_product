@@ -15,6 +15,8 @@ class CreateTopicsTable extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->comment('トピック名');
+            $table->string('detail')->comment('詳細');
             $table->timestamps();
         });
     }

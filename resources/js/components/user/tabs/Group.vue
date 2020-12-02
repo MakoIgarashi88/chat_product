@@ -28,10 +28,7 @@
                     </v-list>
                     <v-divider></v-divider>
 
-                    
-                    <div class="text-center pt-2 pb-2">
-                        <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
-                    </div>
+                    <PageNation :page="page" :pageCount="pageCount" />
                 </v-card>
             </v-col>
         </v-row>
@@ -80,7 +77,7 @@ export default {
                 },
             ]
         }
-    }
+    },
 }
 </script>
 

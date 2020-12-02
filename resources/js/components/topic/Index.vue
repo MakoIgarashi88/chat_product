@@ -44,6 +44,18 @@ export default {
                     name: "JK会",
                     detail: "参加条件：JK（女子高校生）であること！",
                 },
+                {
+                    name: "JK会",
+                    detail: "参加条件：JK（女子高校生）であること！",
+                },
+                {
+                    name: "JK会",
+                    detail: "参加条件：JK（女子高校生）であること！",
+                },
+                {
+                    name: "JK会",
+                    detail: "参加条件：JK（女子高校生）であること！",
+                },
             ],
             search: "",
         }

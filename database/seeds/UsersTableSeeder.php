@@ -16,8 +16,9 @@ class UsersTableSeeder extends Seeder
     {
         $model = new User;
         $model->name = 'admin';
-        $model->birthday = Carbon::now()->toDateString();
+        $model->nickname = 'あどちゃん';
         $model->email = '';
+        $model->image_id = "6";
         $model->password = bcrypt('1234');
         $model->is_admin = true;
         $model->api_token = Str::random(60);
@@ -25,7 +26,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = 'mako';
-        $model->birthday = Carbon::createFromDate('1998', '08', '26', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'まこ';
+        $model->image_id = "6";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -34,7 +36,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = 'fuuga';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'ふうが';
+        $model->image_id = "7";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -43,7 +46,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = 'changmin';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'ちゃんみん';
+        $model->image_id = "4";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -52,15 +56,18 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = '爆豪勝己';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'かっちゃん';
+        $model->image_id = "5";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
         $model->api_token = Str::random(60);
         $model->save();
+
         $model = new User;
         $model->name = '胡蝶しのぶ';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'しのぶさん';
+        $model->image_id = "2";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -69,7 +76,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = '忍';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'キスショット・アセロラ・オリオン・ハートアンダーブレード';
+        $model->image_id = "1";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -78,7 +86,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = '碇シンジ';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = '逃げちゃだめだ';
+        $model->image_id = "8";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;
@@ -87,7 +96,8 @@ class UsersTableSeeder extends Seeder
 
         $model = new User;
         $model->name = 'yunho';
-        $model->birthday = Carbon::createFromDate('1998', '08', '27', 'Asia/Tokyo')->toDateString();
+        $model->nickname = 'ゆの';
+        $model->image_id = "3";
         $model->email = '';
         $model->password = bcrypt('1234');
         $model->is_admin = true;

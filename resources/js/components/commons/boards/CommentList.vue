@@ -13,11 +13,20 @@
                 </v-list-item>
             </template>
         </v-list>
+        <PageNation :page="page" :pageCount="pageCount" />
     </v-card>
 </template>
 
 <script>
 export default {
+    props: {
+        page: {
+            type: Number,
+        },
+        pageCount: {
+            type: Number,
+        }
+    },
     data () {
         return {
             items: [

@@ -32,14 +32,16 @@ Vue.component('default-modal', require('./components/commons/DefaultModal.vue').
 Vue.component('b-loading', require('./components/commons/BlueLoading.vue').default);
 Vue.component('GroupCreate', require('./components/commons/GroupCreate.vue').default);
 Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').default);
-Vue.component('Detail', require('./components/commons/Detail.vue').default);
 Vue.component('BackButton', require('./components/commons/buttons/BackButton.vue').default);
 Vue.component('IconLg', require('./components/commons/icons/IconLg.vue').default);
 Vue.component('IconSm', require('./components/commons/icons/IconSm.vue').default);
-Vue.component('Detail', require('./components/commons/Detail.vue').default);
-Vue.component('CommentList', require('./components/commons/CommentList.vue').default);
-Vue.component('MessageForm', require('./components/commons/MessageForm.vue').default);
+Vue.component('Detail', require('./components/commons/boards/Detail.vue').default);
+Vue.component('CommentList', require('./components/commons/boards/CommentList.vue').default);
+Vue.component('MessageForm', require('./components/commons/boards/MessageForm.vue').default);
 Vue.component('FileUp', require('./components/commons/uploads/FileUp').default);
+Vue.component('HomeButton', require('./components/commons/buttons/HomeButton.vue').default);
+Vue.component('SendButton', require('./components/commons/buttons/SendButton.vue').default);
+Vue.component('PageNation', require('./components/commons/boards/PageNation.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

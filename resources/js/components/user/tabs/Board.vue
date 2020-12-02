@@ -7,7 +7,7 @@
         </v-row>
         <v-row justify="center">
             <v-col cols="12" sm="8">
-                <CommentList />
+                <CommentList :page="page" :pageCount="pageCount" />
             </v-col>
         </v-row>
         <v-row justify="center">
@@ -27,6 +27,8 @@ export default {
             name: 'こんにちは',
             detail: '自由に書き込んでください',
         },
+        page: 1,
+        pageCount: 3,
     }
   },
 }

@@ -20,17 +20,35 @@
                     <FileUp />
                     <v-row justify="center">
                         <v-col>
-                            <v-textarea label="トピックタイトル" outlined rows="1" row-height="15" hide-details></v-textarea>
+                            <v-textarea
+                             label="トピックタイトル"
+                              outlined rows="1"
+                              row-height="15"
+                              hide-details
+                              v-model="topicTitle"
+                              ></v-textarea>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-textarea label="詳細" outlined rows="2" row-height="15" hide-details></v-textarea>
+                            <v-textarea
+                             label="詳細" 
+                             outlined rows="2" 
+                             row-height="15" 
+                             hide-details
+                             v-model="detail"
+                             ></v-textarea>
                         </v-col>
                     </v-row>
                     <v-row align="center">
                         <v-col>
-                            <v-textarea label="タグ" outlined rows="1" row-height="15" hide-details></v-textarea>
+                            <v-textarea
+                             label="タグ" 
+                             outlined 
+                             rows="1" 
+                             row-height="15" 
+                             hide-details
+                             ></v-textarea>
                         </v-col>
                         <v-col cols="auto">
                             <v-btn color="primary">追加</v-btn>
@@ -64,7 +82,9 @@
 export default {
     data () {
         return {
-            diolog: false,
+            dialog: false,
+            topicTitle: "",
+            detail: "",
         }
     },
 }

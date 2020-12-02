@@ -6,7 +6,7 @@
                     <v-card-title>
                         <v-row>
                             <v-col class="text-center">
-                                <v-btn color="primary"><i class="fas fa-home"></i></v-btn>
+                                <HomeButton />
                             </v-col>
                             <v-col class="text-center">
                                 {{group.name}}
@@ -27,7 +27,7 @@
                                 <v-textarea auto-grow outlined rows="1" row-height="15" hide-details></v-textarea>
                             </v-col>
                             <v-col cols="auto">
-                                <v-btn color="primary">送信</v-btn>
+                                <SendButton />
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Message from '../Message.vue'
+import Message from './Message.vue'
 import GroupSetting from '../group/GroupSetting.vue'
 export default {
     props: ['group_id'],

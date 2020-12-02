@@ -18,7 +18,7 @@ export default new Router({
         { name: 'group', path: '/group', component: require('./components/group/Index.vue').default },
 
         // chat
-        { name: 'chat.private', path: '/chat/private/:user_id', component: require('./components/chat/private/Private.vue').default, props: true },
+        { name: 'chat.private', path: '/chat/private/', component: require('./components/chat/private/Private.vue').default, },
         { name: 'chat.group', path: '/chat/group', component: require('./components/chat/group/Group.vue').default },
 
         // sample

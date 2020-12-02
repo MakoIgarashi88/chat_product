@@ -1,24 +1,60 @@
 <template>
-    <div>
-        <v-row>
-            <v-col class="text-center">
-                <IconLg :src="image" />
-            </v-col>
-        </v-row>
+    <v-container>
         <v-row justify="center">
-            <v-col cols="12" sm="5">
-                <v-file-input label="画像を選択してください" outlined dense prepend-icon="mdi-camera"></v-file-input>
+            <v-col>
+                <v-card>
+                    <v-card-title>
+                        <v-row>
+                            <v-col class="text-center">
+                                <HomeButton />
+                            </v-col>
+                            <v-col class="text-center">
+                                {{friend.name}}
+                            </v-col>
+                            <v-col class="text-center">
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <Message :image="friend.image" />
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-text class="pt-0 pb-0">
+                        <v-row justify="center" align="center">
+                            <v-col>
+                                <v-textarea auto-grow outlined rows="1" row-height="15" hide-details></v-textarea>
+                            </v-col>
+                            <v-col cols="auto">
+                                <SendButton />
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
             </v-col>
         </v-row>
-    </div>
+    </v-container>
 </template>
 
 <script>
+import Message from '../components/chat/private/Message.vue'
 export default {
+    props: ['group_id'],
     data () {
         return {
-            image: '/storage/images/1z2M3ouOdb74r93Q.png',
+            friend: {
+                name: 'fuuga',
+                image: '/storage/images/e4yocHpzM84s5Z4f.png',
+            },
+            message: null,
+            messages: [
+
+            ],
+            isLoading: false,
         }
+    },
+    components: {
+        Message,
     }
 }
 </script>
