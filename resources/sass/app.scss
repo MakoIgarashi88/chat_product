@@ -25,3 +25,20 @@
 .v-btn__content {
     text-transform: none;
 }
+
+.router-link {
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.icon-lg > div > .v-skeleton-loader__avatar {
+    height: 150px;
+    width: 150px;
+}
+
+.icon-sm > div > .v-skeleton-loader__avatar {
+    height: 150px;
+    width: 150px;
+}

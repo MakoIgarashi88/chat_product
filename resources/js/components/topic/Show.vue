@@ -8,10 +8,10 @@
             </v-row>
             <v-row justify="center" align="center">
                 <v-col cols="12" sm="3" class="text-center">
-                    <IconLg :src="user.image" />
+                    <IconLg :src="image" />
                 </v-col>
                 <v-col cols="12" sm="8">
-                    <Detail />
+                    <Detail :name="topic.name" :detail="topic.detail" />
                 </v-col>
             </v-row>
         </v-card>
@@ -32,21 +32,30 @@
 
 <script>
 export default {
-  data () {
-    return {
-        // topic: {
-        //     name: '暇人',
-        //     detail: '適当に話しましょう',
-        // },
-        user: {
-            user_id: 4,
-            user_name: 'チャンミン',
+    props: ['topic_id'],
+    data () {
+        return {
+            topic: {},
             image: '/storage/images/QPZUNpPqoz4RPHY2.png',
-        },
-        page: 0,
-        pageCount: 0,
-    }
-  },
+
+            page: 0,
+            pageCount: 0,
+        }
+    },
+    mounted() {
+        this.getItems()
+    },
+    methods: {
+        getItems() {
+            axios.get('/api/topic/' + this.topic_id)
+            .then(res => {
+                console.log(res.data)
+                this.topic = res.data
+            }).catch(error => {
+                alert('トピック情報が読み込めませんでした。')
+            })
+        }
+    },
 }
 </script>
 

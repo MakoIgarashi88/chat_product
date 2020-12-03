@@ -51,4 +51,9 @@ Route::middleware(['auth:api'])->group(function () {
 
     // image
     Route::post('image/', 'API\ImageController@store');
+
+    // topic
+    Route::get('topic/', 'API\TopicController@index');
+    Route::post('topic/', 'API\TopicController@store');
+    Route::get('topic/{topic_id}', 'API\TopicController@show');
 });

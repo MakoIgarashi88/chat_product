@@ -9,7 +9,7 @@
                                 <v-list-item :key="friend.name">
                                     <template>
                                         <v-list-item-avatar>
-                                            <IconSm :src="friend.image" />
+                                            <IconSm :src="friend.image_name" />
                                         </v-list-item-avatar>
                                         <v-list-item-content class="pa-0">
                                             <v-row align="center">
@@ -34,23 +34,14 @@
 
 <script>
 export default {
-  data () {
-    return {
-      page: 1,
-      pageCount: 5,
-      selected: [2],
-      friends: [
-          {
-              name: 'ueno',
-              image: '/storage/images/4y7OKZg4ANOxwO5p.png',
-          },
-          {
-              name: 'mako',
-              image: '/storage/images/t99bXtwJWwe6FmHe.png',
-          },
-      ]
+    props: ['friends'],
+    data () {
+        return {
+            page: 1,
+            pageCount: 5,
+            selected: [2],
+        }
     }
-  }
 }
 </script>
 

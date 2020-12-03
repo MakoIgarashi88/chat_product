@@ -33,6 +33,7 @@
         "vue-mg-date-picker-standard": "^1.0.4",
         "vue-mg-paginate": "^1.0.10",
         "vue-router": "^3.4.3",
-        "vuetify": "^2.3.17"
+        "vuetify": "^2.3.17",
+        "vuex": "^3.6.0"
     }
 }

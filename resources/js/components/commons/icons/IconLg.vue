@@ -1,7 +1,13 @@
 <template>
-    <v-avatar size="150">
-        <img :src="src">
-    </v-avatar>
+    <div class="icon-lg">
+        <v-skeleton-loader
+            type="avatar"
+            v-if="loading"
+        ></v-skeleton-loader>
+        <v-avatar size="150" v-else>
+            <img :src="src_copy">
+        </v-avatar>
+    </div>
 </template>
 
 <script>
@@ -15,10 +21,21 @@ export default {
     data() {
         return {
             src_copy: '/storage/images/yAyRulAQaz6f7DIV.png',
+            is_init: false,
+            loading: true,
         }
     },
-    mounted() {
-        if (this.src) this.src_copy = this.src
-    }
+    mounted () {
+        this.is_init = true
+    },
+    watch: {
+        src: {
+            handler () {
+                if (this.src) this.src_copy = this.src
+                if (this.is_init) this.loading = false
+            },
+            immediate: true
+        }
+    },
 }
 </script>

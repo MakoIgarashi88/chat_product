@@ -76,7 +76,7 @@
         </v-row>
         <v-row>
             <v-col>
-                <MypageTabs />
+                <MypageTabs :isLoading.sync="isLoading"/>
             </v-col>
         </v-row>
         <b-loading :isLoading.sync="isLoading" />
@@ -100,10 +100,8 @@ export default {
                 image_name: null,
                 detail: "",
             },
-            friends: [],
             paginate_frinds: [],
             is_edit: false,
-            groups: [],
             paginate_groups: [],
             isLoading: false,
             invites: [],
@@ -118,13 +116,11 @@ export default {
             this.isLoading = true
             const api = axios.create()
             axios.all([
-                api.get('/api/user/'),
-                api.get('/api/invite/')
+                api.get('/api/user'),
+                api.get('/api/invite'),
             ]).then(axios.spread((res,res2) => {
                 this.user = res.data.user
                 this.user.detail = 'sample'
-                this.groups = res.data.groups
-                this.friends = res.data.friends
                 this.invites = res2.data
             })).catch(error => {
                 alert(error)

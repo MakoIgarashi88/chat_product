@@ -11,6 +11,8 @@ use App\GroupUser;
 use App\User;
 use App\Invite;
 
+use App\Http\Resources\Group as GroupResource;
+
 class GroupController extends Controller
 {
     /**
@@ -20,8 +22,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
-        return $groups;
+        return GroupResource::collection(Auth::user()->groups);
     }
 
     /**

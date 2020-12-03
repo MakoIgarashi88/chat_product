@@ -11,7 +11,7 @@
                                         <v-row>
                                             <v-col cols="2" class="text-center">
                                                 <v-badge overlap bordered content="6" color="error">
-                                                    <IconSm :src="group.image"/>
+                                                    <IconSm :src="group.image_name"/>
                                                 </v-badge>
                                             </v-col>
                                             <v-col cols="10">
@@ -60,22 +60,13 @@
 
 <script>
 export default {
+    props: ['groups'],
     data () {
         return {
             page: 1,
             pageCount: 5,
             dialog: false,
             selected: [2],
-            groups: [
-                {
-                    name: 'いつめん',
-                    image: '/storage/images/AxjoQSN8CYhihwNc.png',
-                },
-                {
-                    name: '同中',
-                    image: '/storage/images/QPZUNpPqoz4RPHY2.png',
-                },
-            ]
         }
     },
 }

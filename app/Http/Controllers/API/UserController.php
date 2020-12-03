@@ -44,7 +44,6 @@ class UserController extends Controller
         return response()->json([
             'user' => new UserResource($user),
             'friends' => UserResource::collection($user->friends),
-            'groups' => GroupResource::collection($user->groups)
         ]);
     }
 

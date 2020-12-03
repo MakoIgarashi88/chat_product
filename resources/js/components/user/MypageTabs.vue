@@ -11,15 +11,15 @@
         <v-tabs-items v-model="tab">
             <!--掲示板-->
             <v-tab-item>
-                <Board />
+                <Board :isLoading.sync="isLoading"/>
             </v-tab-item>
             <!--グループ一覧-->
             <v-tab-item>
-                <Group />
+                <Group :groups="groups" :isLoading.sync="isLoading"/>
             </v-tab-item>
             <!--友だち一覧-->
             <v-tab-item>
-                <Friend />
+                <Friend :friends="friends" />
             </v-tab-item>
             <!--トピック一覧-->
             <v-tab-item>
@@ -35,12 +35,39 @@ import Group from './tabs/Group'
 import Friend from './tabs/Friend'
 import Topic from './tabs/Topic'
 export default {
+    props: {
+        isLoading: {
+            type: Boolean,
+            default: true,
+            required: true,
+        }
+    },
 	data () {
 		return {
 			dialog: false,
-			tab: 0,
+            tab: 0,
+            groups: [],
+            friends: [],
 		}
-	},
+    },
+    mounted() {
+        this.getItems()
+    },
+    methods: {
+        getItems () {
+            const api = axios.create()
+            axios.all([
+                api.get('/api/user'),
+                api.get('/api/group'),
+            ]).then(axios.spread((res,res2) => {
+                this.friends = res.data.friends
+                this.groups = res2.data
+                // console.log(res2.data)
+            })).catch(error => {
+                alert(error)
+            })
+        }
+    },
 	components: {
 		Board,
 		Group,

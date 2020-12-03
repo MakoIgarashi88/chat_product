@@ -1,60 +1,59 @@
 <template>
-    <v-container>
+    <div>
         <v-row justify="center">
-            <v-col>
-                <v-card>
-                    <v-card-title>
-                        <v-row>
-                            <v-col class="text-center">
-                                <HomeButton />
-                            </v-col>
-                            <v-col class="text-center">
-                                {{friend.name}}
-                            </v-col>
-                            <v-col class="text-center">
-                            </v-col>
-                        </v-row>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                        <Message :image="friend.image" />
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-text class="pt-0 pb-0">
-                        <v-row justify="center" align="center">
-                            <v-col>
-                                <v-textarea auto-grow outlined rows="1" row-height="15" hide-details></v-textarea>
-                            </v-col>
-                            <v-col cols="auto">
-                                <SendButton />
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
+            <v-col class="text-center">
+                <v-btn @click="minus">-</v-btn>
+            </v-col>
+            <v-col class="text-center">
+                {{ count }}
+            </v-col>
+            <v-col class="text-center">
+                <v-btn @click="plus">+</v-btn>
             </v-col>
         </v-row>
-    </v-container>
+        <v-row justify="center">
+            <v-col class="text-center">
+                <form @submit.prevent="onClick">
+                    <div>名前</div>
+                    <input type="text" v-model="name" /><br/>
+                    <div>価格</div>
+                    <input type="number" v-model="price" /><br/>
+                    <input type="submit" value="登録" /><br/>
+                </form>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
 <script>
-import Message from '../components/chat/private/Message.vue'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
-    props: ['group_id'],
-    data () {
+    data() {
         return {
-            friend: {
-                name: 'fuuga',
-                image: '/storage/images/e4yocHpzM84s5Z4f.png',
-            },
-            message: null,
-            messages: [
-
-            ],
-            isLoading: false,
+            name: "",
+            price: 0,
         }
     },
-    components: {
-        Message,
+    name: 'app',
+    computed: {
+        ...mapState([ 'count' ]),
+        ...mapGetters([ 'books' ])
+    },
+    methods: {
+        minus() {
+            this.$store.commit('minus')
+        },
+        plus() {
+            this.$store.commit('plus')
+        }, 
+        onClick() {
+            this.$store.commit('addBook' , {
+                book: {
+                    name: this.name, price: this.price
+                }
+            })
+        }
     }
 }
 </script>

@@ -13,6 +13,8 @@ import router from './router'
 window.Vue = Vue;
 Vue.use(VueRouter);
 
+import store from './store.js';
+
 import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -51,6 +53,8 @@ Vue.component('PageNation', require('./components/commons/boards/PageNation.vue'
 
 const app = new Vue({
     el: '#app',
+    router,
+    store,
     vuetify: new Vuetify({
         iconfont: 'mdi',
         theme: {
@@ -64,7 +68,6 @@ const app = new Vue({
             },
           },
     }),
-    router,
     watch: {
         '$route': function () {
             Echo.leave('chat')

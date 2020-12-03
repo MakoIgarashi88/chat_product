@@ -25,7 +25,7 @@
                               outlined rows="1"
                               row-height="15"
                               hide-details
-                              v-model="topicTitle"
+                              v-model="topic_title"
                               ></v-textarea>
                         </v-col>
                     </v-row>
@@ -69,12 +69,13 @@
                     </v-row>
                     <v-row>
                         <v-col class="text-center">
-                            <v-btn color="primary">作成</v-btn>
+                            <v-btn color="primary" @click="onAdd()">作成</v-btn>
                         </v-col>
                     </v-row>
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <b-loading :isLoading.sync="isLoading" />
     </div>
 </template>
 
@@ -83,10 +84,26 @@ export default {
     data () {
         return {
             dialog: false,
-            topicTitle: "",
+            topic_title: "",
             detail: "",
+            isLoading: false,
         }
     },
+    methods: {
+        onAdd () {
+            this.isLoading = true
+            axios.post('/api/topic/', {
+                name: this.topic_title,
+                detail: this.detail,
+            }).catch(error => {
+                alert('送信に失敗しました。')
+            }).finally(res => {
+                this.isLoading = false
+                this.dialog = false
+                this.$emit('update')
+            })
+        },
+    }
 }
 </script>
 

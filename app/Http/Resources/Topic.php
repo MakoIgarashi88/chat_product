@@ -4,9 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Image;
-
-class Group extends JsonResource
+class Topic extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,8 +18,6 @@ class Group extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'detail' => $this->detail,
-            'image_id' => $this->image_id,
-            'image_name' => isset($this->image) ? '/' . $this->image->name : '/storage/images/default.png',
         ];
     }
 }
