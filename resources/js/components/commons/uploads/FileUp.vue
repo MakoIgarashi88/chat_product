@@ -2,12 +2,20 @@
     <div>
         <v-row>
             <v-col class="text-center">
-                <IconLg :src="image" />
+                <IconLg :src="image_name" v-if="!upload_image" />
+                <IconLg :src="upload_image" v-else />
             </v-col>
         </v-row>
         <v-row justify="center">
             <v-col>
-                <v-file-input label="画像を選択してください" outlined dense prepend-icon="mdi-camera"></v-file-input>
+                <v-file-input
+                 label="画像を選択してください"
+                 outlined
+                 dense
+                 prepend-icon="mdi-camera"
+                 accept="image/*"
+                 @change="changeImage"
+                 ></v-file-input>
             </v-col>
         </v-row>
     </div>
@@ -15,9 +23,29 @@
 
 <script>
 export default {
+    props: [ 'image_name' ],
     data () {
         return {
-            image: '/storage/images/1z2M3ouOdb74r93Q.png',
+            upload_image: null,
+            image: '/storage/images/default.png',
+            file_name: "",
+        }
+    },
+    methods: {
+       changeImage (file) {
+            if (file !== undefined && file !== null) {
+                if (file.name.lastIndexOf('.') <= 0) {
+                    return
+                }
+                const fr = new FileReader()
+                fr.readAsDataURL(file)
+                fr.addEventListener('load', () => {
+                    this.upload_image = fr.result
+                    this.$emit('change', {file: this.upload_image})
+                })
+            } else {
+                this.upload_image = null
+            }
         }
     }
 }

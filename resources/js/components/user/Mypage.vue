@@ -18,7 +18,7 @@
                         <v-row>
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" v-if="is_edit">
-                                <FileUp />
+                                <FileUp :image_name="user.image_name" @change="updateImage" />
                                 <!-- <v-row>
                                     <v-col cols="12" class="text-center">
                                         <v-avatar size="150">
@@ -100,11 +100,9 @@ export default {
                 image_name: null,
                 detail: "",
             },
-            paginate_frinds: [],
             is_edit: false,
-            paginate_groups: [],
-            isLoading: false,
             invites: [],
+            isLoading: false,
             upload_image: null,
         }
     },
@@ -112,6 +110,9 @@ export default {
         this.getItems()
     },
     methods: {
+        updateImage: function (payload)  {
+            this.upload_image = payload.file
+        },
         getItems () {
             this.isLoading = true
             const api = axios.create()
@@ -129,7 +130,7 @@ export default {
                 this.is_edit = false
             })
         },
-        async onUserUpdate () {
+        onUserUpdate () {
             this.isLoading = true
             axios.put('/api/user/', {
                 id: this.user.id,

@@ -22,7 +22,7 @@ export default {
         return {
             src_copy: '/storage/images/yAyRulAQaz6f7DIV.png',
             is_init: false,
-            loading: true,
+            loading: false,
         }
     },
     mounted () {
