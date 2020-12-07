@@ -18,13 +18,13 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('nickname')->nullable();
+            $table->longText('detail')->nullable();
             $table->string('email')->nullable();
             $table->foreignId('image_id')->nullable();
             // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(0);
             $table->string('api_token', 60)->unique();
-            $table->longText('detail')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

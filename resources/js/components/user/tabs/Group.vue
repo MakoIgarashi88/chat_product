@@ -5,7 +5,7 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(group, index) in groups">
+                            <template v-for="(group, index) in mp_groups">
                                 <v-list-item :key="group.name">
                                     <template>
                                         <v-row>
@@ -22,7 +22,7 @@
                                         </v-row>
                                     </template>
                                 </v-list-item>
-                                <v-divider v-if="index < groups.length - 1" :key="index"></v-divider>
+                                <v-divider v-if="index < mp_groups.length - 1" :key="index"></v-divider>
                             </template>
                         </v-list-item-group>
                     </v-list>
@@ -59,8 +59,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-    props: ['groups'],
     data () {
         return {
             page: 1,
@@ -69,6 +69,7 @@ export default {
             selected: [2],
         }
     },
+    computed: mapState([ 'mp_groups' ])
 }
 </script>
 

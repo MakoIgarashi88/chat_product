@@ -7,7 +7,8 @@
         </v-row>
         <v-row justify="center">
             <v-col cols="12" sm="8">
-                <CommentList :page="page" :pageCount="pageCount" :isLoading.sync="isLoading"/>
+                <CommentList :page="page" :pageCount="pageCount"/>
+                <!-- <CommentList :page="page" :pageCount="pageCount" :isLoading.sync="isLoading"/> -->
             </v-col>
         </v-row>
         <v-row justify="center">
@@ -21,13 +22,6 @@
 
 <script>
 export default {
-    props: {
-        isLoading: {
-            type: Boolean,
-            default: true,
-            required: true,
-        }
-    },
   data () {
     return {
         board: {

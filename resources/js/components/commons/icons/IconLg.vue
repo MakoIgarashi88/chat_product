@@ -13,14 +13,11 @@
 <script>
 export default {
     props: {
-        src: {
-            type: String,
-            default: '/storage/images/yAyRulAQaz6f7DIV.png'
-        }
+        src: String,
     },
     data() {
         return {
-            src_copy: '/storage/images/yAyRulAQaz6f7DIV.png',
+            src_copy: '/storage/images/default.png',
             is_init: false,
             loading: false,
         }
@@ -29,12 +26,8 @@ export default {
         this.is_init = true
     },
     watch: {
-        src: {
-            handler () {
-                if (this.src) this.src_copy = this.src
-                if (this.is_init) this.loading = false
-            },
-            immediate: true
+        src () {
+            if (this.src) this.src_copy = this.src
         }
     },
 }

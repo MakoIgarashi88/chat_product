@@ -5,7 +5,7 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(friend, index) in friends">
+                            <template v-for="(friend, index) in mp_friends">
                                 <v-list-item :key="friend.name">
                                     <template>
                                         <v-list-item-avatar>
@@ -19,7 +19,7 @@
                                         </v-list-item-content>
                                     </template>
                                 </v-list-item>
-                                <v-divider v-if="index < friends.length - 1" :key="index"></v-divider>
+                                <v-divider v-if="index < mp_friends.length - 1" :key="index"></v-divider>
                             </template>
                         </v-list-item-group>
                     </v-list>
@@ -33,15 +33,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-    props: ['friends'],
     data () {
         return {
             page: 1,
             pageCount: 5,
             selected: [2],
         }
-    }
+    },
+    computed: mapState([ 'mp_friends' ])
 }
 </script>
 

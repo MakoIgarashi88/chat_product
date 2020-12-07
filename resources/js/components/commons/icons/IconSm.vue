@@ -13,19 +13,17 @@
 <script>
 export default {
     props: {
-        src: {
-            type: String,
-            default: '/storage/images/yAyRulAQaz6f7DIV.png'
-        },
-        isLoading: {
-            type: Boolean, 
-            default: true,
-            required: true,
-        }
+        src: String,
+        // isLoading: {
+        //     type: Boolean, 
+        //     default: true,
+        //     required: true,
+        // }
     },
     data() {
         return {
-            src_copy: '/storage/images/yAyRulAQaz6f7DIV.png',
+            src_copy: '/storage/images/default.png',
+            isLoading: false,
         }
     },
     mounted () {

@@ -44,24 +44,25 @@ class UserController extends Controller
         return response()->json([
             'user' => new UserResource($user),
             'friends' => UserResource::collection($user->friends),
-        ]);
+            'groups' => GroupResource::collection($user->groups),
+            ]);
     }
 
     public function update(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $user = DB::transaction(function () use ($request) {
             $user = User::find($request->id);
             $user->nickname = $request->nickname;
-            $user->birthday = $request->birthday;
             $image_id       = Image::store($request->upload_image);
             if ($image_id) {
                 $user->image_id = $image_id;
             }
             $user->save();
             Image::destroy(true);
+            return $user;
         });
 
-        return 'せいこうしました。';
+        return new UserResource($user);
     }
 
     public function search($search_name)

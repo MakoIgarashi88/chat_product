@@ -17,7 +17,7 @@
                 </v-card-title>
 
                 <v-card-text>
-                    <FileUp />
+                    <FileUp @change="entryImage"/>
                     <v-row justify="center">
                         <v-col>
                             <v-textarea
@@ -84,15 +84,20 @@ export default {
     data () {
         return {
             dialog: false,
+            upload_image: null,
             topic_title: "",
             detail: "",
             isLoading: false,
         }
     },
     methods: {
+        entryImage: function (file)  {
+            this.image = file
+        },
         onAdd () {
             this.isLoading = true
             axios.post('/api/topic/', {
+                image: this.upload_image,
                 name: this.topic_title,
                 detail: this.detail,
             }).catch(error => {

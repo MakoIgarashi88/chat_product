@@ -5,12 +5,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     strict: true, // strictは本番環境では必ず無効化してください
     state: {
+        // commons
         isLoading: false,
-        count: 0,
-        books: {
-            name: '東方',
-            price: 10000
-        },
+        // mypage
+        mp_user: {},
+        mp_friends: [],
+        mp_groups: [],
+        mp_invites: [],
+        mp_f_topics: [],
+        // other
     },
     mutations: {
         startLoading (state) {
@@ -19,24 +22,18 @@ export default new Vuex.Store({
         finishLoading (state) {
             state.isLoading = false
         },
-        minus(state) {
-            state.count--
+        mypageInit (state, payload) {
+            console.log(payload)
+            state.mp_user     = payload.user
+            state.mp_friends  = payload.friends
+            state.mp_groups   = payload.groups
+            state.mp_invites  = payload.invites
+            state.mp_f_topics = payload.favorite_topics
+            // console.log(state)
         },
-        plus(state) {
-            state.count++
-        },
-        addBook(state, payload) {
-            state.books.push(payload.book)
+        // マイページから変更された内容で上書き
+        mypageUserUpdate (state, payload) {
+            state.mp_user = payload.user
         }
     },
-    getters: {
-        // bookCount(state) {
-        //     return state.books.length
-        // },
-        // getBookByPrice(state) {
-        //     return price => {
-        //         return state.books.filter(book => book.price < price)
-        //     }
-        // }
-    }
 });

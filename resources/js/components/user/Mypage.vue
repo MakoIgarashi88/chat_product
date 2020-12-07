@@ -18,25 +18,12 @@
                         <v-row>
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" v-if="is_edit">
-                                <FileUp :image_name="user.image_name" @change="updateImage" />
-                                <!-- <v-row>
-                                    <v-col cols="12" class="text-center">
-                                        <v-avatar size="150">
-                                            <img :src="upload_image" v-show="upload_image">
-                                            <img :src="user.image_name" v-show="!upload_image">
-                                        </v-avatar>
-                                    </v-col>
-                                    <v-col cols="12" class="text-center">
-                                        <div class="file-uploder">
-                                            画像を選択してください
-                                            <input type="file" @change="changeImage" accept="image/*">
-                                        </div>
-                                    </v-col>
-                                </v-row> -->
+                                <FileUp :image_name="user.image_name" @change="changeImage" />
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
                                 <IconLg :src="user.image_name" />
                             </v-col>
+
                             <v-col cols="12" sm="9">
                                 <!--ニックネーム-->
                                 <v-row>
@@ -51,7 +38,7 @@
                                     </v-col>
                                 </v-row>
                                 <!--自己紹介欄-->
-                                <v-row>
+                                <v-row justify="center">
                                     <v-col v-if="is_edit || user.detail.length">
                                         <v-textarea
                                             :label="is_edit || user.detail.length ? '自己紹介欄' : null"
@@ -76,7 +63,7 @@
         </v-row>
         <v-row>
             <v-col>
-                <MypageTabs :isLoading.sync="isLoading"/>
+                <MypageTabs />
             </v-col>
         </v-row>
         <b-loading :isLoading.sync="isLoading" />
@@ -88,6 +75,7 @@
 import moment from "moment";
 import UserSerch from "./UserSerch"
 import MypageTabs from "./MypageTabs"
+import { mapState } from 'vuex'
 // import { mdiCogOutline } from '@mdi/js';
 export default {
     data () {
@@ -101,61 +89,57 @@ export default {
                 detail: "",
             },
             is_edit: false,
-            invites: [],
-            isLoading: false,
             upload_image: null,
         }
     },
+    computed: mapState([ 'isLoading' ]),
     mounted () {
         this.getItems()
     },
     methods: {
-        updateImage: function (payload)  {
-            this.upload_image = payload.file
-        },
         getItems () {
-            this.isLoading = true
+            this.$store.commit('startLoading')
             const api = axios.create()
             axios.all([
                 api.get('/api/user'),
                 api.get('/api/invite'),
-            ]).then(axios.spread((res,res2) => {
+                api.get('/api/topic/favorite')
+            ]).then(axios.spread((res,res2,res3) => {
                 this.user = res.data.user
-                this.user.detail = 'sample'
-                this.invites = res2.data
+                this.$store.commit('mypageInit', {
+                            user   : res.data.user,
+                            friends: res.data.friends,
+                            groups : res.data.groups,
+                            invites: res2.data,
+                    favorite_topics: res3.data,
+                })
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
-                this.isLoading = false
-                this.is_edit = false
+                this.$store.commit('finishLoading')
             })
         },
+        changeImage: function (file)  {
+            this.upload_image = file
+        },
         onUserUpdate () {
-            this.isLoading = true
+            this.$store.commit('startLoading')
             axios.put('/api/user/', {
                 id: this.user.id,
                 nickname: this.user.nickname,
-                birthday: this.user.birthday,
                 upload_image: this.upload_image
             }).then(res => {
-                console.log(res.data)
-                this.getItems()
+                this.$store.commit('mypageUserUpdate', {
+                    user: res.data
+                })
             }).catch(error => {
                 alert('変更に失敗しました。')
+            }).finally(resp => {
+                this.$store.commit('finishLoading')
+                this.is_edit = false
+                this.getItems()
             })
         },
-        changeImage (e) {
-            let file = e.target.files[0]
-            if (file) {
-                let reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = e => {
-                    this.upload_image = e.target.result
-                }
-            } else {
-                this.upload_image = null
-            }
-        }
     },
     components: {
         UserSerch,

@@ -4,7 +4,8 @@
             <template v-for="(item) in items">
                 <v-list-item :key="item.title">
                     <v-list-item-avatar>
-                        <IconSm :src="item.avatar" :isLoading.sync="isLoading"/>
+                        <IconSm :src="item.avatar" />
+                        <!-- <IconSm :src="item.avatar" :isLoading.sync="isLoading"/> -->
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>{{item.title}}</v-list-item-title>
@@ -26,11 +27,6 @@ export default {
         pageCount: {
             type: Number,
         },
-        isLoading: {
-            type: Boolean,
-            default: true,
-            required: true,
-        }
     },
     data () {
         return {

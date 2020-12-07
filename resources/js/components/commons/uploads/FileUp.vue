@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col class="text-center">
-                <IconLg :src="image_name" v-if="!upload_image" />
+                <IconLg :src="image" v-if="!upload_image" />
                 <IconLg :src="upload_image" v-else />
             </v-col>
         </v-row>
@@ -24,6 +24,9 @@
 <script>
 export default {
     props: [ 'image_name' ],
+    mounted() {
+        if (this.image_name) this.image = this.image_name
+    },
     data () {
         return {
             upload_image: null,
@@ -41,7 +44,7 @@ export default {
                 fr.readAsDataURL(file)
                 fr.addEventListener('load', () => {
                     this.upload_image = fr.result
-                    this.$emit('change', {file: this.upload_image})
+                    this.$emit('change', this.upload_image)
                 })
             } else {
                 this.upload_image = null

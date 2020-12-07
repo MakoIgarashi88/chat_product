@@ -5,7 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\Topic;
+use App\Image;
+use App\FavoriteTopic;
 
 use App\Http\Resources\Topic as TopicResource;
 
@@ -29,6 +33,10 @@ class TopicController extends Controller
             $topic->id     = $request->id;
             $topic->name   = $request->name;
             $topic->detail = $request->detail;
+            $image_id      = Image::store($request->upload_image);
+            if ($image_id) {
+                $topic->image_id = $image_id;
+            }
             $topic->save();
         });
     }
@@ -37,5 +45,15 @@ class TopicController extends Controller
     {
         $topic = Topic::find($id);
         return new TopicResource($topic);
+    }
+
+    public function favorite()
+    {
+        $topics = [];
+        $user = Auth::user();
+        foreach ($user->topics as $topic) {
+            array_push($topics,$topic);
+        }
+        return TopicResource::collection($topics);
     }
 }

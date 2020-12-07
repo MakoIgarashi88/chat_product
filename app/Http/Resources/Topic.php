@@ -18,6 +18,8 @@ class Topic extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'detail' => $this->detail,
+            'image_id' => $this->image_id,
+            'image_name' => isset($this->image) ? '/' . $this->image->name : '/storage/images/default.png',
         ];
     }
 }

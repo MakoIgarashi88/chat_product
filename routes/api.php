@@ -40,20 +40,21 @@ Route::middleware(['auth:api'])->group(function () {
 
     // friend
     Route::get('friend/search/{search_name}', 'API\UserController@search');
-    Route::post('friend/add/', 'API\UserController@add');
+    Route::post('friend/add', 'API\UserController@add');
     Route::get('friend/invite/list/{group_id}', 'API\UserController@invite');
     Route::get('friend/{user_id}', 'API\UserController@friendshow');
 
     // invite
-    Route::get('invite/', 'API\InviteController@index');
-    Route::post('invite/', 'API\InviteController@store');
+    Route::get('invite', 'API\InviteController@index');
+    Route::post('invite', 'API\InviteController@store');
     Route::delete('invite/{id}', 'API\InviteController@destroy');
 
     // image
-    Route::post('image/', 'API\ImageController@store');
+    Route::post('image', 'API\ImageController@store');
 
     // topic
-    Route::get('topic/', 'API\TopicController@index');
-    Route::post('topic/', 'API\TopicController@store');
+    Route::get('topic', 'API\TopicController@index');
+    Route::post('topic', 'API\TopicController@store');
+    Route::get('topic/favorite', 'API\TopicController@favorite');
     Route::get('topic/{topic_id}', 'API\TopicController@show');
 });
