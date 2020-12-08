@@ -7,12 +7,17 @@ export default new Vuex.Store({
     state: {
         // commons
         isLoading: false,
+
+        // home
+        all_topics: [],
+
         // mypage
         mp_user: {},
         mp_friends: [],
         mp_groups: [],
         mp_invites: [],
         mp_f_topics: [],
+
         // other
     },
     mutations: {
@@ -22,8 +27,11 @@ export default new Vuex.Store({
         finishLoading (state) {
             state.isLoading = false
         },
+        homeInit (state,payload) {
+            state.all_topics = payload
+        },
         mypageInit (state, payload) {
-            console.log(payload)
+            // console.log(payload)
             state.mp_user     = payload.user
             state.mp_friends  = payload.friends
             state.mp_groups   = payload.groups

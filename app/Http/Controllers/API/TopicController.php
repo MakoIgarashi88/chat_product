@@ -28,7 +28,7 @@ class TopicController extends Controller
 
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $topic = DB::transaction(function () use ($request) {
             $topic = new Topic;
             $topic->id     = $request->id;
             $topic->name   = $request->name;
@@ -38,6 +38,7 @@ class TopicController extends Controller
                 $topic->image_id = $image_id;
             }
             $topic->save();
+            return $topic;
         });
     }
 

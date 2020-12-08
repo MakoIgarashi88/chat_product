@@ -8,7 +8,7 @@
             </v-row>
             <v-row justify="center" align="center">
                 <v-col cols="12" sm="3" class="text-center">
-                    <IconLg :src="image" />
+                    <IconLg :src="topic.image_name" />
                 </v-col>
                 <v-col cols="12" sm="8">
                     <Detail :name="topic.name" :detail="topic.detail" />

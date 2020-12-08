@@ -12,9 +12,12 @@
                                           	<IconSm :src="topic.image_name" />
                                         </v-list-item-avatar>
                                         <v-list-item-content @click="onclick()">
-                                            <router-link :to="{ name: 'topic.show', params: { value: 'topic.id' } }">
-                                                <v-list-item-title v-text="topic.name"></v-list-item-title>
-                                            </router-link>
+                                            
+                                            <v-list-item-title>
+                                                <router-link :to="{ name: 'topic.show', params: { 'topic_id': topic.id } }">
+                                                    {{topic.name}}
+                                                </router-link>
+                                            </v-list-item-title>
                                             <v-list-item-subtitle v-text="topic.detail"></v-list-item-subtitle>
                                         </v-list-item-content>
                                     </template>
@@ -40,11 +43,6 @@ export default {
 		}
     },
     computed: mapState([ 'mp_f_topics' ]),
-    methods: {
-        onclick() {
-            
-        }
-    }
 }
 </script>
 

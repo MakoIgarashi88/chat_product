@@ -1,51 +1,72 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <div class="row justify-content-center">
-                            <div class="col-auto"></div>
-                            <div class="col-8 h3" >{{user.name}} のページ</div>
-                        </div>
-                    </div>
+    <v-container>
+        <v-row>
+            <v-col cols="12">
+                <v-card outlined>
+                    <v-card-title>
+                        <v-row class="justify-space-between">
+                            <v-col cols="auto">
+                                {{user.name}}のページ
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col class="text-right">
+                                <v-btn>友だち追加ORメッセージ送信</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-row align="center">
+                            <!--サムネイル-->
+                            <v-col cols="12" sm="3" class="text-center">
+                                <IconLg :src="user.image_name" />
+                            </v-col>
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <div><img :src="user.image_name" class="cut rounded-circle mt-2"></div>
-                            </div>
-                        </div>
-                        <div class="row mt-3 mb-1 align-items-center">
-                            <div class="col-2 text-right">ニックネーム : </div>
-                            <div class="col-auto"> {{user.nickname}}</div>
-                        </div>
-                        <div class="row mt-1 mb-1">
-                            <div class="col-2 text-right">年齢 : </div>
-                            <div class="col-auto">{{userAge}}</div>
-                        </div>
-                        <div class="row mt-1 mb-3 align-items-center">
-                            <div class="col-2 text-right">誕生日 : </div>
-                            <div class="col-auto">
-                                <div>{{user.birthday}}</div>
-                            </div>
-                        </div>
-                    </div>                   
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
+                            <v-col cols="12" sm="9">
+                                <!--ニックネーム-->
+                                <v-row align="center">
+                                    <v-col>
+                                        <v-text-field
+                                            :label="user.nickname"
+                                            disabled
+                                            outlined
+                                        />
+                                    </v-col>
+                                </v-row>
+                                <!--自己紹介欄-->
+                                <v-row justify="center">
+                                    <v-col v-if="user.detail.length">
+                                        <v-textarea
+                                            :label="user.detail.length ? user.detail : null"
+                                            disabled
+                                            auto-grow
+                                            outlined
+                                            rows="1"
+                                        />
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+                <v-card class="mt-4" outlined>
+                    <Board />
+                </v-card>
+            </v-col>
+        </v-row>
+        <b-loading :isLoading.sync="isLoading" />
+    </v-container>
+        <!-- <div class="row mt-3">
             <div class="col" v-if="user.is_friend">
                 <div class="btn btn-primary" @click="onMessage()">メッセージを送信</div>
             </div>
             <div class="col" v-else>
                 <div class="btn btn-primary" @click="onFriendApply()">友達申請</div>
             </div>
-        </div>
-    </div>
+        </div> -->
 </template>
 
 <script>
+import Board from './tabs/Board.vue'
 import moment from "moment";
 export default {
     props: ['user_id'],
@@ -55,7 +76,7 @@ export default {
                 id: null,
                 name: null,
                 nickname: null,
-                birthday: null,
+                detail: "",
                 image_id: null,
                 image_name: null,
                 is_friend: false,
@@ -104,15 +125,12 @@ export default {
         onMessage: function () {
             this.$router.push({ name: 'chat.private', params: { 'user_id': this.user.id} })
         },
+    },
+    components:{
+        Board,
     }
 }
 </script>
 <style lang="scss" scoped>
 @import 'resources/sass/variables';
-.cut {
-    width: 7rem;
-    height: 7rem;
-    object-fit: contain;
-    border: 1px solid $primary;
-}
 </style>

@@ -21,8 +21,8 @@ class Friend extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'detail' => ($this->detail) ? $this->detail : "",
             'nickname' => $this->nickname,
-            'birthday' => $this->birthday,
             'image_id' => $this->image_id,
             'image_name' => isset($this->image) ? '/' . $this->image->name : '/storage/images/default.png',
             'is_friend' => UserFriend::where('user_id', Auth::id())->where('friend_id', $this->id)->exists(),

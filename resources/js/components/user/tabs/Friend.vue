@@ -13,7 +13,11 @@
                                         </v-list-item-avatar>
                                         <v-list-item-content class="pa-0">
                                             <v-row align="center">
-                                                <v-col class="pa-0"><v-list-item v-text="friend.name"></v-list-item></v-col>
+                                                <v-col class="pa-0"><v-list-item>
+                                                    <router-link :to="{ name: 'friend.show', params: { 'user_id': friend.id } }">
+                                                        {{friend.name}}
+                                                    </router-link>
+                                                </v-list-item></v-col>
                                                 <v-col class="text-end pa-0"><v-list-item><v-btn color="primary">メッセージを送信</v-btn></v-list-item></v-col>
                                             </v-row>
                                         </v-list-item-content>

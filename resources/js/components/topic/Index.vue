@@ -10,7 +10,9 @@
             </v-card-title>
             <v-data-table :headers="headers" :items="topics" :search="search">
                 <template v-slot:[`item.name`]="{ item }">
-                    <router-link class="router-link" color="primary" :to="'/topic/' + item.id">{{ item.name }}</router-link>
+                    <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
+                        {{ item.name }}
+                    </router-link>
                 </template>
             </v-data-table>
         </v-card>
@@ -36,7 +38,6 @@ export default {
     },
     methods: {
         getItems () {
-            console.log('update')
             axios.get('/api/topic/')
             .then(res => {
                 this.topics = res.data

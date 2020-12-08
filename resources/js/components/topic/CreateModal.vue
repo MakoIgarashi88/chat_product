@@ -92,14 +92,15 @@ export default {
     },
     methods: {
         entryImage: function (file)  {
-            this.image = file
+            // console.log(file)
+            this.upload_image = file
         },
         onAdd () {
             this.isLoading = true
             axios.post('/api/topic/', {
-                image: this.upload_image,
-                name: this.topic_title,
-                detail: this.detail,
+                upload_image: this.upload_image,
+                name        : this.topic_title,
+                detail      : this.detail,
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {

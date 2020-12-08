@@ -16,10 +16,14 @@
                         </v-col>
                         <v-col cols="11">
                             <v-expansion-panels>
-                            <v-expansion-panel v-for="(item,index) in desserts" :key="item.name">
+                            <v-expansion-panel v-for="(item,index) in topics" :key="item.name">
                                 <v-expansion-panel-header>
                                     <div>{{index+1}}</div>
-                                    <div>{{item.name}}</div>
+                                    <div>
+                                        <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
+                                            {{item.name}}
+                                        </router-link>
+                                    </div>
                                     <v-spacer></v-spacer>
                                 </v-expansion-panel-header>
                                 <v-expansion-panel-content>
@@ -53,37 +57,35 @@
 <script>
 import moment from "moment";
 import HomeHero from './HomeHero.vue'
+import { mapState } from 'vuex'
+
 export default {
+    data () {
+        return {
+            topics: [],
+        }
+    },
+    mounted() {
+        this.getItems()
+    },
+    computed: mapState([ 'isLoading' ]),
+    methods: {
+        getItems() {
+            this.$store.commit('startLoading')
+            axios.get('/api/topic')
+            .then(res => {
+                this.topics = res.data
+                this.$store.commit('homeInit',res.data)
+            }).catch(error => {
+                alert('トピック情報が読み込めませんでした。')
+            }).finally(resp => {
+                this.$store.commit('finishLoading')
+            })
+        }
+    },
     components: {
         HomeHero
     },
-    data () {
-        return {
-            isLoading: false,
-            desserts: [
-                {
-                    name: "暇人",
-                    detail: "暇すぎちょっとだけはなそ",
-                },
-                {
-                    name: "しのぶさんが好き",
-                    detail: "しのぶさんのためだけのトピック",
-                },
-                {
-                    name: "まじ病み",
-                    detail: "誹謗中傷しないでください",
-                },
-                {
-                    name: "バスケが好き",
-                    detail: "サークル感覚ではなく本気でバスケが好きな人はなそー！",
-                },
-                {
-                    name: "JK会",
-                    detail: "参加条件：JK（女子高校生）であること！",
-                },
-            ]
-        }
-    }
 }
 </script>
 <style lang="scss" scoped>

@@ -1,85 +1,139 @@
 <template>
-    <div>
-        <v-row v-for="( friend, index ) in friends" :key="index">
-            <v-col class="text-center">
-                id:{{friend.id}}
-                <br />
-                name:{{friend.name}}
-                <br />
-                nickname:{{friend.nickname}}
-                <br />
-                detail:{{friend.detail}}
+    <v-container>
+        <v-row>
+            <v-col cols="12">
+                <v-card outlined>
+                    <v-card-title>
+                        <v-row class="justify-space-between">
+                            <v-col cols="auto">
+                                {{user.name}}のページ
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col class="text-right">
+                                <v-btn>友だち追加ORメッセージ送信</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-row align="center">
+                            <!--サムネイル-->
+                            <v-col cols="12" sm="3" class="text-center">
+                                <IconLg :src="user.image_name" />
+                            </v-col>
+
+                            <v-col cols="12" sm="9">
+                                <!--ニックネーム-->
+                                <v-row align="center">
+                                    <v-col>
+                                        <v-text-field
+                                            :label="user.nickname"
+                                            disabled
+                                            outlined
+                                        />
+                                    </v-col>
+                                </v-row>
+                                <!--自己紹介欄-->
+                                <v-row justify="center">
+                                    <v-col v-if="user.detail.length">
+                                        <v-textarea
+                                            :label="user.detail.length ? user.detail : null"
+                                            disabled
+                                            auto-grow
+                                            outlined
+                                            rows="1"
+                                        />
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+                <v-card class="mt-4" outlined>
+                    <Board />
+                </v-card>
             </v-col>
         </v-row>
-    </div>
+        <b-loading :isLoading.sync="isLoading" />
+    </v-container>
+        <!-- <div class="row mt-3">
+            <div class="col" v-if="user.is_friend">
+                <div class="btn btn-primary" @click="onMessage()">メッセージを送信</div>
+            </div>
+            <div class="col" v-else>
+                <div class="btn btn-primary" @click="onFriendApply()">友達申請</div>
+            </div>
+        </div> -->
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import Board from './user/tabs/Board.vue'
+import moment from "moment";
 export default {
+    // props: ['user_id'],
     data () {
         return {
-            // friend: {
-            //     id: null,
-            //     name: null,
-            //     nickname: null,
-            //     image_id: null,
-            //     image_name: null,
-            //     detail: "",
-            // },
-            friends: [],
-            groups: [],
-            invites: [],
+            user: {
+                id: null,
+                name: null,
+                nickname: null,
+                detail: "",
+                image_id: null,
+                image_name: null,
+                is_friend: false,
+            },
+            isLoading: false,
+            user_id:null,
         }
     },
     computed: {
-        // ...mapState([ 'friends' ])
+        userAge () {
+            if (!this.user.birthday) return ''
+            let birthday = moment(this.user.birthday)
+            return moment().diff(birthday, 'years')
+        }
     },
     mounted () {
+        this.user_id = 2
         this.getItems()
     },
     methods: {
-        getItems () {
+            getItems () {
             this.isLoading = true
-            const api = axios.create()
-            axios.all([
-                api.get('/api/user'),
-                api.get('/api/invite'),
-            ]).then(axios.spread((res,res2) => {
-                this.user = res.data.user
-                this.user.detail = 'sample'
-                this.friends = res.data.friends
-                this.groups = res.data.groups
-                this.invites = res2.data
-                this.$store.commit('mypageInit', {
-                    user   : res.data.user,
-                    friends: res.data.friends,
-                    groups : res.data.groups,
-                    invites: res2.data,
-                })
-            })).catch(error => {
+            axios.get('/api/friend/' + this.user_id)
+            .then(res => {
+                this.user = res.data
+            }).catch(error => {
                 alert(error)
             }).finally(resp => {
                 this.isLoading = false
-                this.is_edit = false
-                // this.sendData()
             })
         },
-        sendData () {
-            console.log('通っています')
-            this.$store.commit('addData', this.friends)
-            // this.$store.commit('addData', {
-            //     friend: {
-            //         id: this.id,
-            //         name: this.name,
-            //         nickname: this.nickname,
-            //         image_id: this.image_id,
-            //         image_name: this.image_name,
-            //         detail: this.detail,
-            //     }
-            // })
-        }
+        onFriendApply() {
+            if(confirm('友達申請をします')) {
+                axios.post('/api/friend/add/', {
+                    friend_id: this.user_id,
+                }).then(res => {
+                    if (res.data.message.length) {
+                        alert(res.data.message)
+                    } else {
+                        alert('友だちになりました。')
+                        this.getItems()
+                    }
+                }).catch(error => {
+                    alert('友だちの追加に失敗しました。')
+                })
+            }
+        },
+        onMessage: function () {
+            this.$router.push({ name: 'chat.private', params: { 'user_id': this.user.id} })
+        },
+    },
+    components:{
+        Board,
     }
-
 }
 </script>
+<style lang="scss" scoped>
+@import 'resources/sass/variables';
+
+</style>
