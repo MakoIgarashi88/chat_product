@@ -8,16 +8,27 @@
                             <template v-for="(group, index) in mp_groups">
                                 <v-list-item :key="group.name">
                                     <template>
-                                        <v-row>
-                                            <v-col cols="2" class="text-center">
-                                                <v-badge overlap bordered content="6" color="error">
-                                                    <IconSm :src="group.image_name"/>
-                                                </v-badge>
+                                        <v-row class="pa-0">
+                                            <v-col cols="auto" class="pa-0">
+                                                <v-list-item-avatar>
+                                                    <v-badge overlap bordered content="6" color="error">
+                                                        <IconSm :src="group.image_name"/>
+                                                    </v-badge>
+                                                </v-list-item-avatar>
                                             </v-col>
-                                            <v-col cols="10">
-                                                <v-list-item-content>
-                                                    <v-list-item-title v-text="group.name"></v-list-item-title>
-                                                </v-list-item-content>
+                                            <v-col class="pa-0">
+                                                <v-row align="center">
+                                                    <v-list-item-content class="pa-0">
+                                                        <v-col class="pa-0">
+                                                            <v-list-item-title>{{group.name}}</v-list-item-title>
+                                                        </v-col>
+                                                        <v-col>
+                                                            <v-list-item>
+                                                                <GroupChat :group_id="group.id"/>
+                                                            </v-list-item>
+                                                        </v-col>
+                                                    </v-list-item-content>
+                                                </v-row>
                                             </v-col>
                                         </v-row>
                                     </template>
@@ -32,8 +43,8 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-card-text>
-            <!-- this is second tabs -->
+        <!-- <v-card-text>
+            this is second tabs
             <v-dialog v-model="dialog" width="500">
                 <template v-slot:activator="{ on, attr }">
                     <v-btn v-bind="attr" v-on="on">open</v-btn>
@@ -54,11 +65,12 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-        </v-card-text>
+        </v-card-text> -->
     </v-card>
 </template>
 
 <script>
+import GroupChat from '../../chat/group/Group.vue'
 import { mapState } from 'vuex'
 export default {
     data () {
@@ -69,7 +81,10 @@ export default {
             selected: [2],
         }
     },
-    computed: mapState([ 'mp_groups' ])
+    computed: mapState([ 'mp_groups' ]),
+    components: {
+        GroupChat,
+    }
 }
 </script>
 

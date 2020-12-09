@@ -76,7 +76,6 @@ import moment from "moment";
 import UserSerch from "./UserSerch"
 import MypageTabs from "./MypageTabs"
 import { mapState } from 'vuex'
-// import { mdiCogOutline } from '@mdi/js';
 export default {
     data () {
         return {

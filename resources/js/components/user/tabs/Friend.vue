@@ -13,12 +13,18 @@
                                         </v-list-item-avatar>
                                         <v-list-item-content class="pa-0">
                                             <v-row align="center">
-                                                <v-col class="pa-0"><v-list-item>
-                                                    <router-link :to="{ name: 'friend.show', params: { 'user_id': friend.id } }">
-                                                        {{friend.name}}
-                                                    </router-link>
-                                                </v-list-item></v-col>
-                                                <v-col class="text-end pa-0"><v-list-item><v-btn color="primary">メッセージを送信</v-btn></v-list-item></v-col>
+                                                <v-col class="pa-0">
+                                                    <v-list-item>
+                                                        <router-link :to="{ name: 'friend.show', params: { 'user_id': friend.id } }">
+                                                            {{friend.name}}
+                                                        </router-link>
+                                                    </v-list-item>
+                                                </v-col>
+                                                <v-col>
+                                                    <v-list-item>
+                                                        <PrivateChat :friend_id="friend.id"/>
+                                                    </v-list-item>
+                                                </v-col>
                                             </v-row>
                                         </v-list-item-content>
                                     </template>
@@ -37,6 +43,7 @@
 </template>
 
 <script>
+import PrivateChat from '../../chat/private/Private.vue'
 import { mapState } from 'vuex'
 export default {
     data () {
@@ -46,7 +53,10 @@ export default {
             selected: [2],
         }
     },
-    computed: mapState([ 'mp_friends' ])
+    computed: mapState([ 'mp_friends' ]),
+    components: {
+        PrivateChat
+    }
 }
 </script>
 

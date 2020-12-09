@@ -10,7 +10,8 @@
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col class="text-right">
-                                <v-btn>友だち追加ORメッセージ送信</v-btn>
+                                <div v-if="user.is_friend"><PrivateChat /></div>
+                                <v-btn color="primary" v-else>友だち追加</v-btn>
                             </v-col>
                         </v-row>
                     </v-card-title>
@@ -55,19 +56,13 @@
         </v-row>
         <b-loading :isLoading.sync="isLoading" />
     </v-container>
-        <!-- <div class="row mt-3">
-            <div class="col" v-if="user.is_friend">
-                <div class="btn btn-primary" @click="onMessage()">メッセージを送信</div>
-            </div>
-            <div class="col" v-else>
-                <div class="btn btn-primary" @click="onFriendApply()">友達申請</div>
-            </div>
-        </div> -->
 </template>
 
 <script>
+import PrivateChat from '../chat/private/Private.vue'
 import Board from './tabs/Board.vue'
 import moment from "moment";
+import { mapState } from 'vuex'
 export default {
     props: ['user_id'],
     data () {
@@ -84,26 +79,20 @@ export default {
             isLoading: false,
         }
     },
-    computed: {
-        userAge () {
-            if (!this.user.birthday) return ''
-            let birthday = moment(this.user.birthday)
-            return moment().diff(birthday, 'years')
-        }
-    },
+    computed: mapState([ 'isLoading' ]),
     mounted () {
         this.getItems()
     },
     methods: {
             getItems () {
-            this.isLoading = true
+            this.$store.commit('startLoading')
             axios.get('/api/friend/' + this.user_id)
             .then(res => {
                 this.user = res.data
             }).catch(error => {
                 alert(error)
             }).finally(resp => {
-                this.isLoading = false
+                this.$store.commit('finishLoading')
             })
         },
         onFriendApply() {
@@ -127,6 +116,7 @@ export default {
         },
     },
     components:{
+        PrivateChat,
         Board,
     }
 }
