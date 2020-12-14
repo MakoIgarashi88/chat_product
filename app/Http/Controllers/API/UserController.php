@@ -10,12 +10,16 @@ use App\User;
 use App\UserFriend;
 use App\GroupUser;
 use App\Image;
+use App\Board;
+use App\BoardMessage;
 
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Board as BoardResource;
 use App\Http\Resources\Friend as FriendResource;
 use App\Http\Resources\Group as GroupResource;
 use App\Http\Resources\GroupUserForList as GroupUserForListResource;
 use App\Http\Resources\UserFriendForList as UserFriendForListResource;
+use App\Http\Resources\BoardMessage as BoardMessageResource;
 
 class UserController extends Controller
 {
@@ -40,11 +44,15 @@ class UserController extends Controller
     {
         if (!isset($user->id)) {
             $user = User::find(Auth::id());
+            $detail = Board::where('user_id', Auth::id())->first();
+            $messages = BoardMessage::where('board_id', Auth::id())->get();
         }
         return response()->json([
             'user' => new UserResource($user),
             'friends' => UserResource::collection($user->friends),
             'groups' => GroupResource::collection($user->groups),
+            'detail' => new BoardResource($detail),
+            'messages' => BoardMessageResource::collection($messages),
             ]);
     }
 
@@ -52,10 +60,17 @@ class UserController extends Controller
     {
         $user = DB::transaction(function () use ($request) {
             $user = User::find($request->id);
-            $user->nickname = $request->nickname;
-            $image_id       = Image::store($request->upload_image);
-            if ($image_id) {
-                $user->image_id = $image_id;
+            if ($request->nickname) {
+                $user->nickname = $request->nickname;
+            }
+            if ($request->detail) {
+                $user->detail = $request->detail;
+            }
+            if($request->upload_image) {
+                $image_id = Image::store($request->upload_image);
+                if ($image_id) {
+                    $user->image_id = $image_id;
+                }
             }
             $user->save();
             Image::destroy(true);
@@ -112,6 +127,12 @@ class UserController extends Controller
     public function friendshow($id)
     {
         $friend = User::where('id', $id)->first();
-        return new FriendResource($friend);
+        $detail = Board::where('user_id', $id)->first();
+        $messages = BoardMessage::where('board_id', $id)->get();
+        return response()->json([
+            'user' => new FriendResource($friend),
+            'detail' => new BoardResource($detail),
+            'messages' => BoardMessageResource::collection($messages),
+            ]);
     }
 }

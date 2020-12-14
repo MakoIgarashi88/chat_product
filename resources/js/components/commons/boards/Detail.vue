@@ -1,17 +1,17 @@
 <template>
     <v-card outlined>
         <v-card-title>
-            {{name}}
+            {{board.name}}
         </v-card-title>
         <v-card-text class="text-left">
-            {{detail}}
+            {{board.detail}}
         </v-card-text>
     </v-card>
 </template>
 
 <script>
 export default {
-    props: ['name', 'detail'],
+    props: ['board'],
     data () {
         return {
         }

@@ -4,19 +4,22 @@
             <template v-slot:default>
             <thead>
                 <tr>
-                <th class="text-center">
-                    #
+                <th class="text-right">
                 </th>
-                <th class="text-center">
+                <th class="text-left">
                     メンバー
                 </th>
                 </tr>
             </thead>
             <tbody>
                 <tr
-                v-for="(item, index) in users" :key="index">
-                <td class="text-center">{{index+1}}</td>
-                <td class="text-center">{{ item }}</td>
+                v-for="(member, index) in members" :key="index">
+                <td class="text-right pa-1"><IconSm :src="member.image_name"/></td>
+                <td class="text-left">
+                    <router-link :to="{ name: 'friend.show', params: { 'user_id': member.id } }">
+                        {{ member.nickname }}
+                    </router-link>
+                </td>
                 </tr>
             </tbody>
             </template>
@@ -25,15 +28,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-    data () {
-        return {
-            users: [
-                "胡蝶しのぶ",
-                "爆豪勝己",
-                "チャンミン",
-            ]
-        }
-    },
+    computed: mapState([ 'members' ]),
 }
 </script>

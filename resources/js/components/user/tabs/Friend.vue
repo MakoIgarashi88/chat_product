@@ -22,7 +22,7 @@
                                                 </v-col>
                                                 <v-col>
                                                     <v-list-item>
-                                                        <PrivateChat :friend_id="friend.id"/>
+                                                        <GoChatButton :id="friend.id" @goChat="onRoot"/>
                                                     </v-list-item>
                                                 </v-col>
                                             </v-row>
@@ -54,8 +54,10 @@ export default {
         }
     },
     computed: mapState([ 'mp_friends' ]),
-    components: {
-        PrivateChat
+    methods: {
+        onRoot (friend_id) {
+            this.$router.push({ name: 'chat.private', params: {'friend_id': friend_id} }) 
+        }
     }
 }
 </script>

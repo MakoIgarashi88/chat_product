@@ -39,7 +39,7 @@
                         <Invite />
                     </v-tab-item>
                     <v-tab-item>
-                        <Edit />
+                        <Edit @change="onEdit" />
                     </v-tab-item>
                     <v-tab-item>
                         退会処理
@@ -67,11 +67,16 @@ export default {
             tab: null,
         }
     },
+    methods: {
+        onEdit() {
+            this.$emit('change')
+            this.dialog = false
+        }
+    },
 	components: {
         Member,
         Invite,
         Edit,
 	}
-
 }
 </script>

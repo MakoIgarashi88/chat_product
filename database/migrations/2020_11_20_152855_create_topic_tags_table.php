@@ -15,6 +15,8 @@ class CreateTopicTagsTable extends Migration
     {
         Schema::create('topic_tags', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('topic_id')->nullable();
+            $table->foreignId('tag_id')->nullable();
             $table->timestamps();
         });
     }

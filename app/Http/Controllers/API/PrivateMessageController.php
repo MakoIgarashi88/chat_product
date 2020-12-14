@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use App\User;
 use App\PrivateMessage;
+
 use App\Events\MessageCreated;
 use App\Http\Resources\Message as MessageResource;
 
@@ -32,6 +34,7 @@ class PrivateMessageController extends Controller
         }
         $messages = PrivateMessage::whereIn('id', $message_ids)->get();
         return MessageResource::collection($messages);
+
     }
 
     public function store(Request $request)

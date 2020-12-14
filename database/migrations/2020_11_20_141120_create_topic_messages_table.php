@@ -15,6 +15,9 @@ class CreateTopicMessagesTable extends Migration
     {
         Schema::create('topic_messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('topic_id')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->longText('body')->nullable()->comment('メッセージ内容');
             $table->timestamps();
         });
     }

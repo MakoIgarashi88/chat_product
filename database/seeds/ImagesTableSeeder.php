@@ -13,35 +13,39 @@ class ImagesTableSeeder extends Seeder
     public function run()
     {
         $model = new Image;
-        $model->name = 'storage/images/1z2M3ouOdb74r93Q.png';
+        $model->name = 'storage/images/01.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/02.png';
         $model->save();
                 
         $model = new Image;
-        $model->name = 'storage/images/yAyRulAQaz6f7DIV.png';
+        $model->name = 'storage/images/03.png';
         $model->save();  
              
         $model = new Image;
-        $model->name = 'storage/images/t99bXtwJWwe6FmHe.png';
+        $model->name = 'storage/images/04.png';
         $model->save();     
 
         $model = new Image;
-        $model->name = 'storage/images/QPZUNpPqoz4RPHY2.png';
+        $model->name = 'storage/images/05.png';
         $model->save();      
 
         $model = new Image;
-        $model->name = 'storage/images/AxjoQSN8CYhihwNc.png';
+        $model->name = 'storage/images/06.png';
         $model->save();     
 
         $model = new Image;
-        $model->name = 'storage/images/Z4Wm6pZfqcoD6Hu1.png';
+        $model->name = 'storage/images/07.png';
         $model->save();
 
         $model = new Image;
-        $model->name = 'storage/images/e4yocHpzM84s5Z4f.png';
+        $model->name = 'storage/images/08.png';
         $model->save();
 
         $model = new Image;
-        $model->name = 'storage/images/4y7OKZg4ANOxwO5p.png';
+        $model->name = 'storage/images/09.png';
         $model->save();
 
     }

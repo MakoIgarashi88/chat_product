@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class CreateImagesTable extends Migration
 {
@@ -28,5 +29,6 @@ class CreateImagesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('images');
+        Storage::disk('public')->deletedirectory('uploads');
     }
 }

@@ -1,15 +1,14 @@
 <template>
     <v-card outlined>
         <v-list>
-            <template v-for="(item) in items">
-                <v-list-item :key="item.title">
+            <template v-for="(message, index) in messages">
+                <v-list-item :key="index">
                     <v-list-item-avatar>
-                        <IconSm :src="item.avatar" />
-                        <!-- <IconSm :src="item.avatar" :isLoading.sync="isLoading"/> -->
+                        <IconSm :src="message.user.image_name" />
                     </v-list-item-avatar>
                     <v-list-item-content>
-                        <v-list-item-title>{{item.title}}</v-list-item-title>
-                        <v-list-item-subtitle>{{item.subtitle}}</v-list-item-subtitle>
+                        <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                        <v-list-item-subtitle>{{message.body}}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
             </template>
@@ -27,14 +26,13 @@ export default {
         pageCount: {
             type: Number,
         },
+        messages: {
+            type: Array,
+        }
     },
     data () {
         return {
-            items: [
-                { avatar: '/storage/images/AxjoQSN8CYhihwNc.png', title: 'かっちゃん', subtitle: 'くそナード' },
-                { avatar: '', title: 'しのぶ', subtitle: '仲良くするのは無理なようですね'},
-                { avatar: '/storage/images/1z2M3ouOdb74r93Q.png', title: '忍', subtitle: 'ぱないのう' },
-            ],
+
         }
     }
 }

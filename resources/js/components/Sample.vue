@@ -1,139 +1,64 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="12">
-                <v-card outlined>
-                    <v-card-title>
-                        <v-row class="justify-space-between">
-                            <v-col cols="auto">
-                                {{user.name}}のページ
-                            </v-col>
-                            <v-spacer></v-spacer>
-                            <v-col class="text-right">
-                                <v-btn>友だち追加ORメッセージ送信</v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-row align="center">
-                            <!--サムネイル-->
-                            <v-col cols="12" sm="3" class="text-center">
-                                <IconLg :src="user.image_name" />
-                            </v-col>
+  <v-card
+    class="mx-auto"
+    max-width="400"
+  >
+    <v-card-title class="white--text orange darken-4">
+      User Directory
+    </v-card-title>
 
-                            <v-col cols="12" sm="9">
-                                <!--ニックネーム-->
-                                <v-row align="center">
-                                    <v-col>
-                                        <v-text-field
-                                            :label="user.nickname"
-                                            disabled
-                                            outlined
-                                        />
-                                    </v-col>
-                                </v-row>
-                                <!--自己紹介欄-->
-                                <v-row justify="center">
-                                    <v-col v-if="user.detail.length">
-                                        <v-textarea
-                                            :label="user.detail.length ? user.detail : null"
-                                            disabled
-                                            auto-grow
-                                            outlined
-                                            rows="1"
-                                        />
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-                <v-card class="mt-4" outlined>
-                    <Board />
-                </v-card>
-            </v-col>
-        </v-row>
-        <b-loading :isLoading.sync="isLoading" />
-    </v-container>
-        <!-- <div class="row mt-3">
-            <div class="col" v-if="user.is_friend">
-                <div class="btn btn-primary" @click="onMessage()">メッセージを送信</div>
-            </div>
-            <div class="col" v-else>
-                <div class="btn btn-primary" @click="onFriendApply()">友達申請</div>
-            </div>
-        </div> -->
+    <v-virtual-scroll :items="items" :item-height="50" height="300">
+      <template v-slot:default="{ item }">
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-avatar>
+             <IconSm :src="image" />
+            </v-avatar>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.fullName }}</v-list-item-title>
+          </v-list-item-content>
+
+        </v-list-item>
+      </template>
+    </v-virtual-scroll>
+  </v-card>
 </template>
 
-<script>
-import Board from './user/tabs/Board.vue'
-import moment from "moment";
-export default {
-    // props: ['user_id'],
-    data () {
-        return {
-            user: {
-                id: null,
-                name: null,
-                nickname: null,
-                detail: "",
-                image_id: null,
-                image_name: null,
-                is_friend: false,
-            },
-            isLoading: false,
-            user_id:null,
-        }
-    },
-    computed: {
-        userAge () {
-            if (!this.user.birthday) return ''
-            let birthday = moment(this.user.birthday)
-            return moment().diff(birthday, 'years')
-        }
-    },
-    mounted () {
-        this.user_id = 2
-        this.getItems()
-    },
-    methods: {
-            getItems () {
-            this.isLoading = true
-            axios.get('/api/friend/' + this.user_id)
-            .then(res => {
-                this.user = res.data
-            }).catch(error => {
-                alert(error)
-            }).finally(resp => {
-                this.isLoading = false
-            })
-        },
-        onFriendApply() {
-            if(confirm('友達申請をします')) {
-                axios.post('/api/friend/add/', {
-                    friend_id: this.user_id,
-                }).then(res => {
-                    if (res.data.message.length) {
-                        alert(res.data.message)
-                    } else {
-                        alert('友だちになりました。')
-                        this.getItems()
-                    }
-                }).catch(error => {
-                    alert('友だちの追加に失敗しました。')
-                })
-            }
-        },
-        onMessage: function () {
-            this.$router.push({ name: 'chat.private', params: { 'user_id': this.user.id} })
-        },
-    },
-    components:{
-        Board,
-    }
-}
-</script>
-<style lang="scss" scoped>
-@import 'resources/sass/variables';
 
-</style>
+<script>
+  export default {
+    data: () => ({
+	  image: "/storage/images/06.png",
+      colors: ['#2196F3', '#90CAF9', '#64B5F6', '#42A5F5', '#1E88E5', '#1976D2', '#1565C0', '#0D47A1', '#82B1FF', '#448AFF', '#2979FF', '#2962FF'],
+      names: ['Oliver', 'Jake', 'Noah', 'James', 'Jack', 'Connor', 'Liam', 'John', 'Harry', 'Callum', 'Mason', 'Robert', 'Jacob', 'Jacob', 'Jacob', 'Michael', 'Charlie', 'Kyle', 'William', 'William', 'Thomas', 'Joe', 'Ethan', 'David', 'George', 'Reece', 'Michael', 'Richard', 'Oscar', 'Rhys', 'Alexander', 'Joseph', 'James', 'Charlie', 'James', 'Charles', 'William', 'Damian', 'Daniel', 'Thomas', 'Amelia', 'Margaret', 'Emma', 'Mary', 'Olivia', 'Samantha', 'Olivia', 'Patricia', 'Isla', 'Bethany'],
+      surnames: ['Smith', 'Anderson', 'Clark', 'Wright', 'Mitchell', 'Johnson', 'Thomas', 'Rodriguez', 'Lopez', 'Perez', 'Williams', 'Jackson', 'Lewis', 'Hill', 'Roberts', 'Jones', 'White', 'Lee', 'Scott', 'Turner', 'Brown', 'Harris', 'Walker', 'Green', 'Phillips', 'Davis', 'Martin', 'Hall', 'Adams', 'Campbell', 'Miller', 'Thompson', 'Allen', 'Baker', 'Parker', 'Wilson', 'Garcia', 'Young', 'Gonzalez', 'Evans', 'Moore', 'Martinez', 'Hernandez', 'Nelson', 'Edwards', 'Taylor', 'Robinson', 'King', 'Carter', 'Collins'],
+    }),
+
+    computed: {
+      items () {
+        const namesLength = this.names.length
+        const surnamesLength = this.surnames.length
+        const colorsLength = this.colors.length
+
+        return Array.from({ length: 10000 }, (k, v) => {
+          const name = this.names[this.genRandomIndex(namesLength)]
+          const surname = this.surnames[this.genRandomIndex(surnamesLength)]
+
+          return {
+            color: this.colors[this.genRandomIndex(colorsLength)],
+            fullName: `${name} ${surname}`,
+            initials: `${name[0]} ${surname[0]}`,
+          }
+        })
+      },
+    },
+
+    methods: {
+      genRandomIndex (length) {
+        return Math.ceil(Math.random() * (length - 1))
+      },
+    },
+  }
+</script>

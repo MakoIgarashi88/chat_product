@@ -11,7 +11,7 @@
                                         <v-list-item-avatar>
                                           	<IconSm :src="topic.image_name" />
                                         </v-list-item-avatar>
-                                        <v-list-item-content @click="onclick()">
+                                        <v-list-item-content>
                                             
                                             <v-list-item-title>
                                                 <router-link :to="{ name: 'topic.show', params: { 'topic_id': topic.id } }">

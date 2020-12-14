@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Resources;
+
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
-class Message extends JsonResource
+use App\Http\Resources\User as UserResource;
+
+class BoardMessage extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,15 +17,13 @@ class Message extends JsonResource
      */
     public function toArray($request)
     {
-        $is_myself = $this->user_id == \Auth::user()->id ? true : false;
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
+            'board_id' => $this->board_id,
             'body' => $this->body,
-            'is_myself' => $is_myself,
-            'nickname' => $this->user->nickname,
-            'user_id' => $this->user->id,
-            'image' => '/' . $this->user->image->name,
-            'created_at' => Carbon::parse($this->created_at)->format('m/d h:i'),
+            'user' => new UserResource($this->user),
+            // 'created_at' => Carbon::parse($this->created_at)->format('m/d h:i'),
         ];
     }
 }

@@ -26,15 +26,17 @@
                                     </div>
                                     <v-spacer></v-spacer>
                                 </v-expansion-panel-header>
-                                <v-expansion-panel-content>
+                                <v-expansion-panel-content class="pb-2">
                                     <v-row>
                                         <v-col cols="12">
                                             {{item.detail}}
                                         </v-col>
-                                        <v-col cols="12">
-                                            <v-chip class="ma-2" color="green" text-color="white">
-                                                アニメ
-                                            </v-chip>
+                                        <v-col cols="12 pa-1">
+                                            <v-chip-group>
+                                                <v-chip small color="tag" text-color="white" v-for="(tag,index) in item.tags" :key="index">
+                                                    {{tag}}
+                                                </v-chip>
+                                            </v-chip-group>
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-content>

@@ -24,7 +24,7 @@
                                                         </v-col>
                                                         <v-col>
                                                             <v-list-item>
-                                                                <GroupChat :group_id="group.id"/>
+                                                                <GoChatButton :id="group.id" @goChat="onRoot"/>
                                                             </v-list-item>
                                                         </v-col>
                                                     </v-list-item-content>
@@ -43,34 +43,10 @@
                 </v-card>
             </v-col>
         </v-row>
-        <!-- <v-card-text>
-            this is second tabs
-            <v-dialog v-model="dialog" width="500">
-                <template v-slot:activator="{ on, attr }">
-                    <v-btn v-bind="attr" v-on="on">open</v-btn>
-                </template>
-                <v-card>
-                    <v-card-title>testing</v-card-title>
-                    <v-card-text>hello</v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="primary"
-                        text
-                        @click="dialog = false"
-                    >
-                        I accept
-                    </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-card-text> -->
     </v-card>
 </template>
 
 <script>
-import GroupChat from '../../chat/group/Group.vue'
 import { mapState } from 'vuex'
 export default {
     data () {
@@ -81,10 +57,12 @@ export default {
             selected: [2],
         }
     },
+    methods: {
+        onRoot (group_id) {
+            this.$router.push({ name: 'chat.group', params: {'group_id': group_id} }) 
+        }
+    },
     computed: mapState([ 'mp_groups' ]),
-    components: {
-        GroupChat,
-    }
 }
 </script>
 

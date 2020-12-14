@@ -15,6 +15,9 @@ class CreateBoardMessagesTable extends Migration
     {
         Schema::create('board_messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('board_id')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->longText('body')->nullable()->comment('メッセージ内容');
             $table->timestamps();
         });
     }

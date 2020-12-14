@@ -19,9 +19,9 @@ class GroupMessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($group_id)
     {
-        $messages = GroupMessage::where('group_id', $request->group_id)->get();
+        $messages = GroupMessage::where('group_id', $group_id)->get();
         return MessageResource::collection($messages);
     }
 

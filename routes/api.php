@@ -21,22 +21,29 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('user/{user}', 'API\UserController@show');
     Route::put('user', 'API\UserController@update');
 
-    // message
-    Route::get('group/message', 'API\GroupMessageController@index');
-    Route::post('group/message', 'API\GroupMessageController@store');
+    // board message
+    Route::get('board/message', 'API\BoardMessageController@index');
+    Route::get('board/message/{user_id}', 'API\BoardMessageController@show');
+    Route::post('board/message', 'API\BoardMessageController@store');    
 
     // private message
-    Route::get('private/message/{user_id}', 'API\PrivateMessageController@index');
-    Route::post('private/message/', 'API\PrivateMessageController@store');
+    Route::get('private/message/{friend_id}', 'API\PrivateMessageController@index');
+    Route::post('private/message', 'API\PrivateMessageController@store');
+
+    // group message
+    Route::get('group/message/{group_id}', 'API\GroupMessageController@index');
+    Route::post('group/message', 'API\GroupMessageController@store');
 
     // group
     Route::get('group', 'API\GroupController@index');
     Route::get('group/{group_id}', 'API\GroupController@show');
     Route::post('group/{group_id}', 'API\GroupController@add');
     Route::post('group', 'API\GroupController@store');
+    Route::get('group/member/{group_id}', 'API\GroupController@memberList');
+    Route::get('group/invite/{group_id}', 'API\GroupController@inviteUser');
+    Route::delete('group/leave/{group_id}', 'API\GroupController@destroy'); 
     Route::put('group/edit', 'API\GroupController@update');
-    Route::get('group/list/{group_id}', 'API\GroupController@list');
-    Route::delete('group/leave/{group_id}', 'API\GroupController@destroy');    
+   
 
     // friend
     Route::get('friend/search/{search_name}', 'API\UserController@search');
@@ -55,6 +62,11 @@ Route::middleware(['auth:api'])->group(function () {
     // topic
     Route::get('topic', 'API\TopicController@index');
     Route::post('topic', 'API\TopicController@store');
+    Route::post('topic/detail', 'API\TopicController@update');
     Route::get('topic/favorite', 'API\TopicController@favorite');
+    Route::post('topic/message', 'API\TopicController@messageUpload');
     Route::get('topic/{topic_id}', 'API\TopicController@show');
+
+    // board
+    Route::post('board', 'API\BoardController@update');
 });

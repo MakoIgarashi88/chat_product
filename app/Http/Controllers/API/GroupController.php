@@ -10,8 +10,10 @@ use App\Group;
 use App\GroupUser;
 use App\User;
 use App\Invite;
+use App\Image;
 
 use App\Http\Resources\Group as GroupResource;
+use App\Http\Resources\User as UserResource;
 
 class GroupController extends Controller
 {
@@ -35,7 +37,7 @@ class GroupController extends Controller
     
     {
         $group = Group::find($id);
-        return $group;
+        return new GroupResource($group);
     }
     
     /**
@@ -61,15 +63,18 @@ class GroupController extends Controller
         ]);
     }
 
-    public function list($id)
+    public function memberList($id)
     {
-        $group_users = GroupUser::where('group_id', $id)->get();
-        $users = [];
-        foreach($group_users as $group_user) {
-            $user = User::find($group_user->user_id);
-            array_push($users, $user);
-        }
-        return $users;
+        $group = Group::find($id);
+        return UserResource::collection($group->members);
+    }
+
+    public function inviteUser($id)
+    {
+        $friend_ids = Auth::user()->friends->pluck('id');
+        $group = Group::find($id);
+        $invites = $group->members->whereNotIn('id', $friend_ids)->where('id', '<>', Auth::id());
+        return UserResource::collection($invites);
     }
 
     public function destroy($id)
@@ -96,12 +101,26 @@ class GroupController extends Controller
 
     public function update(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $group = DB::transaction(function () use ($request) {
             $group = Group::find($request->group_id);
-            $group->name = $request->group_name;
+            if ($request->group_name) {
+                $group->name = $request->group_name;
+            }
+            if ($request->group_detail) {
+                $group->detail = $request->group_detail;
+            }
+            if($request->group_image) {
+                $image_id = Image::store($request->group_image);
+                if ($image_id) {
+                    $group->image_id = $image_id;
+                }
+            }
             $group->save();
+            Image::destroy(true);
+            return $group;
         });
 
-        return '成功しました。';
+        return new GroupResource($group);
     }
+
 }

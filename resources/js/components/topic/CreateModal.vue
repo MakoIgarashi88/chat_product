@@ -20,13 +20,13 @@
                     <FileUp @change="entryImage"/>
                     <v-row justify="center">
                         <v-col>
-                            <v-textarea
+                            <v-text-field
                              label="トピックタイトル"
                               outlined rows="1"
                               row-height="15"
                               hide-details
                               v-model="topic_title"
-                              ></v-textarea>
+                              ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -40,28 +40,34 @@
                              ></v-textarea>
                         </v-col>
                     </v-row>
-                    <v-row align="center">
-                        <v-col>
-                            <v-textarea
-                             label="タグ" 
-                             outlined 
-                             rows="1" 
-                             row-height="15" 
-                             hide-details
-                             ></v-textarea>
-                        </v-col>
-                        <v-col cols="auto">
-                            <v-btn color="primary">追加</v-btn>
-                        </v-col>
-                    </v-row>
+                    <form @submit.prevent="onAddTag">
+                        <v-row align="center">
+                            <v-col>
+                                <v-text-field label="タグ" v-model="tag" outlined hide-details required></v-text-field>
+                            </v-col>
+                            <v-col cols="auto">
+                                <v-btn type="submit" color="primary">追加</v-btn>
+                            </v-col>
+                        </v-row>
+                    </form>
                     <v-row>
                         <v-col>
                             <v-card outlined>
                                 <v-row>
                                     <v-col>
-                                        <v-chip class="ml-2">漫画</v-chip>
-                                        <v-chip class="ml-2">鬼滅</v-chip>
-                                        <div>ここに順次追加されていく</div>
+                                        <v-chip-group>
+                                            <v-chip
+                                             v-for="(tag,index) in tags" :key="index"
+                                             @click:close="onRemove(index)"
+                                             close
+                                             class="ml-2"
+                                             small
+                                             color="tag" 
+                                             text-color="white" 
+                                             >
+                                                {{tag}}
+                                            </v-chip>
+                                        </v-chip-group>
                                     </v-col>
                                 </v-row>
                             </v-card>
@@ -80,6 +86,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     data () {
         return {
@@ -87,28 +94,41 @@ export default {
             upload_image: null,
             topic_title: "",
             detail: "",
-            isLoading: false,
+            tag: "",
+            tags: [],
         }
     },
+    computed: mapState([ 'isLoading' ]),
     methods: {
         entryImage: function (file)  {
             // console.log(file)
             this.upload_image = file
         },
         onAdd () {
-            this.isLoading = true
+            this.$store.commit('startLoading')
             axios.post('/api/topic/', {
                 upload_image: this.upload_image,
                 name        : this.topic_title,
                 detail      : this.detail,
+                tags        : this.tags,
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
-                this.isLoading = false
+                this.$store.commit('finishLoading')
                 this.dialog = false
                 this.$emit('update')
             })
         },
+        onAddTag () {
+            if ( this.tag ) {
+                this.tags.push(this.tag)
+                this.tag = ""
+            }
+        },
+        onRemove (index) {
+            this.tags.splice(index, 1)
+            console.log(this.tags)
+        }
     }
 }
 </script>
