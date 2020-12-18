@@ -13,7 +13,7 @@
                 <v-col cols="12" sm="8">
                     <v-row>
                         <v-col cols="12" class="text-right">
-                            <Edit @update="onEdit" :name="'トピック'"/>
+                            <Edit @update="onEdit" :name="'トピック'" :image="topic.image_name" :is_topic="true" />
                         </v-col>
                     </v-row>
                     <v-row>
@@ -27,7 +27,7 @@
         <v-card outlined class="mt-2">
             <v-row justify="center">
                 <v-col cols="12" sm="8">
-                    <CommentList :page="page" :pageCount="pageCount" :messages="messages"/>
+                    <CommentList :messages="messages" :pageSize="pageSize"/>
                 </v-col>
             </v-row>
             <v-row justify="center">
@@ -47,8 +47,7 @@ export default {
             topic: {},
             image: '/storage/images/QPZUNpPqoz4RPHY2.png',
             messages: [],
-            page: 0,
-            pageCount: 0,
+            pageSize: 15,
         }
     },
     mounted() {
@@ -60,6 +59,7 @@ export default {
             .then(res => {
                 this.topic = res.data.topic
                 this.messages = res.data.messages
+                console.log(this.topic)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })
@@ -79,9 +79,10 @@ export default {
         onEdit(topic) {
             this.$store.commit('startLoading')
             axios.post('/api/topic/detail', {
-                topic_id : this.topic_id,
-                name     : topic.name,
-                detail   : topic.detail,
+                topic_id     : this.topic_id,
+                name         : topic.name,
+                detail       : topic.detail,
+                upload_image : topic.image,
             }).then(res => {
                 console.log(res.data)
             }).catch(error => {

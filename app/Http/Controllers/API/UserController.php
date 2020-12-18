@@ -12,6 +12,7 @@ use App\GroupUser;
 use App\Image;
 use App\Board;
 use App\BoardMessage;
+use App\GroupInvite;
 
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Board as BoardResource;
@@ -60,12 +61,8 @@ class UserController extends Controller
     {
         $user = DB::transaction(function () use ($request) {
             $user = User::find($request->id);
-            if ($request->nickname) {
-                $user->nickname = $request->nickname;
-            }
-            if ($request->detail) {
-                $user->detail = $request->detail;
-            }
+            $user->nickname = $request->nickname;
+            $user->detail = $request->detail;
             if($request->upload_image) {
                 $image_id = Image::store($request->upload_image);
                 if ($image_id) {

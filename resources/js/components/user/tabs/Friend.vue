@@ -5,7 +5,7 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(friend, index) in mp_friends">
+                            <template v-for="(friend, index) in displayLists">
                                 <v-list-item :key="friend.name">
                                     <template>
                                         <v-list-item-avatar>
@@ -35,7 +35,7 @@
                     </v-list>
 
                     <v-divider></v-divider>
-                    <PageNation :page="page" :pageCount="pageCount" />
+                    <PageNation :pageCount="pageCount" v-show="pageCount>1" @getPage="pageChange"/>
                 </v-card>
             </v-col>
         </v-row>
@@ -48,17 +48,31 @@ import { mapState } from 'vuex'
 export default {
     data () {
         return {
-            page: 1,
-            pageCount: 5,
+            pageSize: 5,
             selected: [2],
+            displayLists: [],
         }
     },
-    computed: mapState([ 'mp_friends' ]),
+    computed: {
+        ...mapState([ 'mp_friends' ]),
+        pageCount () {
+            return Math.ceil(this.mp_friends.length / this.pageSize)
+        },
+    },
     methods: {
         onRoot (friend_id) {
             this.$router.push({ name: 'chat.private', params: {'friend_id': friend_id} }) 
+        },
+        pageChange: function (pageNumber) {
+            // pageSize: 5
+            // pageNumber: 1
+            // this.displayLists = this.mp_friends.splice(this.pageSize*(pageNumber-1), this.pageSize)
+            this.displayLists = this.mp_friends.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
         }
-    }
+    },
+    mounted () {
+        this.displayLists = this.mp_friends.slice(0,this.pageSize);
+    },
 }
 </script>
 

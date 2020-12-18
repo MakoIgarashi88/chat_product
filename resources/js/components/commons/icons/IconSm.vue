@@ -1,11 +1,12 @@
 <template>
     <div class="icon-sm">
-        <v-skeleton-loader
+        <!-- <v-skeleton-loader
             type="avatar"
             v-if="isLoading"
-        ></v-skeleton-loader>
-        <v-avatar v-else>
-            <img :src="src_copy">
+        ></v-skeleton-loader> -->
+        <v-avatar>
+            <img :src="src" v-if="src">
+            <img :src="src_copy" v-else>
         </v-avatar>
     </div>
 </template>
@@ -14,11 +15,6 @@
 export default {
     props: {
         src: String,
-        // isLoading: {
-        //     type: Boolean, 
-        //     default: true,
-        //     required: true,
-        // }
     },
     data() {
         return {
@@ -26,8 +22,5 @@ export default {
             isLoading: false,
         }
     },
-    mounted () {
-        if (this.src) this.src_copy = this.src
-    }
 }
 </script>

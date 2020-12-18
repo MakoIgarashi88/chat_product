@@ -16,6 +16,11 @@
                     </v-row>
                 </v-card-title>
                <v-card-text>
+                   <v-row>
+                       <v-col>
+                           <FileUp :image_name="image" @change="onChange" v-show="is_topic" />
+                       </v-col>
+                   </v-row>
                     <v-row justify="center">
                         <v-col>
                             <v-text-field
@@ -24,7 +29,7 @@
                              rows="1"
                              row-height="15"
                              hide-details
-                             v-model="board.name"
+                             v-model="edit.name"
                              ></v-text-field>
                         </v-col>
                     </v-row>
@@ -35,7 +40,7 @@
                              outlined rows="2" 
                              row-height="15" 
                              hide-details
-                             v-model="board.detail"
+                             v-model="edit.detail"
                              ></v-textarea>
                         </v-col>
                     </v-row>
@@ -53,20 +58,24 @@
 
 <script>
 export default {
-    props: ['name'],
+    props: ['name', 'image', 'is_topic'],
     data () {
         return {
             dialog: false,
-            board: {
+            edit: {
                 name: "",
                 detail: "",
-            }
+                image: "",
+            },
         }
     },
     methods: {
         onEdit() {
                 this.dialog = false
-                this.$emit('update', this.board)
+                this.$emit('update', this.edit)
+        },
+        onChange(file) {
+            this.edit.image = file
         },
     },
 }

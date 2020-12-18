@@ -5,7 +5,7 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(topic, index) in mp_f_topics">
+                            <template v-for="(topic, index) in displayLists">
                                 <v-list-item :key="topic.name">
                                     <template>
                                         <v-list-item-avatar>
@@ -26,6 +26,9 @@
                             </template>
                         </v-list-item-group>
                     </v-list>
+
+                    <v-divider></v-divider>
+                    <PageNation :pageCount="pageCount" v-show="pageCount>1" @getPage="pageChange"/>
                 </v-card>
             </v-col>
         </v-row>
@@ -38,11 +41,28 @@ export default {
 	data () {
 		return {
             selected: [2],
-            page: 1,
-            pageCount: 5,
+            pageSize: 5,
+            displayLists: [],
 		}
     },
-    computed: mapState([ 'mp_f_topics' ]),
+    computed: {
+        ...mapState([ 'mp_f_topics' ]),
+        pageCount () {
+            return Math.ceil(this.mp_f_topics.length / this.pageSize)
+        },
+    },
+    methods: {
+        pageChange: function (pageNumber) {
+            // pageSize: 5
+            // pageNumber: 1
+            // this.displayLists = this.mp_friends.splice(this.pageSize*(pageNumber-1), this.pageSize)
+            this.displayLists = this.mp_f_topics.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
+        }
+    },
+    mounted () {
+        this.displayLists = this.mp_f_topics.slice(0,this.pageSize);
+    },
+
 }
 </script>
 

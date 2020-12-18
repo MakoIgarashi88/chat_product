@@ -21,13 +21,16 @@ class BoardMessageController extends Controller
 
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $message = DB::transaction(function () use ($request) {
             $message = new BoardMessage;
             $message->user_id = Auth::user()->id;
             $message->board_id = $request->board_id;
             $message->body = $request->message;
             $message->save();
+            return $message;
         });
+
+        return new BoardMessageResource($message);
     }
 
     // public function show($id)

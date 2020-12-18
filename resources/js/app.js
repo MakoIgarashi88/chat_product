@@ -48,7 +48,7 @@ Vue.component('IconSm', require('./components/commons/icons/IconSm.vue').default
 Vue.component('Detail', require('./components/commons/boards/Detail.vue').default);
 Vue.component('CommentList', require('./components/commons/boards/CommentList.vue').default);
 Vue.component('MessageForm', require('./components/commons/boards/MessageForm.vue').default);
-Vue.component('Edit', require('./components/commons/boards/Edit.vue').default);
+Vue.component('Edit', require('./components/commons/uploads/Edit.vue').default);
 Vue.component('PageNation', require('./components/commons/boards/PageNation.vue').default);
 
 

@@ -6,48 +6,38 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{user.name}}のページ
+                                {{mp_user.name}}のページ
+                                <!-- {{mp_b_messages}} -->
                             </v-col>
                             <v-spacer></v-spacer>
-                            <v-col cols="auto" @click="is_edit=!is_edit">
-                                <v-btn outlined color="primary"><i class="fas fa-cog"></i></v-btn>
+                            <v-col cols="auto">
+                                <v-btn outlined color="primary" @click="is_edit=!is_edit"><i class="fas fa-cog"></i></v-btn>
                             </v-col>
                         </v-row>
                     </v-card-title>
                     <v-card-text>
                         <v-row>
                             <!--サムネイル-->
-                            <v-col cols="12" sm="3" v-if="is_edit">
-                                <FileUp :image_name="user.image_name" @change="changeImage" />
+                            <v-col cols="12" sm="3" v-if="!is_edit">
+                                <IconLg :src="mp_user.image_name" />
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
-                                <IconLg :src="user.image_name" />
+                                <FileUp :image_name="mp_user.image_name" @change="changeImage" />
                             </v-col>
 
                             <v-col cols="12" sm="9">
                                 <!--ニックネーム-->
                                 <v-row>
                                     <v-col>
-                                        <v-text-field
-                                            label="ニックネーム"
-                                            :disabled="!is_edit"
-                                            outlined
-                                            type="text"
-                                            v-model="user.nickname"
-                                        />
+                                        <v-text-field label="ニックネーム" disabled outlined type="text" v-model="mp_user.nickname" v-if="!is_edit"/>
+                                        <v-text-field label="ニックネーム" outlined type="text" v-model="nickname" v-else/>
                                     </v-col>
                                 </v-row>
                                 <!--自己紹介欄-->
                                 <v-row justify="center">
-                                    <v-col v-if="is_edit || user.detail.length">
-                                        <v-textarea
-                                            :label="is_edit || user.detail.length ? '自己紹介欄' : null"
-                                            :disabled="!is_edit"
-                                            auto-grow
-                                            outlined
-                                            rows="1"
-                                            v-model="user.detail"
-                                        />
+                                    <v-col>
+                                        <v-textarea label='自己紹介欄' auto-grow outlined rows="1" v-model="mp_user.detail" disabled v-if="!is_edit && mp_user.detail.length"/>
+                                        <v-textarea label='自己紹介欄' auto-grow outlined rows="1" v-model="detail" v-else-if="is_edit"/>
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -61,6 +51,50 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <v-row v-show="mp_invites.length">
+            <v-col>
+                <v-card outlined>
+                    <v-card-title>
+                        招待されているグループ
+                    </v-card-title>
+                    <v-card-text>
+                        <v-list>
+                            <v-list-item-group v-model="invites" multiple color="primary">
+                                <v-list-item v-for="(invite, index) in mp_invites" :key="index">
+                                    <template v-slot:default="{ active }">
+                                        <v-list-item-icon>
+                                            <IconSm :src="invite.group_image_name" />
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="invite.group_name"></v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-content>
+                                            <v-list-item-title><router-link :to="{ name: 'friend.show', params: { 'user_id': invite.user_id } }">{{invite.nickname}}</router-link></v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-checkbox
+                                        :input-value="active"
+                                        color="primary"
+                                        ></v-checkbox>
+                                    </template>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
+                    </v-card-text>
+                    <v-card-text class="pa-1">
+                        <v-row justify="center">
+                            <v-col class="text-center">
+                                <v-btn color="primary" @click="onJoin">参加</v-btn>
+                            </v-col>
+                            <v-col class="text-center">
+                                <v-btn color="primary" @click="onReject">拒否</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+
         <v-row>
             <v-col>
                 <!-- <MypageTabs /> -->
@@ -80,7 +114,7 @@
                             <v-card outlined>
                                 <v-row>
                                     <v-col cols="12" sm="10" class="text-right">
-                                        <Edit @update="onEdit" :name="'掲示板'"/>
+                                        <Edit @update="onEdit" :name="'掲示板'" :image="null" :is_topic="false" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">
@@ -90,7 +124,7 @@
                                 </v-row>
                                 <v-row justify="center">
                                     <v-col cols="12" sm="8">
-                                        <CommentList :page="page" :pageCount="pageCount" :messages="mp_b_messages"/>
+                                        <CommentList :pageSize="pageSize" :messages="mp_b_messages" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">
@@ -127,27 +161,20 @@ import Group from './tabs/Group'
 import Friend from './tabs/Friend'
 import Topic from './tabs/Topic'
 
-// import MypageTabs from "./MypageTabs"
 import { mapState } from 'vuex'
 export default {
     data () {
         return {
-            user: {
-                id: null,
-                name: null,
-                nickname: null,
-                image_id: null,
-                image_name: null,
-                detail: "",
-            },
+            nickname: "",
+            detail: "",
             tab: 0,
             is_edit: false,
-            page: 1,
-            pageCount: 3,            
+            pageSize: 5,       
             upload_image: null,
+            invites: [],
         }
     },
-    computed: mapState([ 'isLoading', 'mp_user', 'mp_b_messages', 'mp_b_detail']),
+    computed: mapState([ 'isLoading', 'mp_user', 'mp_b_messages', 'mp_b_detail', 'mp_invites', 'mp_groups']),
 
     mounted () {
         this.getItems()
@@ -158,12 +185,10 @@ export default {
             const api = axios.create()
             axios.all([
                 api.get('/api/user'),
-                api.get('/api/invite'),
+                api.get('/api/group/my/invite'),
                 api.get('/api/topic/favorite'),
                 api.get('/api/board/message'),
             ]).then(axios.spread((res,res2,res3,res4) => {
-                // console.log(res4.data)
-                this.user = res.data.user
                 this.$store.commit('mypageInit', {
                     user           : res.data.user,
                     friends        : res.data.friends,
@@ -173,9 +198,12 @@ export default {
                     invites        : res2.data,
                     favorite_topics: res3.data,
                 })
+                // console.log(res.data.messages.board_messages)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
+                this.nickname = this.mp_user.nickname
+                this.detail = this.mp_user.detail
                 this.$store.commit('finishLoading')
             })
         },
@@ -185,19 +213,17 @@ export default {
         onUserUpdate () {
             this.$store.commit('startLoading')
             axios.put('/api/user/', {
-                id: this.user.id,
-                nickname: this.user.nickname,
-                upload_image: this.upload_image
+                id: this.mp_user.id,
+                nickname: this.nickname,
+                detail: this.detail,
+                upload_image: this.upload_image,
             }).then(res => {
-                this.$store.commit('mypageUserUpdate', {
-                    user: res.data
-                })
+                this.$store.commit('mypageUserUpdate', res.data)
             }).catch(error => {
                 alert('変更に失敗しました。')
             }).finally(resp => {
                 this.$store.commit('finishLoading')
                 this.is_edit = false
-                this.getItems()
             })
         },
         onSubmit (message) {
@@ -205,23 +231,61 @@ export default {
             axios.post('/api/board/message', {
                 message  : message,
                 board_id : this.mp_user.id,
+            }).then(res => {
+                this.$store.commit('boardMessagePush', res.data)
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.$store.commit('finishLoading')
             })
         },
-        onEdit(board) {
+        onEdit (board) {
             this.$store.commit('startLoading')
             axios.post('/api/board/', {
-                name   : this.board.name,
-                detail : this.board.detail,
+                name   : board.name,
+                detail : board.detail,
+            }).then(res=> {
+                this.$store.commit('boardUpdate', res.data)
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
-                this.getItems()
                 this.$store.commit('finishLoading')
             })
+        },
+        onJoin () {
+            let group_ids = []
+            this.invites.forEach(index => {
+                group_ids.push(this.mp_invites[index].group_id)
+            })
+            this.$store.commit('startLoading')
+            axios.post('/api/group/join', {
+                group_ids : group_ids,
+            }).then(res=> {
+                this.$store.commit('invitePush', res.data.join_groups)
+                this.$store.commit('inviteDelete', res.data.delete_invite_ids)
+            }).catch(error => {
+                alert('送信に失敗しました。')
+            }).finally(res => {
+                this.$store.commit('finishLoading')
+            })
+        },
+        onReject () {
+            let group_ids = []
+            this.invites.forEach(index => {
+                group_ids.push(this.mp_invites[index].group_id)
+            })
+            this.$store.commit('startLoading')
+            axios.post('/api/group/reject', {
+                group_ids : group_ids,
+            }).then(res=> {
+                console.log(res.data)
+                this.$store.commit('inviteDelete', res.data.delete_invite_ids)
+            }).catch(error => {
+                alert('送信に失敗しました。')
+            }).finally(res => {
+                this.$store.commit('finishLoading')
+            })
+
         },
     },
     components: {
@@ -229,7 +293,6 @@ export default {
         Group,
         Friend,
         Topic,
-        // MypageTabs
     }
 
 }

@@ -6,11 +6,11 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{user.name}}のページ
+                                {{fp_user.name}}のページ
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col class="text-right">
-                                <div v-if="user.is_friend"><GoChatButton :id="user.id" @goChat="onRoot"/></div>
+                                <div v-if="fp_user.is_friend"><GoChatButton :id="fp_user.id" @goChat="onRoot"/></div>
                                 <v-btn color="primary" v-else>友だち追加</v-btn>
                             </v-col>
                         </v-row>
@@ -19,7 +19,7 @@
                         <v-row align="center">
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" class="text-center">
-                                <IconLg :src="user.image_name" />
+                                <IconLg :src="fp_user.image_name" />
                             </v-col>
 
                             <v-col cols="12" sm="9">
@@ -27,24 +27,24 @@
                                 <v-row align="center">
                                     <v-col>
                                         <v-text-field
-                                            :label="user.nickname"
+                                            :label="fp_user.nickname"
                                             disabled
                                             outlined
                                         />
                                     </v-col>
                                 </v-row>
                                 <!--自己紹介欄-->
-                                <!-- <v-row justify="center">
-                                    <v-col v-if="user.detail.">
+                                <v-row justify="center">
+                                    <v-col v-if="fp_user.detail.length">
                                         <v-textarea
-                                            :label="user.detail.length ? user.detail : null"
+                                            :label="fp_user.detail.length ? fp_user.detail : null"
                                             disabled
                                             auto-grow
                                             outlined
                                             rows="1"
                                         />
                                     </v-col>
-                                </v-row> -->
+                                </v-row>
                             </v-col>
                         </v-row>
                     </v-card-text>
@@ -53,14 +53,14 @@
                     <v-row>
                         <v-col>
                             <v-card-text>
-                                <Detail :board="board"/>
+                                <Detail :board="fp_b_detail"/>
                             </v-card-text>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
                             <v-card-text>
-                                <CommentList :messages="messages"/>
+                                <CommentList :messages="fp_b_messages" :pageSize="pageSize" />
                             </v-card-text>
                         </v-col>
                     </v-row>
@@ -88,20 +88,10 @@ export default {
     props: ['user_id'],
     data () {
         return {
-            user: {
-                id: null,
-                name: null,
-                nickname: null,
-                detail: "",
-                image_id: null,
-                image_name: null,
-                is_friend: false,
-            },
-            board: [],
-            messages: [],
+            pageSize: 5,
         }
     },
-    computed: mapState([ 'isLoading' ]),
+    computed: mapState([ 'isLoading', 'fp_user', 'fp_b_detail', 'fp_b_messages' ]),
     mounted () {
         this.getItems()
     },
@@ -112,9 +102,12 @@ export default {
             axios.all([
             api.get('/api/friend/' + this.user_id),
             ]).then(axios.spread((res,res2) => {
-                this.user = res.data.user
-                this.board = res.data.detail
-                this.messages = res.data.messages
+                this.$store.commit('friendpageInit', {
+                    user          : res.data.user,
+                    board_detail  : res.data.detail,
+                    board_messages: res.data.messages,
+                })
+                console.log(res.data.messages)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
@@ -125,8 +118,11 @@ export default {
             this.$store.commit('startLoading')
             axios.post('/api/board/message', {
                 message  : message,
-                board_id : this.user.id,
-            }).catch(error => {
+                board_id : this.user_id,
+            }).then(res => {
+                this.$store.commit('friendBoardMessagePush', res.data)
+            })
+            .catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.$store.commit('finishLoading')

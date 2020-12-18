@@ -59,8 +59,18 @@ class TopicController extends Controller
     {
         DB::transaction(function () use ($request) {
             $topic = Topic::where('id', $request->topic_id)->first();
-            $topic->name = $request->name;
-            $topic->detail = $request->detail;
+            if ($request->name) {
+                $topic->name = $request->name;
+            }
+            if ($request->detail) {
+                $topic->detail = $request->detail;
+            }
+            if($request->upload_image) {
+                $image_id = Image::store($request->upload_image);
+                if ($image_id) {
+                    $topic->image_id = $image_id;
+                }
+            }
             $topic->save();
         });
     }

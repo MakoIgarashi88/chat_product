@@ -115,7 +115,12 @@ export default {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.$store.commit('finishLoading')
-                this.dialog = false
+                this.dialog = false,
+                this.upload_image = null,
+                this.topic_title = "",
+                this.detail = "",
+                this.tag = "",
+                this.tags = [],
                 this.$emit('update')
             })
         },

@@ -5,7 +5,7 @@
                 <v-card outlined>
                     <v-list two-line>
                         <v-list-item-group v-model="selected" active-class="pink--text">
-                            <template v-for="(group, index) in mp_groups">
+                            <template v-for="(group, index) in displayLists">
                                 <v-list-item :key="group.name">
                                     <template>
                                         <v-row class="pa-0">
@@ -39,7 +39,7 @@
                     </v-list>
                     <v-divider></v-divider>
 
-                    <PageNation :page="page" :pageCount="pageCount" />
+                    <PageNation :pageCount="pageCount" v-show="pageCount>1" @getPage="pageChange"/>
                 </v-card>
             </v-col>
         </v-row>
@@ -51,18 +51,31 @@ import { mapState } from 'vuex'
 export default {
     data () {
         return {
-            page: 1,
-            pageCount: 5,
+            pageSize: 5,
             dialog: false,
             selected: [2],
+            displayLists: [],
         }
+    },
+    computed: {
+        ...mapState([ 'mp_groups' ]),
+        pageCount () {
+            return Math.ceil(this.mp_groups.length / this.pageSize)
+        },
     },
     methods: {
         onRoot (group_id) {
             this.$router.push({ name: 'chat.group', params: {'group_id': group_id} }) 
+        },
+        pageChange: function (pageNumber) {
+            this.displayLists = this.mp_groups.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
         }
+
     },
-    computed: mapState([ 'mp_groups' ]),
+    mounted () {
+        this.displayLists = this.mp_groups.slice(0,this.pageSize);
+    },
+
 }
 </script>
 

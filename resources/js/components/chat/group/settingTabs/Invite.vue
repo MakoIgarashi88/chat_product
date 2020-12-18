@@ -15,9 +15,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="(invite, index) in invites" :key="index">
-                        <td class="text-right"><IconSm :src="invite.image_name" /></td>
+                        <td class="text-right pa-1"><IconSm :src="invite.image_name" /></td>
                         <td class="text-left">{{ invite.nickname }}</td>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" :value="invite.id" v-model="checked"></td>
                         </tr>
                     </tbody>
                 </template>
@@ -26,7 +26,8 @@
             <v-card-text class="pa-0">
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn color="primary">招待</v-btn>
+                        {{ checked }}
+                        <v-btn color="primary" @click="onInvite">招待</v-btn>
                     </v-col>
                 </v-row>
             </v-card-text>   
@@ -46,6 +47,24 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    computed: mapState([ 'invites' ]),
+    computed: mapState([ 'invites', 'group' ]),
+    data () {
+        return {
+            checked: [],
+        }
+    },
+    methods: {
+        onInvite () {
+            axios.post('/api/group/invite', {
+                group_id: this.group.id,
+                invite_ids: this.checked,
+            }).then(res => {
+                console.log(res.data)
+            }).catch(error => {
+                alert('送信に失敗しました。')
+            })
+        }
+    }
 }
+
 </script>

@@ -6,7 +6,7 @@
                     <HomeHero/>
                 </section>
                 <v-card outlined>
-                    <v-row class="justify-center">
+                    <v-row justify="center">
                         <v-col cols="8">
                             <v-card outlined>
                                 <v-card-title class="justify-center pa-3">
@@ -16,22 +16,32 @@
                         </v-col>
                         <v-col cols="11">
                             <v-expansion-panels>
-                            <v-expansion-panel v-for="(item,index) in topics" :key="item.name">
-                                <v-expansion-panel-header>
-                                    <div>{{index+1}}</div>
+                            <v-expansion-panel v-for="(item,index) in topics" :key="index">
+                                <v-expansion-panel-header class="py-2">
+                                    <v-row align="center">
+                                        <v-col cols="auto" class="py-1 pr-4">
+                                            <IconSm :src="item.image_name" />
+                                        </v-col>
+                                        <v-col class="pa-1 ">
+                                            <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
+                                                {{item.name}}
+                                            </router-link>
+                                        </v-col>
+                                    </v-row>
+                                    <!-- <div>{{index+1}}</div>
                                     <div>
                                         <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
                                             {{item.name}}
                                         </router-link>
-                                    </div>
+                                    </div> -->
                                     <v-spacer></v-spacer>
                                 </v-expansion-panel-header>
-                                <v-expansion-panel-content class="pb-2">
+                                <v-expansion-panel-content>
                                     <v-row>
                                         <v-col cols="12">
                                             {{item.detail}}
                                         </v-col>
-                                        <v-col cols="12 pa-1">
+                                        <v-col cols="12 pa-1" v-show="item.tags.length">
                                             <v-chip-group>
                                                 <v-chip small color="tag" text-color="white" v-for="(tag,index) in item.tags" :key="index">
                                                     {{tag}}
@@ -78,6 +88,7 @@ export default {
             .then(res => {
                 this.topics = res.data
                 this.$store.commit('homeInit',res.data)
+                console.log(res.data)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             }).finally(resp => {

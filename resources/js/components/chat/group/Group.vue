@@ -76,6 +76,7 @@ export default {
                 api.get('/api/group/invite/' + this.group_id),
             ]).then(axios.spread((res,res2,res3) => {
                 this.group = res.data
+                console.log(res3.data)
                 this.$store.commit('groupInit', {
                 group   : res.data,
                 members : res2.data,
