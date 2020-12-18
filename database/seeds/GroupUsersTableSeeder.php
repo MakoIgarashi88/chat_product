@@ -53,6 +53,41 @@ class GroupUsersTableSeeder extends Seeder
 
         $model = new GroupUser;
         $model->user_id = 3;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 4;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 5;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 6;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 7;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 8;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 9;
+        $model->group_id = 1;
+        $model->save();
+
+        $model = new GroupUser;
+        $model->user_id = 3;
         $model->group_id = 2;
         $model->save();
 

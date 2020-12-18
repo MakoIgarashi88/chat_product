@@ -83,19 +83,20 @@ class UserController extends Controller
         return $friend;
     }
 
-    public function add(Request $request)
+    public function friendAdd(Request $request)
     {
-        $friend_id = $request->friend_id;
         $message = '';
-        $user_friend = UserFriend::where('user_id', Auth::id())->where('friend_id', $friend_id)->get();
+        $user_friend = UserFriend::where('user_id', Auth::id())->where('friend_id', $request->friend_id)->get();
         if (count($user_friend)) {
-            logger($user_friend);
+            // logger($user_friend);
             $message = '既に友だちにになっています。';
         } else {
-            $user_friend = new UserFriend;
-            $user_friend->user_id = Auth::id();
-            $user_friend->friend_id = $friend_id;
-            $user_friend->save();
+            DB::transaction(function () use ($request) {
+                $user_friend = new UserFriend;
+                $user_friend->user_id = Auth::id();
+                $user_friend->friend_id = $request->friend_id;
+                $user_friend->save();
+            });
         }
 
         return response()->json([

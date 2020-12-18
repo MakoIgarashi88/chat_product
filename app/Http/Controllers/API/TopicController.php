@@ -24,6 +24,7 @@ class TopicController extends Controller
      */
     public function index()
     {
+        // $query->where('tags', 'like', '%'.$tag.'%');
         $topics = Topic::all();
         return response()->json(TopicResource::collection($topics));
     }
@@ -48,10 +49,13 @@ class TopicController extends Controller
     public function show($id)
     {
         $topic = Topic::find($id);
+        $favorite = FavoriteTopic::where('user_id', Auth::id())->where('topic_id', $id)->get();
+        $is_favorite = count($favorite) ? true : false;
         $messages = TopicMessage::where('topic_id', $id)->get();
         return response()->json([
             'topic' => new TopicResource($topic),
             'messages' => TopicMessageResource::collection($messages),
+            'is_favorite' => $is_favorite,
             ]);
     }
 
@@ -85,14 +89,36 @@ class TopicController extends Controller
         return TopicResource::collection($topics);
     }
 
+    public function favoriteChange (Request $request)
+    {
+        if ($request->favorite) {
+            //  登録作業;
+            DB::transaction(function () use($request) {
+                $favorite = new FavoriteTopic;
+                $favorite->user_id = Auth::id();
+                $favorite->topic_id = $request->topic_id;
+                $favorite->save();
+            });
+            // $favorite = $request->favorite;
+            // return $favorite;
+        } else { // 削除作業
+            $record = FavoriteTopic::where('user_id', Auth::id())->where('topic_id', $request->topic_id)->delete();
+            // $favorite = $request->favorite;
+            // return $favorite;
+        };
+    } 
+
     public function messageUpload(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $message = DB::transaction(function () use ($request) {
             $message = new TopicMessage;
             $message->topic_id = $request->topic_id;
             $message->user_id  = Auth::id();
             $message->body     = $request->message;
             $message->save();
+            return $message;
         });
+
+        return new TopicMessageResource($message);
     }
 }

@@ -25,6 +25,11 @@ export default new Vuex.Store({
         fp_b_detail: {},
         fp_b_messages: [],
 
+        // topicpage
+        topic: {},
+        topic_messages: [],
+        is_favorite: {},
+
         // chat_group
         group: {},
         members: [],
@@ -90,7 +95,26 @@ export default new Vuex.Store({
         friendBoardMessagePush (state, payload) {
             state.fp_b_messages.push(payload)
         },
+        friendAdd (state) {
+            state.fp_user       = payload.user
+            state.fp_b_detail   = payload.board_detail
+            state.fp_b_messages = payload.board_messages
+        },
 
+        // トピックページ
+        topicInit (state, payload) {
+            state.topic = payload.topic
+            state.topic_messages = payload.messages
+            state.is_favorite = payload.is_favorite
+        },
+        topicMessagePush (state, payload) {
+            state.topic_messages.push(payload)
+        },
+        isFavoriteChange (state) {
+            console.log(state.is_favorite)
+            state.is_favorite = !(state.is_favorite)
+            console.log(state.is_favorite)
+        },
 
         // グループチャットページ
         groupInit (state, payload) {

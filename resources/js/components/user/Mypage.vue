@@ -122,7 +122,7 @@
                                         <Detail :board="mp_b_detail"/>
                                     </v-col>
                                 </v-row>
-                                <v-row justify="center">
+                                <v-row justify="center" v-show="mp_b_messages.length">
                                     <v-col cols="12" sm="8">
                                         <CommentList :pageSize="pageSize" :messages="mp_b_messages" />
                                     </v-col>

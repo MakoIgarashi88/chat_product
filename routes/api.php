@@ -51,7 +51,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     // friend
     Route::get('friend/search/{search_name}', 'API\UserController@search');
-    Route::post('friend/add', 'API\UserController@add');
+    Route::post('friend/add', 'API\UserController@friendAdd');
     Route::get('friend/invite/list/{group_id}', 'API\UserController@invite');
     Route::get('friend/{user_id}', 'API\UserController@friendshow');
 
@@ -68,6 +68,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('topic', 'API\TopicController@store');
     Route::post('topic/detail', 'API\TopicController@update');
     Route::get('topic/favorite', 'API\TopicController@favorite');
+    Route::post('topic/favorite', 'API\TopicController@favoriteChange');
     Route::post('topic/message', 'API\TopicController@messageUpload');
     Route::get('topic/{topic_id}', 'API\TopicController@show');
 

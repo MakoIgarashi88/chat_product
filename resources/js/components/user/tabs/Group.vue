@@ -54,7 +54,8 @@ export default {
             pageSize: 5,
             dialog: false,
             selected: [2],
-            displayLists: [],
+            display: false,
+            pageNumber: {},
         }
     },
     computed: {
@@ -62,20 +63,23 @@ export default {
         pageCount () {
             return Math.ceil(this.mp_groups.length / this.pageSize)
         },
+        displayLists () {
+            if (!this.display) {
+                return this.mp_groups.slice(0,this.pageSize);
+            }
+            return this.mp_groups.slice(this.pageSize*(this.pageNumber-1),this.pageSize*(this.pageNumber));
+        }
     },
     methods: {
         onRoot (group_id) {
             this.$router.push({ name: 'chat.group', params: {'group_id': group_id} }) 
         },
         pageChange: function (pageNumber) {
-            this.displayLists = this.mp_groups.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
+            this.pageNumber = pageNumber
+            this.display = true
         }
 
     },
-    mounted () {
-        this.displayLists = this.mp_groups.slice(0,this.pageSize);
-    },
-
 }
 </script>
 

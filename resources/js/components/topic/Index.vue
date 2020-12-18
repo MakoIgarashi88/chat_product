@@ -9,6 +9,13 @@
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="キーワード" single-line hide-details></v-text-field>
             </v-card-title>
             <v-data-table :headers="headers" :items="topics" :search="search">
+                <template v-slot:[`item.image_name`]="{ item }">
+                    <v-row>
+                        <v-col class="px-1 py-2">
+                            <IconSm :src="item.image_name" />
+                        </v-col>
+                    </v-row>
+                </template>
                 <template v-slot:[`item.name`]="{ item }">
                     <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
                         {{ item.name }}
@@ -26,7 +33,8 @@ export default {
     data () {
         return {
             headers: [
-                { text: 'トピックタイトル', align: 'center', sortable: false, value: 'name',},
+                { text: "", align: 'center', sortable: false, value: 'image_name',},
+                { text: 'トピックタイトル', align: 'start', sortable: false, value: 'name',},
                 { text: '詳細', align: 'start', value: 'detail'},
             ],
             topics: [],
@@ -41,6 +49,7 @@ export default {
             axios.get('/api/topic/')
             .then(res => {
                 this.topics = res.data
+                // console.log(this.topics)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })

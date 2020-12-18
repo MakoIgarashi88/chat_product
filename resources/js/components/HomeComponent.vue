@@ -28,12 +28,6 @@
                                             </router-link>
                                         </v-col>
                                     </v-row>
-                                    <!-- <div>{{index+1}}</div>
-                                    <div>
-                                        <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
-                                            {{item.name}}
-                                        </router-link>
-                                    </div> -->
                                     <v-spacer></v-spacer>
                                 </v-expansion-panel-header>
                                 <v-expansion-panel-content>
@@ -88,7 +82,7 @@ export default {
             .then(res => {
                 this.topics = res.data
                 this.$store.commit('homeInit',res.data)
-                console.log(res.data)
+                // console.log(res.data)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             }).finally(resp => {

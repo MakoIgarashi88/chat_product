@@ -11,7 +11,7 @@
                             <v-spacer></v-spacer>
                             <v-col class="text-right">
                                 <div v-if="fp_user.is_friend"><GoChatButton :id="fp_user.id" @goChat="onRoot"/></div>
-                                <v-btn color="primary" v-else>友だち追加</v-btn>
+                                <v-btn color="primary" @click="addFriend" v-else>友だち追加</v-btn>
                             </v-col>
                         </v-row>
                     </v-card-title>
@@ -57,10 +57,10 @@
                             </v-card-text>
                         </v-col>
                     </v-row>
-                    <v-row>
+                    <v-row v-show="fp_b_messages.length">
                         <v-col>
                             <v-card-text>
-                                <CommentList :messages="fp_b_messages" :pageSize="pageSize" />
+                                <CommentList :messages="fp_b_messages" :pageSize="pageSize"/>
                             </v-card-text>
                         </v-col>
                     </v-row>
@@ -107,7 +107,7 @@ export default {
                     board_detail  : res.data.detail,
                     board_messages: res.data.messages,
                 })
-                console.log(res.data.messages)
+                console.log(res.data.user)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
@@ -130,23 +130,23 @@ export default {
         },
         onRoot (friend_id) {
             this.$router.push({ name: 'chat.private', params: {'friend_id': friend_id} }) 
-        }
-        // onFriendApply() {
-        //     if(confirm('友達申請をします')) {
-        //         axios.post('/api/friend/add/', {
-        //             friend_id: this.user_id,
-        //         }).then(res => {
-        //             if (res.data.message.length) {
-        //                 alert(res.data.message)
-        //             } else {
-        //                 alert('友だちになりました。')
-        //                 this.getItems()
-        //             }
-        //         }).catch(error => {
-        //             alert('友だちの追加に失敗しました。')
-        //         })
-        //     }
-        // },
+        },
+        addFriend () {
+            if(confirm('友達申請をしますか？')) {
+                axios.post('/api/friend/add/', {
+                    friend_id: this.user_id,
+                }).then(res => {
+                    if (res.data.message.length) {
+                        alert(res.data.message)
+                    } else {
+                        alert('友だちに追加しました。')
+                        this.$store.commit('friendAdd')
+                    }
+                }).catch(error => {
+                    alert('友だちの追加に失敗しました。')
+                })
+            }
+        },
         // onMessage: function () {
         //     this.$router.push({ name: 'chat.private', params: { 'user_id': this.user.id} })
         // },

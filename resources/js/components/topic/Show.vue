@@ -2,8 +2,12 @@
     <v-container>
         <v-card outlined>
             <v-row>
-                <v-col>
-                    <div class="pa-5"><BackButton /></div>
+                <v-col class="pa-5 text-left">
+                    <BackButton />
+                </v-col>
+                <v-col class="pa-5 text-right">
+                    <v-btn text icon v-if="favorite" @click="favoriteChange"><v-icon x-large color="primary">mdi-bookmark</v-icon></v-btn>
+                    <v-btn text icon v-else @click="favoriteChange"><v-icon x-large color="primary">mdi-bookmark-outline</v-icon></v-btn>
                 </v-col>
             </v-row>
             <v-row justify="center" align="center">
@@ -25,9 +29,9 @@
             </v-row>
         </v-card>
         <v-card outlined class="mt-2">
-            <v-row justify="center">
+            <v-row justify="center" v-show="topic_messages.length">
                 <v-col cols="12" sm="8">
-                    <CommentList :messages="messages" :pageSize="pageSize"/>
+                    <CommentList :messages="topic_messages" :pageSize="pageSize"/>
                 </v-col>
             </v-row>
             <v-row justify="center">
@@ -40,26 +44,34 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     props: ['topic_id'],
     data () {
         return {
-            topic: {},
-            image: '/storage/images/QPZUNpPqoz4RPHY2.png',
-            messages: [],
             pageSize: 15,
+            favorite: false,
         }
     },
     mounted() {
         this.getItems()
     },
+    computed: mapState([ 'topic', 'topic_messages', 'is_favorite']),
     methods: {
         getItems() {
             axios.get('/api/topic/' + this.topic_id)
             .then(res => {
-                this.topic = res.data.topic
-                this.messages = res.data.messages
-                console.log(this.topic)
+                // this.topic = res.data.topic
+                // this.messages = res.data.messages
+                // this.is_favorite = res.data.is_favorite
+                // console.log(this.is_favorite)
+                this.$store.commit('topicInit', {
+                    topic       : res.data.topic,
+                    messages    : res.data.messages,
+                    is_favorite : res.data.is_favorite,
+                })
+                this.favorite = res.data.is_favorite
+                console.log(this.favorite)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })
@@ -70,7 +82,10 @@ export default {
             axios.post('/api/topic/message', {
                 message  : message,
                 topic_id : this.topic_id,
-            }).catch(error => {
+            }).then(res => {
+                this.$store.commit('topicMessagePush', res.data)
+            })
+            .catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.$store.commit('finishLoading')
@@ -92,6 +107,21 @@ export default {
                 this.$store.commit('finishLoading')
             })
         },
+        favoriteChange() {
+            this.$store.commit('startLoading')
+            axios.post('/api/topic/favorite', {
+                favorite : !(this.favorite),
+                topic_id : this.topic_id,
+            }).then(res => {
+                this.$store.commit('isFavoriteChange')
+                this.favorite = this.is_favorite
+                // console.log(res.data)
+            }).catch(error => {
+                alert('失敗しました')
+            }).finally(res => {
+                this.$store.commit('finishLoading')
+            })
+        }
     },
 }
 </script>
