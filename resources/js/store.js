@@ -111,9 +111,9 @@ export default new Vuex.Store({
             state.topic_messages.push(payload)
         },
         isFavoriteChange (state) {
-            console.log(state.is_favorite)
+            // console.log(state.is_favorite)
             state.is_favorite = !(state.is_favorite)
-            console.log(state.is_favorite)
+            // console.log(state.is_favorite)
         },
 
         // グループチャットページ

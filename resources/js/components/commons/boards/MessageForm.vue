@@ -22,8 +22,13 @@ export default {
     },
     methods: {
         onSubmit () {
-            this.$emit('submit', this.message) 
-            this.message = ""
+            if (!this.message) {
+                alert ('メッセージを入力してください')
+                return
+            } else {
+                this.$emit('submit', this.message) 
+                this.message = ""
+            }
         }
     }
 }

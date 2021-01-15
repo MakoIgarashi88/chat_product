@@ -1,6 +1,44 @@
 <template>
     <div>  
-        <v-row justify="center">
+        <v-card class="top-fixed">
+            <v-card-title class="pa-2">
+                <v-row>
+                    <v-col class="text-center">
+                        <HomeButton />
+                    </v-col>
+                    <v-col class="text-center">
+                        {{friend.name}}
+                    </v-col>
+                    <v-col class="text-center">
+                    </v-col>
+                </v-row>
+            </v-card-title>
+        </v-card>
+        <v-card class="middle-fixed" id="chat-window">
+            <v-card-text>
+                <Message v-for="message in messages" :key="message.id" :message="message"/>
+            </v-card-text>
+        </v-card>
+        <v-card class="bottom-fixed">
+            <v-card-text class="pa-2">
+                <v-row justify="center" align="center">
+                    <v-col class="pa-2">
+                        <v-textarea
+                            auto-grow 
+                            outlined 
+                            rows="1" 
+                            row-height="10"
+                            hide-details
+                            v-model="message"
+                            ></v-textarea>
+                    </v-col>
+                    <v-col cols="auto" class="py-2">
+                        <SendButton @submit="onStore"/>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+        <!-- <v-row justify="center">
             <v-col cols="12" sm="10">
                 <v-card>
                     <v-card-title>
@@ -39,7 +77,7 @@
                     </v-card-text>
                 </v-card>
             </v-col>
-        </v-row>
+        </v-row> -->
         <b-loading :isLoading.sync="isLoading" />
     </div>
 </template>
@@ -86,6 +124,7 @@ export default {
                 alert(error)
             }).finally(resp => {
                 this.$store.commit('finishLoading')
+                this.scrollToEnd()
             })
         },
         onStore () {
@@ -102,13 +141,40 @@ export default {
                 body: this.message,
             }).then(resp => {
                 this.message = null
+                this.scrollToEnd()
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.message = ""
                 this.getMessages()
             })
+        },
+        // 下にスクロールする
+        scrollToEnd () {
+            const scrollHeight = document.getElementById("chat-window").scrollHeight;
+            document.getElementById("chat-window").scrollTop = scrollHeight;
         }
     },
 }
 </script>
+<style lang="scss">
+.top-fixed {
+    position: fixed; /* 要素の位置を固定する */
+    top: 48px; /* 基準の位置を画面の一番下に指定する */
+    width: 100%;
+    height: 72px
+}
+.middle-fixed {
+    position: fixed; /* 要素の位置を固定する */
+    top: 120px; /* 基準の位置を画面の一番下に指定する */
+    bottom: 85px; /* 基準の位置を画面の一番下に指定する */
+    width: 100%;
+    overflow: auto;
+}
+.bottom-fixed {
+    position: fixed; /* 要素の位置を固定する */
+    bottom: 0; /* 基準の位置を画面の一番下に指定する */
+    width: 100%;
+    height: 85px;
+}
+</style>

@@ -254,6 +254,10 @@ export default {
         },
         onJoin () {
             let group_ids = []
+            // console.log(this.invites)
+            // console.log(this.mp_invites)
+            //    invites = チェックされた招待グループのindex
+            // mp_invites = 招待されているグループの情報集
             this.invites.forEach(index => {
                 group_ids.push(this.mp_invites[index].group_id)
             })
@@ -263,6 +267,7 @@ export default {
             }).then(res=> {
                 this.$store.commit('invitePush', res.data.join_groups)
                 this.$store.commit('inviteDelete', res.data.delete_invite_ids)
+                this.invites = []
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {

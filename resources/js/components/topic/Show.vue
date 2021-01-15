@@ -61,17 +61,13 @@ export default {
         getItems() {
             axios.get('/api/topic/' + this.topic_id)
             .then(res => {
-                // this.topic = res.data.topic
-                // this.messages = res.data.messages
-                // this.is_favorite = res.data.is_favorite
-                // console.log(this.is_favorite)
                 this.$store.commit('topicInit', {
                     topic       : res.data.topic,
                     messages    : res.data.messages,
                     is_favorite : res.data.is_favorite,
                 })
                 this.favorite = res.data.is_favorite
-                console.log(this.favorite)
+                // console.log(this.favorite)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })
