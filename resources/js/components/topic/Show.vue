@@ -49,7 +49,7 @@ export default {
     props: ['topic_id'],
     data () {
         return {
-            pageSize: 15,
+            pageSize: 20,
             favorite: false,
         }
     },
