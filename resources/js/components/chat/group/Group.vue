@@ -53,13 +53,13 @@
                                         <Edit @change="onEdit" />
                                     </v-tab-item>
                                     <v-tab-item>
-                                        <Unsubscribed />
+                                        <Unsubscribed :group_id="group_id" />
                                     </v-tab-item>
                                 </v-tabs-items>
                                 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="dialog = false">
+                                    <v-btn color="blue darken-1" text @click="dialog=false">
                                         Close
                                     </v-btn>
                                 </v-card-actions>
@@ -121,7 +121,8 @@ export default {
             dialog: false,
             tab: null,
         }
-    },    mounted () {
+    },
+    mounted () {
         this.getItems()
     },
     computed: mapState([ 'isLoading' ]),
@@ -186,9 +187,9 @@ export default {
             const scrollHeight = document.getElementById("chat-window").scrollHeight;
             document.getElementById("chat-window").scrollTop = scrollHeight;
         },
-        onEdit() {
+        onEdit () {
             this.dialog = false
-        }        
+        },
     },
     components: {
         GroupSetting,

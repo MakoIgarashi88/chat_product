@@ -11,11 +11,19 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+    props: ['group_id'],
     computed: mapState([ 'members' ]),
     methods: {
         onRemove () {
             if(confirm('本当に退会しますか')) {
-                aaaaa
+                axios.delete('/api/group/leave/' + this.group_id)
+                    .then(res => {
+                        // this.$emit('close')
+                        this.$router.push({ path: '/mypage' })
+                    })
+                    .catch(error => {
+                        alert('削除に失敗しました。')
+                    })
             }
         }
     }
