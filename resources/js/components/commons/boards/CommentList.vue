@@ -11,11 +11,27 @@
                         <v-list-item-avatar>
                             <IconSm :src="message.user.image_name" />
                         </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
-                            <v-list-item-subtitle>{{message.body}}</v-list-item-subtitle>
+                        <v-list-item-content class="pa-1">
+                            <v-row class="justify-space-between">
+                                <v-col class="py-1">
+                                    <div v-if="message.is_myself">
+                                        <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                    </div>
+                                    <div v-else>
+                                        <router-link :to="{ name: 'friend.show', params: { 'user_id': message.user.id } }">
+                                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                        </router-link>
+                                    </div>
+                                </v-col>
+                                <v-col class="py-1 text-right" v-show="message.is_myself">
+                                    <v-btn depressed icon x-small @click="commentDel(message)"><i class="fas fa-times"></i></v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-list-item-subtitle>{{message.created_at}}</v-list-item-subtitle>
+                            <v-list-item-title>{{message.body}}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-divider :key="'key'+index"></v-divider>
                 </template>
             </v-list>
             <PageNation :pageCount="pageCount" v-show="pageCount>1" @getPage="pageChange"/>
@@ -27,11 +43,27 @@
                         <v-list-item-avatar>
                             <IconSm :src="message.user.image_name" />
                         </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
-                            <v-list-item-subtitle>{{message.body}}</v-list-item-subtitle>
+                        <v-list-item-content class="pa-1">
+                            <v-row class="justify-space-between">
+                                <v-col class="py-1">
+                                    <div v-if="message.is_myself">
+                                        <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                    </div>
+                                    <div v-else>
+                                        <router-link :to="{ name: 'friend.show', params: { 'user_id': message.user.id } }">
+                                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                        </router-link>
+                                    </div>
+                                </v-col>
+                                <v-col class="py-1 text-right" v-show="message.is_myself">
+                                    <v-btn depressed icon x-small @click="commentDel(message)"><i class="fas fa-times"></i></v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-list-item-subtitle>{{message.created_at}}</v-list-item-subtitle>
+                            <v-list-item-title>{{message.body}}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-divider :key="'key'+index"></v-divider>
                 </template>
             </v-list>
             <PageNation :pageCount="pageCount" v-show="pageCount>1" @getPage="pageChange"/>
@@ -47,6 +79,9 @@ export default {
         },
         messages: {
             type: Array,
+        },
+        place: {
+            type: String,
         }
     },
     data () {
@@ -66,7 +101,7 @@ export default {
             }
             return this.messages.slice(this.pageSize*(this.pageNumber-1),this.pageSize*(this.pageNumber));
         },
-        reverseItems() {
+        reverseItems () {
             this.items = this.messages.slice().reverse();
             if (!this.display) {
                 return this.items.slice(0,this.pageSize);
@@ -80,10 +115,34 @@ export default {
             this.pageNumber = pageNumber
             this.display = true
             // this.displayLists = this.messages.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
+        },
+        commentDel (message) {
+            if (confirm("本当に削除しますか")) {
+                if (this.place=='board') {
+                    // console.log('board');
+                    // console.log(message.id);
+                    axios.delete('/api/board/message/' + message.id)
+                    .then(res => {
+                        this.$store.commit('boardMessageRemove', message.id)
+                    })
+                    .catch(error => {
+                        alert('削除に失敗しました。')
+                    })
+                } else {
+                    // console.log('topic');
+                    // console.log(message.id);
+                    axios.delete('/api/topic/message/' + message.id)
+                    .then(res => {
+                        this.$store.commit('topicMessageRemove', message.id)
+                    })
+                    .catch(error => {
+                        alert('削除に失敗しました。')
+                    })
+                }                
+            } else {
+                console.log('bbb');
+            }
         }
-    },
-    mounted () {
-        // this.displayLists = this.messages.slice(0,this.pageSize);
     },
 }
 </script>

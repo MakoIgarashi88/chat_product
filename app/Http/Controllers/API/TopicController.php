@@ -33,7 +33,6 @@ class TopicController extends Controller
     {
         $topic = DB::transaction(function () use ($request) {
             $topic = new Topic;
-            $topic->id     = $request->id;
             $topic->name   = $request->name;
             $topic->detail = $request->detail;
             $topic->tags   = json_encode($request->tags);
@@ -120,5 +119,11 @@ class TopicController extends Controller
         });
 
         return new TopicMessageResource($message);
+    }
+
+    public function destroy ($message_id)
+    {
+        // logger($message_id);
+        TopicMessage::find($message_id)->delete();
     }
 }

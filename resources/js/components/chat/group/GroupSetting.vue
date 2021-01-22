@@ -42,7 +42,7 @@
                         <Edit @change="onEdit" />
                     </v-tab-item>
                     <v-tab-item>
-                        退会処理
+                        <Unsubscribed />
                     </v-tab-item>
                 </v-tabs-items>
                 
@@ -60,6 +60,7 @@
 import Member from './settingTabs/Member.vue'
 import Invite from './settingTabs/Invite.vue'
 import Edit from './settingTabs/Edit.vue'
+import Unsubscribed from './settingTabs/Unsubscribed.vue'
 export default {
     data () {
         return {
@@ -77,6 +78,7 @@ export default {
         Member,
         Invite,
         Edit,
+        Unsubscribed,
 	}
 }
 </script>

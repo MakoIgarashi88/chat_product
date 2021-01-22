@@ -25,6 +25,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('board/message', 'API\BoardMessageController@index');
     Route::get('board/message/{user_id}', 'API\BoardMessageController@show');
     Route::post('board/message', 'API\BoardMessageController@store');    
+    Route::delete('board/message/{message_id}', 'API\BoardMessageController@destroy');    
 
     // private message
     Route::get('private/message/{friend_id}', 'API\PrivateMessageController@index');
@@ -70,6 +71,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('topic/favorite', 'API\TopicController@favorite');
     Route::post('topic/favorite', 'API\TopicController@favoriteChange');
     Route::post('topic/message', 'API\TopicController@messageUpload');
+    Route::delete('topic/message/{message_id}', 'API\TopicController@destroy');
     Route::get('topic/{topic_id}', 'API\TopicController@show');
 
     // board

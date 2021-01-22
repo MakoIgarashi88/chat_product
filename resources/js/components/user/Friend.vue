@@ -107,7 +107,7 @@ export default {
                     board_detail  : res.data.detail,
                     board_messages: res.data.messages,
                 })
-                console.log(res.data.user)
+                // console.log(res.data.user)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
@@ -140,10 +140,11 @@ export default {
                         alert(res.data.message)
                     } else {
                         alert('友だちに追加しました。')
-                        this.$store.commit('friendAdd')
+                        this.getItems()
+                        // this.$store.commit('friendAdd')
                     }
                 }).catch(error => {
-                    alert('友だちの追加に失敗しました。')
+                    alert('友だち追加に失敗しました')
                 })
             }
         },

@@ -8,7 +8,7 @@
                 <v-spacer></v-spacer>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="キーワード" single-line hide-details></v-text-field>
             </v-card-title>
-            <v-data-table :headers="headers" :items="topics" :search="search">
+            <v-data-table :headers="headers" :items="topics" :search="search" disable-sort>
                 <template v-slot:[`item.image_name`]="{ item }">
                     <v-row>
                         <v-col class="px-1 py-2">
@@ -20,6 +20,18 @@
                     <router-link :to="{ name: 'topic.show', params: { 'topic_id': item.id } }">
                         {{ item.name }}
                     </router-link>
+                </template>
+                <template v-slot:[`item.tags`]="{ item }" hide>
+                    <v-chip-group>
+                        <v-chip
+                            v-for="(tag,index) in item.tags" :key="index"
+                            small
+                            color="tag" 
+                            text-color="white" 
+                            >
+                            {{tag}}
+                        </v-chip>
+                    </v-chip-group>
                 </template>
             </v-data-table>
         </v-card>
@@ -36,6 +48,7 @@ export default {
                 { text: "", align: 'center', sortable: false, value: 'image_name',},
                 { text: 'トピックタイトル', align: 'start', sortable: false, value: 'name',},
                 { text: '詳細', align: 'start', value: 'detail'},
+                { text: 'タグ', align: 'start', value: 'tags'},
             ],
             topics: [],
             search: "",
@@ -49,7 +62,7 @@ export default {
             axios.get('/api/topic/')
             .then(res => {
                 this.topics = res.data
-                // console.log(this.topics)
+                console.log(this.topics)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })

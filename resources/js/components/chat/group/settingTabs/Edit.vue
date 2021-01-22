@@ -58,9 +58,10 @@ export default {
                 group_detail: this.group_detail,
                 group_image: this.upload_image,
             }).then(res => {
-                console.log(res.data)
+                alert('編集しました')
+                // console.log(res.data)
             }).catch(error => {
-                alert('送信に失敗しました。')
+                alert('送信に失敗しました')
             }).finally(res => {
                 this.$emit('change')
             })

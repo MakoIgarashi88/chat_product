@@ -38,4 +38,10 @@ class BoardMessageController extends Controller
     //     $messages = BoardMessage::where('board_id', $id)->get();
     //     return BoardMessageResource::collection($messages);
     // }
+
+    public function destroy ($message_id)
+    {
+        // logger($message_id);
+        BoardMessage::find($message_id)->delete();
+    }
 }

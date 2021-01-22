@@ -124,7 +124,7 @@
                                 </v-row>
                                 <v-row justify="center" v-show="mp_b_messages.length">
                                     <v-col cols="12" sm="8">
-                                        <CommentList :pageSize="pageSize" :messages="mp_b_messages" />
+                                        <CommentList :pageSize="pageSize" :messages="mp_b_messages" :place="'board'" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">

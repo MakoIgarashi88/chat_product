@@ -10,7 +10,61 @@
                         {{group.name}}
                     </v-col>
                     <v-col class="text-center">
-                        <GroupSetting @change="getItems" />
+                        <!-- <GroupSetting @change="getItems" /> -->
+                        <v-dialog v-model="dialog" persistent max-width="600px">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn v-bind="attrs" v-on="on" color="primary">
+                                    <i class="fas fa-bars"></i>
+                                </v-btn>
+                            </template>
+
+                            <v-card>
+                                <v-tabs v-model="tab" background-color="secondary" centered dark icons-and-text>
+                                    <v-tabs-slider></v-tabs-slider>
+
+                                    <v-tab>
+                                        参加者
+                                        <v-icon>mdi-account-multiple</v-icon>
+                                    </v-tab>
+
+                                    <v-tab>
+                                        招待
+                                        <v-icon>mdi-email</v-icon>
+                                    </v-tab>
+
+                                    <v-tab>
+                                        編集
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </v-tab>
+                                    <v-tab>
+                                        退会
+                                        <v-icon>mdi-exit-to-app</v-icon>
+                                    </v-tab>
+                                </v-tabs>
+
+                                <v-tabs-items v-model="tab">
+                                    <v-tab-item>
+                                        <Member />
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        <Invite />
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        <Edit @change="onEdit" />
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        <Unsubscribed />
+                                    </v-tab-item>
+                                </v-tabs-items>
+                                
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="dialog = false">
+                                        Close
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </v-col>
                 </v-row>
             </v-card-title>
@@ -47,6 +101,10 @@
 <script>
 import { mapState } from 'vuex'
 import GroupSetting from '../group/GroupSetting.vue'
+import Member from '../group/settingTabs/Member.vue'
+import Invite from '../group/settingTabs/Invite.vue'
+import Edit from '../group/settingTabs/Edit.vue'
+import Unsubscribed from '../group/settingTabs/Unsubscribed.vue'
 export default {
     props: ['group_id'],
     data () {
@@ -60,6 +118,8 @@ export default {
             },
             message: "",
             messages: [],
+            dialog: false,
+            tab: null,
         }
     },    mounted () {
         this.getItems()
@@ -75,7 +135,7 @@ export default {
                 api.get('/api/group/invite/' + this.group_id),
             ]).then(axios.spread((res,res2,res3) => {
                 this.group = res.data
-                console.log(res3.data)
+                // console.log(res3.data)
                 this.$store.commit('groupInit', {
                 group   : res.data,
                 members : res2.data,
@@ -125,10 +185,17 @@ export default {
         scrollToEnd () {
             const scrollHeight = document.getElementById("chat-window").scrollHeight;
             document.getElementById("chat-window").scrollTop = scrollHeight;
-        }
+        },
+        onEdit() {
+            this.dialog = false
+        }        
     },
     components: {
         GroupSetting,
+        Member,
+        Invite,
+        Edit,
+        Unsubscribed,
     }
 }
 </script>

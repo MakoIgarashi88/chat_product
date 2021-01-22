@@ -26,7 +26,7 @@
             <v-card-text class="pa-0">
                 <v-row>
                     <v-col class="text-center">
-                        {{ checked }}
+                        <!-- {{ checked }} -->
                         <v-btn color="primary" @click="onInvite">招待</v-btn>
                     </v-col>
                 </v-row>
@@ -59,7 +59,7 @@ export default {
                 group_id: this.group.id,
                 invite_ids: this.checked,
             }).then(res => {
-                console.log(res.data)
+                alert(res.data)
             }).catch(error => {
                 alert('送信に失敗しました。')
             })

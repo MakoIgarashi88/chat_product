@@ -31,7 +31,7 @@
         <v-card outlined class="mt-2">
             <v-row justify="center" v-show="topic_messages.length">
                 <v-col cols="12" sm="8">
-                    <CommentList :messages="topic_messages" :pageSize="pageSize"/>
+                    <CommentList :messages="topic_messages" :pageSize="pageSize" :place="'topic'" />
                 </v-col>
             </v-row>
             <v-row justify="center">

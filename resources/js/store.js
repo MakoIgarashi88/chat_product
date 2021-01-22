@@ -69,6 +69,10 @@ export default new Vuex.Store({
         boardMessagePush (state, payload) {
             state.mp_b_messages.push(payload)
         },
+        boardMessageRemove (state, message_id) {
+            // storeから、DBから削除されたメッセージIDのmessageを削除
+            state.mp_b_messages = state.mp_b_messages.filter(message => message.id != message_id)
+        },
         invitePush (state, groups) {
             groups.forEach(group => {
                 state.mp_groups.push(group)
@@ -95,7 +99,7 @@ export default new Vuex.Store({
         friendBoardMessagePush (state, payload) {
             state.fp_b_messages.push(payload)
         },
-        friendAdd (state) {
+        friendAdd (state,payload) {
             state.fp_user       = payload.user
             state.fp_b_detail   = payload.board_detail
             state.fp_b_messages = payload.board_messages
@@ -109,6 +113,9 @@ export default new Vuex.Store({
         },
         topicMessagePush (state, payload) {
             state.topic_messages.push(payload)
+        },
+        topicMessageRemove (state, message_id) {
+            state.topic_messages.filter(message => message.id != message_id)
         },
         isFavoriteChange (state) {
             // console.log(state.is_favorite)
