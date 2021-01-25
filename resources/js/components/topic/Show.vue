@@ -17,7 +17,14 @@
                 <v-col cols="12" sm="8">
                     <v-row>
                         <v-col cols="12" class="text-right">
-                            <Edit @update="onEdit" :name="'トピック'" :image="topic.image_name" :is_topic="true" />
+                            <Edit
+                             @update="onEdit"
+                             :name="'トピック'" 
+                             :image="topic.image_name" 
+                             :is_topic="true" 
+                             :old_title="topic.name" 
+                             :old_detail="topic.detail"
+                             />
                         </v-col>
                     </v-row>
                     <v-row>

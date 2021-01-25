@@ -26,7 +26,7 @@
                         <v-icon>mdi-pencil</v-icon>
                     </v-tab>
                     <v-tab>
-                        退会
+                        退会・削除
                         <v-icon>mdi-exit-to-app</v-icon>
                     </v-tab>
                 </v-tabs>

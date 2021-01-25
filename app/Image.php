@@ -35,7 +35,7 @@ class Image extends Model
     {
         $image_ids = User::whereNotNUll('image_id')->pluck('image_id');
         $image_ids = $image_ids->merge(Group::whereNotNUll('image_id')->pluck('image_id'));
-        // $image_ids = $image_ids->merge(Topic::whereNotNUll('image_id')->pluck('image_id'));
+        $image_ids = $image_ids->merge(Topic::whereNotNUll('image_id')->pluck('image_id'));
         $images = Image::whereNotIn('id', $image_ids)->get();
         
         foreach ($images as $image) {

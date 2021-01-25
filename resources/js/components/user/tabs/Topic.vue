@@ -3,8 +3,8 @@
         <v-row justify="center">
             <v-col cols="11">
                 <v-card outlined>
-                    <v-list two-line>
-                        <v-list-item-group v-model="selected" active-class="pink--text">
+                    <v-list>
+                        <v-list-item-group>
                             <template v-for="(topic, index) in displayLists">
                                 <v-list-item :key="topic.name">
                                     <template>

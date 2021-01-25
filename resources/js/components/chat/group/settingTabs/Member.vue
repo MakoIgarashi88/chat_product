@@ -1,5 +1,8 @@
 <template>
     <v-card outlined>
+        <v-card-subtitle v-show="group.detail">
+            {{group.detail}}
+        </v-card-subtitle>
         <v-simple-table>
             <template v-slot:default>
             <thead>
@@ -30,6 +33,6 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    computed: mapState([ 'members' ]),
+    computed: mapState([ 'members', 'group' ]),
 }
 </script>

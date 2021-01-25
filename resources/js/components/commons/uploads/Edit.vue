@@ -24,7 +24,7 @@
                     <v-row justify="center">
                         <v-col>
                             <v-text-field
-                             label="タイトル"
+                             :label="old_title"
                              outlined
                              rows="1"
                              row-height="15"
@@ -36,7 +36,7 @@
                     <v-row>
                         <v-col>
                             <v-textarea
-                             label="詳細" 
+                             :label="old_detail" 
                              outlined rows="2" 
                              row-height="15" 
                              hide-details
@@ -58,7 +58,7 @@
 
 <script>
 export default {
-    props: ['name', 'image', 'is_topic'],
+    props: ['name', 'image', 'is_topic', 'old_title', 'old_detail'],
     data () {
         return {
             dialog: false,

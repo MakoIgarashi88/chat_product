@@ -3,8 +3,8 @@
         <v-row justify="center">
             <v-col cols="11">
                 <v-card outlined>
-                    <v-list two-line>
-                        <v-list-item-group v-model="selected" active-class="pink--text">
+                    <v-list>
+                        <v-list-item-group>
                             <template v-for="(friend, index) in displayLists">
                                 <v-list-item :key="friend.name">
                                     <template>
@@ -16,11 +16,11 @@
                                                 <v-col class="pa-0">
                                                     <v-list-item>
                                                         <router-link :to="{ name: 'friend.show', params: { 'user_id': friend.id } }">
-                                                            {{friend.name}}
+                                                            {{friend.nickname}}
                                                         </router-link>
                                                     </v-list-item>
                                                 </v-col>
-                                                <v-col>
+                                                <v-col cols="auto">
                                                     <v-list-item>
                                                         <GoChatButton :id="friend.id" @goChat="onRoot"/>
                                                     </v-list-item>

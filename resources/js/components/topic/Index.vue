@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         getItems () {
-            axios.get('/api/topic/')
+            axios.get('/api/topic/list/')
             .then(res => {
                 this.topics = res.data
                 console.log(this.topics)

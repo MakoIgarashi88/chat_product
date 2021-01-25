@@ -39,7 +39,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('group', 'API\GroupController@index');
     Route::post('group', 'API\GroupController@store');
     Route::get('group/member/{group_id}', 'API\GroupController@memberList');
-    Route::delete('group/leave/{group_id}', 'API\GroupController@destroy'); 
+    Route::delete('group/leave/{group_id}', 'API\GroupController@leave'); 
     Route::put('group/edit', 'API\GroupController@update');
 
     Route::post('group/invite', 'API\GroupController@invite');
@@ -48,6 +48,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('group/join', 'API\GroupController@join');
     Route::post('group/reject', 'API\GroupController@reject');
 
+    Route::delete('group/delete/{group_id}', 'API\GroupController@destroy');
     Route::get('group/{group_id}', 'API\GroupController@show'); 
 
     // friend
@@ -66,6 +67,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     // topic
     Route::get('topic', 'API\TopicController@index');
+    Route::get('topic/list', 'API\TopicController@alltopic');
     Route::post('topic', 'API\TopicController@store');
     Route::post('topic/detail', 'API\TopicController@update');
     Route::get('topic/favorite', 'API\TopicController@favorite');

@@ -4,6 +4,9 @@
             <v-col class="text-center">
                 <v-btn color="primary" @click="onRemove">退会</v-btn>
             </v-col>
+            <v-col class="text-center">
+                <v-btn color="primary" @click="onDelete">グループの削除</v-btn>
+            </v-col>
         </v-row>
     </v-card>
 </template>
@@ -24,6 +27,18 @@ export default {
                     .catch(error => {
                         alert('削除に失敗しました。')
                     })
+            }
+        },
+        onDelete () {
+            if(confirm('本当にグループを消去しますか')) {
+                axios.delete('/api/group/delete/' + this.group_id)
+                .then(res => {
+                    console.log(res.data)
+                    this.$router.push({ path: '/mypage' })
+                })
+                .catch(error => {
+                    alert(error)
+                })
             }
         }
     }

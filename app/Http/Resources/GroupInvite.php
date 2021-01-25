@@ -18,6 +18,7 @@ class GroupInvite extends JsonResource
             'id' => $this->id,
             'group_id' => $this->group->id,
             'group_name' => $this->group->name,
+            'group_detail' => $this->group->detail,
             'group_image_name' => isset($this->group->image) ? '/' . $this->group->image->name : '/storage/images/default.png',
             'user_id' => $this->user->id,
             'nickname' => $this->user->nickname,

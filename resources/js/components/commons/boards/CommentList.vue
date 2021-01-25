@@ -15,11 +15,11 @@
                             <v-row class="justify-space-between">
                                 <v-col class="py-1">
                                     <div v-if="message.is_myself">
-                                        <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                        <v-list-item-title>{{message.user.nickname}}</v-list-item-title>
                                     </div>
                                     <div v-else>
                                         <router-link :to="{ name: 'friend.show', params: { 'user_id': message.user.id } }">
-                                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                            <v-list-item-title>{{message.user.nickname}}</v-list-item-title>
                                         </router-link>
                                     </div>
                                 </v-col>
@@ -47,11 +47,11 @@
                             <v-row class="justify-space-between">
                                 <v-col class="py-1">
                                     <div v-if="message.is_myself">
-                                        <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                        <v-list-item-title>{{message.user.nickname}}</v-list-item-title>
                                     </div>
                                     <div v-else>
                                         <router-link :to="{ name: 'friend.show', params: { 'user_id': message.user.id } }">
-                                            <v-list-item-title>{{message.user.name}}</v-list-item-title>
+                                            <v-list-item-title>{{message.user.nickname}}</v-list-item-title>
                                         </router-link>
                                     </div>
                                 </v-col>

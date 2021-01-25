@@ -2,9 +2,14 @@
     <v-card>
         <v-row justify="center">
             <v-col cols="11">
+                <GroupCreate />
+            </v-col>
+        </v-row>
+        <v-row justify="center">
+            <v-col cols="11">
                 <v-card outlined>
-                    <v-list two-line>
-                        <v-list-item-group v-model="selected" active-class="pink--text">
+                    <v-list>                      
+                        <v-list-item-group>
                             <template v-for="(group, index) in displayLists">
                                 <v-list-item :key="group.name">
                                     <template>
@@ -22,7 +27,7 @@
                                                         <v-col class="pa-0">
                                                             <v-list-item-title>{{group.name}}</v-list-item-title>
                                                         </v-col>
-                                                        <v-col>
+                                                        <v-col cols="auto">
                                                             <v-list-item>
                                                                 <GoChatButton :id="group.id" @goChat="onRoot"/>
                                                             </v-list-item>
@@ -48,12 +53,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import GroupCreate from '../../commons/GroupCreate.vue'
 export default {
     data () {
         return {
             pageSize: 5,
-            dialog: false,
-            selected: [2],
             display: false,
             pageNumber: {},
         }
@@ -78,7 +82,9 @@ export default {
             this.pageNumber = pageNumber
             this.display = true
         }
-
+    },
+    component: {
+        GroupCreate
     },
 }
 </script>

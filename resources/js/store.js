@@ -63,6 +63,9 @@ export default new Vuex.Store({
         mypageUserUpdate (state, payload) {
             state.mp_user = payload
         },
+        groupPush (state, payload) {
+            state.mp_groups.push(payload.file)
+        },
         boardUpdate (state, payload) {
             state.mp_b_detail = payload
         },

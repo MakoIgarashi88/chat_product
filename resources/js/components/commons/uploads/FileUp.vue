@@ -45,6 +45,7 @@ export default {
                 fr.addEventListener('load', () => {
                     this.upload_image = fr.result
                     this.$emit('change', this.upload_image)
+                    file=""
                 })
             } else {
                 this.upload_image = null

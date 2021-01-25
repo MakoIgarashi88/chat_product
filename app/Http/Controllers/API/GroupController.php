@@ -49,18 +49,35 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $new_group = DB::transaction(function () use ($request) {
             $group = new Group;
             $group->name = $request->name;
+            $group->detail = $request->detail;
+            $image_id      = Image::store($request->upload_image);
+            if ($image_id) {
+                $group->image_id = $image_id;
+            }
             $group->save();
-            $group_users = new GroupUser;
-            $group_users->group_id = $group->id;
-            $group_users->user_id = Auth::id();
-            $group_users->save();
+            Image::destroy(true);
+
+            $group_user = new GroupUser;
+            $group_user->group_id = $group->id;
+            $group_user->user_id = Auth::id();
+            $group_user->save();
+
+            foreach ($request->checked as $invite_id) {
+                $group_invite = new GroupInvite;
+                $group_invite->group_id = $group->id;
+                $group_invite->friend_id = $invite_id;
+                $group_invite->user_id = Auth::id();
+                $group_invite->save();
+            }
+            return $group;
         });
 
         return response()->json([
             'result' => true,
+            'new_group' => new GroupResource($new_group),
         ]);
     }
 
@@ -70,7 +87,7 @@ class GroupController extends Controller
         return UserResource::collection($group->members);
     }
 
-    public function destroy($id)
+    public function leave($id)
     {
         $group_user = GroupUser::where('user_id', Auth::id())->where('group_id', $id)->first();
         $group_user->delete();
@@ -171,6 +188,27 @@ class GroupController extends Controller
         });
 
         return '招待しました。';
+    }
+
+    public function destroy($id)
+    {
+        $group_invites = GroupInvite::where('group_id', $id)->get();
+        foreach ($group_invites as $group_invite) {
+            $group_invite->delete();
+        }
+
+        $group_users = GroupUser::where('group_id', $id)->get();
+        foreach ($group_users as $group_user) {
+            $group_user->delete();
+        }
+
+        $group = Group::find($id);
+        $group->delete();
+        return [
+            'group_invite' => $group_invites,
+            'group_users' => $group_users,
+            'group' => $group,
+        ];
     }
 
 }

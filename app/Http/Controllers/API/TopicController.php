@@ -25,6 +25,13 @@ class TopicController extends Controller
     public function index()
     {
         // $query->where('tags', 'like', '%'.$tag.'%');
+        // $topics = Topic::all();
+        $topics = Topic::orderBy('id', 'desc')->limit(5)->get();
+        return response()->json(TopicResource::collection($topics));
+    }
+
+    public function alltopic()
+    {
         $topics = Topic::all();
         return response()->json(TopicResource::collection($topics));
     }
@@ -41,6 +48,7 @@ class TopicController extends Controller
                 $topic->image_id = $image_id;
             }
             $topic->save();
+            Image::destroy(true);
             return $topic;
         });
     }
