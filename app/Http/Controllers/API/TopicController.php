@@ -26,13 +26,31 @@ class TopicController extends Controller
     {
         // $query->where('tags', 'like', '%'.$tag.'%');
         // $topics = Topic::all();
-        $topics = Topic::orderBy('id', 'desc')->limit(5)->get();
+        // $topic_messages = TopicMessage::orderBy('created_at', 'desc')->groupBy('topic_id')->limit(5)->get(['topic_id']);
+        // '
+        // select max(id)
+        // from topic_messages
+        // group by topic_id
+        // '
+        $topic_ids = TopicMessage::selectRaw('max(id) as id, topic_id')
+            ->groupBy('topic_id')
+            ->orderBy('id', 'desc')
+            ->limit(5)
+            ->get()
+            ->pluck('topic_id');
+
+        $topics = [];
+
+        foreach ($topic_ids as $id) {
+            array_push($topics, Topic::find($id));
+        }
+
         return response()->json(TopicResource::collection($topics));
     }
 
     public function alltopic()
     {
-        $topics = Topic::all();
+        $topics = Topic::orderBy('id', 'desc')->get();
         return response()->json(TopicResource::collection($topics));
     }
 

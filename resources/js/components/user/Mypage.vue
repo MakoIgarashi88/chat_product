@@ -68,45 +68,36 @@
                                         </v-list-item-icon>
                                         <!--グループ名-->
                                         <v-list-item-content>
-                                            <v-tooltip top v-if="invite.group_name.length > 6">
+                                            <v-tooltip top :disabled="invite.group_name.length <= 6">
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-list-item-title v-bind="attrs" v-on="on">
-                                                        {{invite.group_name | truncate}}
+                                                        {{ invite.group_name | truncate }}
                                                     </v-list-item-title>
                                                 </template>
-                                                <span>{{invite.group_name}}</span>
+                                                <span>{{ invite.group_name }}</span>
                                             </v-tooltip>
-                                            <v-list-item-title v-else>
-                                                {{invite.group_name | truncate}}
-                                            </v-list-item-title>
                                         </v-list-item-content>
                                         <!--グループ詳細-->
                                         <v-list-item-content>
-                                            <v-tooltip top v-if="invite.group_detail.length >= 10">
+                                            <v-tooltip top :disabled="invite.group_detail.length <= 10">
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-list-item-subtitle v-bind="attrs" v-on="on">
-                                                        {{invite.group_detail | detail}}
+                                                        {{ invite.group_detail | detail }}
                                                     </v-list-item-subtitle>
                                                 </template>
-                                                <span>{{invite.group_detail}}</span>
+                                                <span>{{ invite.group_detail }}</span>
                                             </v-tooltip>
-                                            <v-list-item-subtitle v-else>
-                                                {{invite.group_detail | detail}}
-                                            </v-list-item-subtitle>
                                         </v-list-item-content>
                                         <!--名前-->
                                         <v-list-item-content>
-                                            <v-tooltip top v-if="invite.nickname.length >= 6">
+                                            <v-tooltip top :disabled="invite.nickname.length <= 6">
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-list-item-title v-bind="attrs" v-on="on">
-                                                        <router-link :to="{ name: 'friend.show', params: { 'user_id': invite.user_id } }">{{invite.nickname | truncate}}</router-link>
+                                                        <router-link :to="{ name: 'friend.show', params: { 'user_id': invite.user_id } }">{{ invite.nickname | truncate }}</router-link>
                                                     </v-list-item-title>
                                                 </template>
-                                                <span>{{invite.nickname}}</span>
+                                                <span>{{ invite.nickname }}</span>
                                             </v-tooltip>
-                                            <v-list-item-title v-else>
-                                                <router-link :to="{ name: 'friend.show', params: { 'user_id': invite.user_id } }">{{invite.nickname | truncate}}</router-link>
-                                            </v-list-item-title>
                                         </v-list-item-content>
                                         <!--チェックボックス-->
                                         <v-checkbox
@@ -331,20 +322,21 @@ export default {
     },
     filters: {
         truncate: function(value) {
-            var length = 6;
-            var ommision = "...";
+            let length = 6
+            let ommision = "..."
             if (value.length <= length) {
-                return value;
+                return value
             }
-            return value.substring(0, length) + ommision;
+            return value.substring(0, length) + ommision
         },
         detail: function(value) {
-            var length = 10;
-            var ommision = "...";
+            if (!value) return ""
+            let length = 10
+            let ommision = "..."
             if (value.length <= length) {
-                return value;
+                return value
             }
-            return value.substring(0, length) + ommision;
+            return value.substring(0, length) + ommision
         },
     },
 

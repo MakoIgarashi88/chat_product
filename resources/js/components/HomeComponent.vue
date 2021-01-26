@@ -10,7 +10,7 @@
                         <v-col cols="8">
                             <v-card outlined>
                                 <v-card-title class="justify-center pa-3">
-                                    人気トピック
+                                    おすすめトピック
                                 </v-card-title>
                             </v-card>
                         </v-col>

@@ -27,7 +27,7 @@
 </head>
 <body>
     <v-app id="app">
-        <v-app-bar app color="secondary" dark dense>
+        <v-app-bar app color="secondary" dark dense absolute>
             <v-toolbar-title>
                 <v-btn text href="/">
                     {{ config('app.name', 'Laravel') }}
