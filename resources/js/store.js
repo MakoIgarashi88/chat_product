@@ -125,6 +125,9 @@ export default new Vuex.Store({
             state.is_favorite = !(state.is_favorite)
             // console.log(state.is_favorite)
         },
+        topicUpdate (state, newTopic) {
+            state.topic = newTopic
+        },
 
         // グループチャットページ
         groupInit (state, payload) {

@@ -65,8 +65,8 @@ class TopicController extends Controller
             if ($image_id) {
                 $topic->image_id = $image_id;
             }
-            $topic->save();
             Image::destroy(true);
+            $topic->save();
             return $topic;
         });
     }
@@ -86,7 +86,7 @@ class TopicController extends Controller
 
     public function update(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        $topic = DB::transaction(function () use ($request) {
             $topic = Topic::where('id', $request->topic_id)->first();
             if ($request->name) {
                 $topic->name = $request->name;
@@ -94,14 +94,20 @@ class TopicController extends Controller
             if ($request->detail) {
                 $topic->detail = $request->detail;
             }
-            if($request->upload_image) {
+            if ($request->upload_image) {
                 $image_id = Image::store($request->upload_image);
                 if ($image_id) {
                     $topic->image_id = $image_id;
                 }
             }
+            if ($request->tags) {
+                $topic->tags = json_encode($request->tags);
+            }
             $topic->save();
+            Image::destroy(true);
+            return new TopicResource($topic);
         });
+        return $topic;
     }
 
     public function favorite()

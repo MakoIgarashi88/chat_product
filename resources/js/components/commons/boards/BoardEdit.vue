@@ -11,39 +11,35 @@
                 <v-card-title>
                     <v-row justify="center">
                         <v-col class="text-center">
-                            {{name}}編集
+                            掲示板編集
                         </v-col>
                     </v-row>
                 </v-card-title>
                <v-card-text>
-                   <v-row>
-                       <v-col>
-                           <FileUp :image_name="image" @change="onChange" v-show="is_topic" />
-                       </v-col>
-                   </v-row>
                     <v-row justify="center">
                         <v-col>
                             <v-text-field
-                             :label="old_title"
+                             label="掲示板タイトル"
                              outlined
                              rows="1"
                              row-height="15"
                              hide-details
-                             v-model="edit.name"
+                             v-model="name"
                              ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
                             <v-textarea
-                             :label="old_detail" 
+                             label="詳細" 
                              outlined rows="2" 
                              row-height="15" 
                              hide-details
-                             v-model="edit.detail"
+                             v-model="detail"
                              ></v-textarea>
                         </v-col>
                     </v-row>
+
                     <v-row>
                         <v-col class="text-center">
                             <v-btn color="primary" @click="onEdit()">編集</v-btn>
@@ -52,30 +48,43 @@
                </v-card-text>
 
             </v-card>
+            <b-loading :isLoading.sync="isLoading" />
         </v-dialog>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['name', 'image', 'is_topic', 'old_title', 'old_detail'],
+    props: ['isLoading', 'old_title', 'old_detail'],
     data () {
         return {
             dialog: false,
-            edit: {
-                name: "",
-                detail: "",
-                image: "",
-            },
+            name: "",
+            detail: "",
         }
     },
     methods: {
-        onEdit() {
+        onEdit () {
+            this.$store.commit('startLoading')
+            axios.post('/api/board/', {
+                name   : this.name,
+                detail : this.detail,
+            }).then(res=> {
+                this.$store.commit('boardUpdate', res.data)
+            }).catch(error => {
+                alert('送信に失敗しました。')
+            }).finally(res => {
                 this.dialog = false
-                this.$emit('update', this.edit)
+                this.$store.commit('finishLoading')
+            })
         },
-        onChange(file) {
-            this.edit.image = file
+    },
+    watch: {
+        old_title (old_title) {
+            this.name = _.cloneDeep(old_title)
+        },
+        old_detail (old_detail) {
+            this.detail = _.cloneDeep(old_detail)
         },
     },
 }

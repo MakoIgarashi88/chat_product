@@ -7,7 +7,6 @@
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
                                 {{mp_user.name}}のページ
-                                <!-- {{mp_b_messages}} -->
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto">
@@ -142,7 +141,7 @@
                             <v-card outlined>
                                 <v-row>
                                     <v-col cols="12" sm="10" class="text-right">
-                                        <Edit @update="onEdit" :name="'掲示板'" :image="null" :is_topic="false" :old_title="mp_b_detail.name" :old_detail="mp_b_detail.detail" />
+                                        <BoardEdit :old_title="mp_b_detail.name" :old_detail="mp_b_detail.detail" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">
@@ -175,7 +174,8 @@
                             <Topic />
                         </v-tab-item>
                     </v-tabs-items>
-                </v-card>            </v-col>
+                </v-card>            
+            </v-col>
         </v-row>
         <b-loading :isLoading.sync="isLoading" />
     </v-container>
@@ -188,7 +188,7 @@ import UserSerch from "./UserSerch"
 import Group from './tabs/Group'
 import Friend from './tabs/Friend'
 import Topic from './tabs/Topic'
-
+import BoardEdit from '../commons/boards/BoardEdit.vue'
 import { mapState } from 'vuex'
 export default {
     data () {
@@ -226,7 +226,6 @@ export default {
                     invites        : res2.data,
                     favorite_topics: res3.data,
                 })
-                // console.log(res.data.messages.board_messages)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
@@ -261,19 +260,6 @@ export default {
                 board_id : this.mp_user.id,
             }).then(res => {
                 this.$store.commit('boardMessagePush', res.data)
-            }).catch(error => {
-                alert('送信に失敗しました。')
-            }).finally(res => {
-                this.$store.commit('finishLoading')
-            })
-        },
-        onEdit (board) {
-            this.$store.commit('startLoading')
-            axios.post('/api/board/', {
-                name   : board.name,
-                detail : board.detail,
-            }).then(res=> {
-                this.$store.commit('boardUpdate', res.data)
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
@@ -345,6 +331,7 @@ export default {
         Group,
         Friend,
         Topic,
+        BoardEdit,
     }
 
 }

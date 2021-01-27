@@ -6,6 +6,7 @@
                 <div class="right">
                     <p>{{message.body}}</p>
                 </div>
+                <p><small>{{ message.created_at }}</small></p>
             </v-col>
         </v-row>
 
@@ -25,6 +26,7 @@
                         <p>{{message.body}}</p>
                     </div>
                 </v-row>
+                <p class="margin"><small>{{ message.created_at }}</small></p>
             </v-col>
         </v-row>
 
@@ -107,6 +109,10 @@ export default {
 .left p {
   margin: 0;
   padding: 0;
+}
+
+.margin {
+    margin: 0px;
 }
 
 </style>

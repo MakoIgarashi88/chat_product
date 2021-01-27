@@ -17,13 +17,12 @@
                 <v-col cols="12" sm="8">
                     <v-row>
                         <v-col cols="12" class="text-right">
-                            <Edit
-                             @update="onEdit"
-                             :name="'トピック'" 
+                            <TopicEdit
+                             :topic_id="topic_id"
                              :image="topic.image_name" 
-                             :is_topic="true" 
                              :old_title="topic.name" 
                              :old_detail="topic.detail"
+                             :old_tags="topic.tags"
                              />
                         </v-col>
                     </v-row>
@@ -47,11 +46,13 @@
                 </v-col>
             </v-row>
         </v-card>
+        <b-loading :isLoading.sync="isLoading" />
     </v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import TopicEdit from './TopicEdit.vue'
 export default {
     props: ['topic_id'],
     data () {
@@ -63,7 +64,7 @@ export default {
     mounted() {
         this.getItems()
     },
-    computed: mapState([ 'topic', 'topic_messages', 'is_favorite']),
+    computed: mapState(['isLoading', 'topic', 'topic_messages', 'is_favorite']),
     methods: {
         getItems() {
             axios.get('/api/topic/' + this.topic_id)
@@ -74,13 +75,11 @@ export default {
                     is_favorite : res.data.is_favorite,
                 })
                 this.favorite = res.data.is_favorite
-                // console.log(this.favorite)
             }).catch(error => {
                 alert('トピック情報が読み込めませんでした。')
             })
         },
         onSubmit (message) {
-            // console.log(this.topic_id)
             this.$store.commit('startLoading')
             axios.post('/api/topic/message', {
                 message  : message,
@@ -91,22 +90,6 @@ export default {
             .catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
-                this.$store.commit('finishLoading')
-            })
-        },
-        onEdit(topic) {
-            this.$store.commit('startLoading')
-            axios.post('/api/topic/detail', {
-                topic_id     : this.topic_id,
-                name         : topic.name,
-                detail       : topic.detail,
-                upload_image : topic.image,
-            }).then(res => {
-                console.log(res.data)
-            }).catch(error => {
-                alert('送信に失敗しました。')
-            }).finally(res => {
-                this.getItems()
                 this.$store.commit('finishLoading')
             })
         },
@@ -126,6 +109,9 @@ export default {
             })
         }
     },
+    components: {
+        TopicEdit,
+    }
 }
 </script>
 

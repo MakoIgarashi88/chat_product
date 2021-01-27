@@ -34,7 +34,7 @@ Vue.component('default-modal', require('./components/commons/DefaultModal.vue').
 Vue.component('b-loading', require('./components/commons/BlueLoading.vue').default);
 Vue.component('GroupCreate', require('./components/commons/GroupCreate.vue').default);
 Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').default);
-Vue.component('FileUp', require('./components/commons/uploads/FileUp').default);
+Vue.component('FileUp', require('./components/commons/FileUp').default);
 Vue.component('Message', require('./components/chat/Message.vue').default);
 
 Vue.component('BackButton', require('./components/commons/buttons/BackButton.vue').default);
@@ -48,7 +48,6 @@ Vue.component('IconSm', require('./components/commons/icons/IconSm.vue').default
 Vue.component('Detail', require('./components/commons/boards/Detail.vue').default);
 Vue.component('CommentList', require('./components/commons/boards/CommentList.vue').default);
 Vue.component('MessageForm', require('./components/commons/boards/MessageForm.vue').default);
-Vue.component('Edit', require('./components/commons/uploads/Edit.vue').default);
 Vue.component('PageNation', require('./components/commons/boards/PageNation.vue').default);
 
 

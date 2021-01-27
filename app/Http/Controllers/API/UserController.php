@@ -43,6 +43,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        // logger('---------------' . $user->id);
         if (!isset($user->id)) {
             $user = User::find(Auth::id());
             $detail = Board::where('user_id', Auth::id())->first();

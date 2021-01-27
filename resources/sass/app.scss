@@ -47,3 +47,30 @@
     height: 60vh;
     overflow: auto;
 }
+.table-cell {
+    &-sm {
+        width: 10rem !important;
+        min-width: 10rem !important;
+        max-width: 10rem !important;
+    }
+    &-md {
+        width: 10rem !important;
+        min-width: 10rem !important;
+        max-width: 10rem !important;
+    }
+    &-lg {
+        width: 10rem !important;
+        min-width: 10rem !important;
+        max-width: 10rem !important;
+    }
+}
+table {
+    td {
+      word-wrap: break-word;
+    }
+  }
+// .v-item-group {
+//     width: 10rem !important;
+//     min-width: 10rem !important;
+//     max-width: 10rem !important;
+// }
