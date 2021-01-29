@@ -33,6 +33,9 @@ export default new Vuex.Store({
         // chat_group
         group: {},
         members: [],
+        /**
+         * invites = 招待したい人たちのユーザー情報
+         */
         invites: [],
         upload_group: [],
     },
@@ -61,7 +64,12 @@ export default new Vuex.Store({
         },
         // マイページから変更された内容で上書き
         mypageUserUpdate (state, payload) {
+            const user_id = state.mp_user.id
             state.mp_user = payload
+            // 併せてメッセージの内容も上書き
+            state.mp_b_messages.forEach(message => {
+                if (message.user.id == user_id) message.user = payload
+            })
         },
         groupPush (state, payload) {
             state.mp_groups.push(payload.file)
@@ -76,7 +84,7 @@ export default new Vuex.Store({
             // storeから、DBから削除されたメッセージIDのmessageを削除
             state.mp_b_messages = state.mp_b_messages.filter(message => message.id != message_id)
         },
-        invitePush (state, groups) {
+        joinPush (state, groups) {
             groups.forEach(group => {
                 state.mp_groups.push(group)
             })
@@ -118,7 +126,7 @@ export default new Vuex.Store({
             state.topic_messages.push(payload)
         },
         topicMessageRemove (state, message_id) {
-            state.topic_messages.filter(message => message.id != message_id)
+            state.topic_messages = state.topic_messages.filter(message => message.id != message_id)
         },
         isFavoriteChange (state) {
             // console.log(state.is_favorite)
@@ -136,5 +144,15 @@ export default new Vuex.Store({
             state.invites = payload.invites
         },
 
+        groupInvitePush (state, inviteds) {
+            console.log(state.invites)
+            console.log(inviteds)
+            // filter: trueを残してfalseを削除
+            // everyは配列が条件をすべて満たす場合にtrueを返す
+            state.invites = state.invites.filter(value => {
+                return inviteds.every(value2 => value.id != value2.id)
+            })
+            console.log(state.invites)
+        },
     },
 });

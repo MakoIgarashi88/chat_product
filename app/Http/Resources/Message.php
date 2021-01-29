@@ -22,7 +22,7 @@ class Message extends JsonResource
             'nickname' => $this->user->nickname,
             'user_id' => $this->user->id,
             'image' => '/' . $this->user->image->name,
-            'created_at' => Carbon::parse($this->created_at)->format('m/d h:i'),
+            'created_at' => Carbon::parse($this->created_at)->format('m/d G:i'),
         ];
     }
 }

@@ -18,7 +18,7 @@ class FavoriteTopicsTableSeeder extends Seeder
         $max_user_id = User::orderBy('id', 'desc')->first()->id;
         $max_topic_id = Topic::orderBy('id', 'desc')->first()->id;
 
-        for ($i = 1;$i <= $max_user_id;$i++) {
+        for ($i = 1; $i <= $max_user_id; $i++) {
             for ($j = 1;$j <= $max_topic_id;$j++) {
                 if ($i != $j) {
                     $favorite_topic = new FavoriteTopic;

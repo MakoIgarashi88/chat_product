@@ -16,7 +16,7 @@ class CreateGroupInvitesTable extends Migration
         Schema::create('group_invites', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->comment('ユーザーID');
-            $table->foreignId('friend_id')->comment('フレンドユーザーID');
+            $table->foreignId('friend_id')->comment('招待されているユーザーID');
             $table->foreignId('group_id')->comment('グループID');
             $table->timestamps();
         });

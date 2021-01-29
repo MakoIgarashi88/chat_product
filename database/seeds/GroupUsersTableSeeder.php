@@ -14,6 +14,28 @@ class GroupUsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $max_user_id = User::orderBy('id', 'desc')->first()->id;
+        $max_group_id = Group::orderBy('id', 'desc')->first()->id;
+
+        // グループ１には全員が参加している
+        for ($i = 1; $i <= $max_user_id; $i++) {
+            $model = new GroupUser;
+            $model->user_id = $i;
+            $model->group_id = 1;
+            $model->save();
+        }
+
+        // ユーザー２は全てのグループに所属している
+        for ($i = 2; $i <= $max_group_id; $i++) {
+            for ($j = 2; $j <= 3; $j++) {
+                $model = new GroupUser;
+                $model->user_id = $j;
+                $model->group_id = $i;
+                $model->save();
+            }
+        }
+
+        
         // $user_ids = User::all()->pluck('id');
         // $group_ids = Group::all()->pluck('id');
 
@@ -25,88 +47,5 @@ class GroupUsersTableSeeder extends Seeder
         //         $group_user->save();
         //     }
         // }
-
-        $model = new GroupUser;
-        $model->user_id = 1;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 1;
-        $model->group_id = 2;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 1;
-        $model->group_id = 3;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 1;
-        $model->group_id = 4;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 2;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 3;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 4;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 5;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 6;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 7;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 8;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 9;
-        $model->group_id = 1;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 3;
-        $model->group_id = 2;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 4;
-        $model->group_id = 2;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 5;
-        $model->group_id = 3;
-        $model->save();
-
-        $model = new GroupUser;
-        $model->user_id = 6;
-        $model->group_id = 3;
-        $model->save();
-
-
-
     }
 }

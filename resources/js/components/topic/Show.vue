@@ -31,6 +31,20 @@
                             <Detail :board="topic" />
                         </v-col>
                     </v-row>
+                    <v-row>
+                        <v-col class="pa-0">
+                            <v-chip-group>
+                                <v-chip
+                                    v-for="(tag,index) in topic.tags" :key="index"
+                                    small
+                                    color="tag" 
+                                    text-color="white" 
+                                    >
+                                    {{ tag }}
+                                </v-chip>
+                            </v-chip-group>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
         </v-card>

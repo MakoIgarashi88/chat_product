@@ -6,7 +6,7 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{mp_user.name}}のページ
+                                {{mp_user.nickname}}のページ
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto">
@@ -279,7 +279,7 @@ export default {
             axios.post('/api/group/join', {
                 group_ids : group_ids,
             }).then(res=> {
-                this.$store.commit('invitePush', res.data.join_groups)
+                this.$store.commit('joinPush', res.data.join_groups)
                 this.$store.commit('inviteDelete', res.data.delete_invite_ids)
                 this.invites = []
             }).catch(error => {

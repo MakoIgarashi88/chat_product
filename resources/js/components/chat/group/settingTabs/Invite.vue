@@ -17,7 +17,7 @@
                         <tr v-for="(invite, index) in invites" :key="index">
                         <td class="text-right pa-1"><IconSm :src="invite.image_name" /></td>
                         <td class="text-left">{{ invite.nickname }}</td>
-                        <td><input type="checkbox" :value="invite.id" v-model="checked"></td>
+                        <td><v-checkbox :value="invite.id" v-model="checked"></v-checkbox></td>
                         </tr>
                     </tbody>
                 </template>
@@ -26,7 +26,6 @@
             <v-card-text class="pa-0">
                 <v-row>
                     <v-col class="text-center">
-                        <!-- {{ checked }} -->
                         <v-btn color="primary" @click="onInvite">招待</v-btn>
                     </v-col>
                 </v-row>
@@ -47,7 +46,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    computed: mapState([ 'invites', 'group' ]),
+    computed: mapState(['isLoading', 'invites', 'group' ]),
     data () {
         return {
             checked: [],
@@ -55,15 +54,21 @@ export default {
     },
     methods: {
         onInvite () {
+            this.$store.commit('startLoading')
             axios.post('/api/group/invite', {
                 group_id: this.group.id,
                 invite_ids: this.checked,
             }).then(res => {
-                alert(res.data)
+                // console.log(res.data)
+                this.$store.commit('groupInvitePush', res.data)
             }).catch(error => {
-                alert('送信に失敗しました。')
+                alert(error)
+            }).finally(res => {
+                this.checked = [],
+                this.$emit('close')
+                this.$store.commit('finishLoading')
             })
-        }
+        },
     }
 }
 

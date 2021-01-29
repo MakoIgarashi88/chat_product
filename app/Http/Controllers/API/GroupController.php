@@ -163,33 +163,6 @@ class GroupController extends Controller
         return new GroupResource($group);
     }
 
-    public function inviteUser($id)
-    {
-        $member_ids = Group::find($id)->members->pluck('id');
-        $invites = Auth::user()->friends->whereNotIn('id', $member_ids);
-
-        return UserResource::collection($invites);
-    }
-
-    public function invite(Request $request)
-    {
-        DB::transaction(function () use ($request) {
-            $user_id = Auth::id();
-            $friend_ids = $request->invite_ids;
-            $group_id = $request->group_id;
-
-            foreach ($friend_ids as $friend_id) {
-                $invite = new GroupInvite;
-                $invite->user_id = $user_id;
-                $invite->friend_id = $friend_id;
-                $invite->group_id = $group_id;
-                $invite->save();
-            }
-        });
-
-        return '招待しました。';
-    }
-
     public function destroy($id)
     {
         $group_invites = GroupInvite::where('group_id', $id)->get();

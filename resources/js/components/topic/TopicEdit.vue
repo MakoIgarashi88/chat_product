@@ -16,35 +16,36 @@
                     </v-row>
                 </v-card-title>
                <v-card-text>
-                   <v-row>
-                       <v-col>
-                           <FileUp :image_name="image" @change="onChange"/>
-                       </v-col>
-                   </v-row>
-                    <v-row justify="center">
-                        <v-col>
-                            <v-text-field
-                             label="トピックタイトル"
-                             outlined
-                             rows="1"
-                             row-height="15"
-                             hide-details
-                             v-model="name"
-                             ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-textarea
-                             label="詳細" 
-                             outlined rows="2" 
-                             row-height="15" 
-                             hide-details
-                             v-model="detail"
-                             ></v-textarea>
-                        </v-col>
-                    </v-row>
-                    <form @submit.prevent="onAddTag">
+                    <v-form ref="form">
+                        <v-row>
+                            <v-col>
+                                <FileUp :image_name="image" @change="onChange"/>
+                            </v-col>
+                        </v-row>
+                        <v-row justify="center">
+                            <v-col>
+                                <v-text-field
+                                label="トピックタイトル"
+                                :rules="nameRules"
+                                outlined
+                                rows="1"
+                                row-height="15"
+                                v-model="name"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-textarea
+                                label="詳細"
+                                :rules="detailRules"
+                                outlined
+                                rows="2" 
+                                row-height="15" 
+                                v-model="detail"
+                                ></v-textarea>
+                            </v-col>
+                        </v-row>
                         <v-row align="center">
                             <v-col>
                                 <v-text-field
@@ -65,38 +66,39 @@
                                     />
                             </v-col>
                             <v-col cols="auto">
-                                <v-btn type="submit" color="primary">追加</v-btn>
+                                <v-btn color="primary" @click="onAddTag">追加</v-btn>
                             </v-col>
                         </v-row>
-                    </form>
-                    <v-row>
-                        <v-col>
-                            <v-card outlined>
-                                <v-row>
-                                    <v-col>
-                                        <v-chip-group>
-                                            <v-chip v-for="(tag,index) in tags" :key="index"
-                                                @click:close="onRemove(index)"
-                                                close
-                                                class="ml-2"
-                                                small
-                                                color="tag" 
-                                                text-color="white" 
-                                                >
-                                                {{tag}}
-                                            </v-chip>
-                                        </v-chip-group>
-                                    </v-col>
-                                </v-row>
-                            </v-card>
-                        </v-col>
-                    </v-row>
+                    
+                        <v-row>
+                            <v-col>
+                                <v-card outlined>
+                                    <v-row>
+                                        <v-col>
+                                            <v-chip-group>
+                                                <v-chip v-for="(tag,index) in tags" :key="index"
+                                                    @click:close="onRemove(index)"
+                                                    close
+                                                    class="ml-2"
+                                                    small
+                                                    color="tag" 
+                                                    text-color="white" 
+                                                    >
+                                                    {{tag}}
+                                                </v-chip>
+                                            </v-chip-group>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </v-col>
+                        </v-row>
 
-                    <v-row>
-                        <v-col class="text-center">
-                            <v-btn color="primary" @click="onEdit()">編集</v-btn>
-                        </v-col>
-                    </v-row>
+                        <v-row>
+                            <v-col class="text-center">
+                                <v-btn color="primary" @click="onEdit()">編集</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
                </v-card-text>
 
             </v-card>
@@ -117,11 +119,20 @@ export default {
             image_name: "",
             tag: "",
             tags: [],
+            nameRules: [
+                v => !!v || 'タイトルを入力してください',
+                v => (v && v.length <= 20) || '20文字以内で入力してください',
+            ],
+            detailRules: [
+                v => !!v || '詳細を入力してください',
+                v => (v && v.length <= 100) || '100文字以内で入力してください',
+            ],
         }
     },
     computed: mapState([ 'topic' ]),
     methods: {
         onEdit() {
+            if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
             axios.post('/api/topic/detail', {
                 topic_id     : this.topic_id,

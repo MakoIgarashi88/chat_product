@@ -15,8 +15,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $model = new User;
-        $model->name = 'admin';
-        $model->nickname = 'あどちゃん';
+        $model->name = 'guest';
+        $model->nickname = 'ゲスト';
+        $model->detail = '初心者です';
         $model->email = '';
         $model->image_id = 1;
         $model->password = bcrypt('1234');
@@ -25,8 +26,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = 'mako';
-        $model->nickname = 'まこ';
+        $model->name = 'tanjiro';
+        $model->nickname = '竈門炭治郎';
+        $model->detail = '15歳/鬼殺隊所属/妹がいます';
         $model->image_id = 2;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -35,8 +37,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = 'fuuga';
-        $model->nickname = 'ふうが';
+        $model->name = 'yuji';
+        $model->nickname = '虎杖悠仁';
+        $model->detail = '呪術高専東京校一年';
         $model->image_id = 3;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -45,8 +48,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = 'changmin';
-        $model->nickname = 'ちゃんみん';
+        $model->name = 'deku';
+        $model->nickname = '緑谷出久';
+        $model->detail = '雄英高校ヒーロー科1年A組18番';
         $model->image_id = 4;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -55,8 +59,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = '爆豪勝己';
-        $model->nickname = 'かっちゃん';
+        $model->name = 'allmight';
+        $model->nickname = 'オールマイト';
+        $model->detail = '元NO.1ヒーロー/現雄英高校教師';
         $model->image_id = 5;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -65,8 +70,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = '胡蝶しのぶ';
-        $model->nickname = 'しのぶさん';
+        $model->name = 'shinobu';
+        $model->nickname = '胡蝶しのぶ';
+        $model->detail = '蟲柱';
         $model->image_id = 6;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -75,8 +81,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = '忍';
-        $model->nickname = 'キスショット・アセロラ・オリオン・ハートアンダーブレード';
+        $model->name = 'katsuki';
+        $model->nickname = '爆豪勝己';
+        $model->detail = '雄英高校ヒーロー科1年A組17番';
         $model->image_id = 7;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -85,8 +92,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = '碇シンジ';
-        $model->nickname = '逃げちゃだめだ';
+        $model->name = 'toru';
+        $model->nickname = '及川徹';
+        $model->detail = '青葉城西高校3年6組/セッター(S)';
         $model->image_id = 8;
         $model->email = '';
         $model->password = bcrypt('1234');
@@ -95,8 +103,9 @@ class UsersTableSeeder extends Seeder
         $model->save();
 
         $model = new User;
-        $model->name = 'yunho';
-        $model->nickname = 'ゆの';
+        $model->name = 'kenma';
+        $model->nickname = '孤爪研磨';
+        $model->detail = '音駒高校2年3組/セッター(S)';
         $model->image_id = 9;
         $model->email = '';
         $model->password = bcrypt('1234');

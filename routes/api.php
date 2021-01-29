@@ -42,8 +42,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('group/leave/{group_id}', 'API\GroupController@leave'); 
     Route::put('group/edit', 'API\GroupController@update');
 
-    Route::post('group/invite', 'API\GroupController@invite');
-    Route::get('group/invite/{group_id}', 'API\GroupController@inviteUser');
+    Route::post('group/invite', 'API\GroupInviteController@store');
+    Route::get('group/invite/{group_id}', 'API\GroupInviteController@show');
     Route::get('group/my/invite', 'API\GroupInviteController@index');
     Route::post('group/join', 'API\GroupController@join');
     Route::post('group/reject', 'API\GroupController@reject');

@@ -16,35 +16,37 @@
                     </v-row>
                 </v-card-title>
                <v-card-text>
-                    <v-row justify="center">
-                        <v-col>
-                            <v-text-field
-                             label="掲示板タイトル"
-                             outlined
-                             rows="1"
-                             row-height="15"
-                             hide-details
-                             v-model="name"
-                             ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-textarea
-                             label="詳細" 
-                             outlined rows="2" 
-                             row-height="15" 
-                             hide-details
-                             v-model="detail"
-                             ></v-textarea>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col class="text-center">
-                            <v-btn color="primary" @click="onEdit()">編集</v-btn>
-                        </v-col>
-                    </v-row>
+                    <v-form ref="form">
+                        <v-row justify="center">
+                            <v-col>
+                                <v-text-field
+                                 label="掲示板タイトル"
+                                 outlined
+                                 rows="1"
+                                 row-height="15"
+                                 v-model="name"
+                                 required
+                                 :rules="nameRules"
+                                 ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-textarea
+                                 label="詳細" 
+                                 outlined rows="2" 
+                                 row-height="15" 
+                                 v-model="detail"
+                                 :rules="detailRules"
+                                 ></v-textarea>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col class="text-center">
+                                <v-btn color="primary" @click="onEdit()">編集</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
                </v-card-text>
 
             </v-card>
@@ -61,10 +63,19 @@ export default {
             dialog: false,
             name: "",
             detail: "",
+            nameRules: [
+                v => !!v || 'タイトルを入力してください',
+                v => (v && v.length <= 20) || '20文字以内で入力してください',
+            ],
+            detailRules: [
+                v => !!v || '詳細を入力してください',
+                v => (v && v.length <= 400) || '400文字以内で入力してください',
+            ],
         }
     },
     methods: {
         onEdit () {
+            if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
             axios.post('/api/board/', {
                 name   : this.name,

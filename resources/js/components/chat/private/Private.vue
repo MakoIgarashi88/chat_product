@@ -7,7 +7,7 @@
                         <HomeButton />
                     </v-col>
                     <v-col class="text-center">
-                        {{friend.name}}
+                        {{friend.nickname}}
                     </v-col>
                     <v-col class="text-center">
                     </v-col>
@@ -38,46 +38,6 @@
                 </v-row>
             </v-card-text>
         </v-card>
-        <!-- <v-row justify="center">
-            <v-col cols="12" sm="10">
-                <v-card>
-                    <v-card-title>
-                        <v-row>
-                            <v-col class="text-center">
-                                <HomeButton />
-                            </v-col>
-                            <v-col class="text-center">
-                                {{friend.name}}
-                            </v-col>
-                            <v-col class="text-center">
-                            </v-col>
-                        </v-row>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                        <Message v-for="message in messages" :key="message.id" :message="message"/>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-text class="pt-0 pb-0">
-                        <v-row justify="center" align="center">
-                            <v-col>
-                                <v-textarea
-                                    auto-grow 
-                                    outlined 
-                                    rows="1" 
-                                    row-height="15" 
-                                    hide-details
-                                    v-model="message"
-                                    ></v-textarea>
-                            </v-col>
-                            <v-col cols="auto">
-                                <SendButton @submit="onStore"/>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row> -->
         <b-loading :isLoading.sync="isLoading" />
     </div>
 </template>

@@ -14,46 +14,26 @@ class UserFriendsTableSeeder extends Seeder
      */
     public function run()
     {
-        $model = new UserFriend;
-        $model->user_id = 1;
-        $model->friend_id = 2;
-        $model->save();
+        // ユーザー1は2~4番と友だち
+        for ($id = 2; $id <= 9; $id++) {
+            $model = new UserFriend;
+            $model->user_id = 1;
+            $model->friend_id = $id;
+            $model->save();
+        }
 
-        $model = new UserFriend;
-        $model->user_id = 1;
-        $model->friend_id = 3;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 1;
-        $model->friend_id = 4;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 2;
-        $model->friend_id = 1;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 3;
-        $model->friend_id = 1;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 4;
-        $model->friend_id = 9;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 5;
-        $model->friend_id = 7;
-        $model->save();
-
-        $model = new UserFriend;
-        $model->user_id = 6;
-        $model->friend_id = 8;
-        $model->save();
-
+        // 2~9番はお互いに友だち
+        for ($i = 2; $i <= 9; $i++) {
+            for ($j = 1;$j <= 9;$j++) {
+                if ($i != $j) {
+                    $model = new UserFriend;
+                    $model->user_id = $i;
+                    $model->friend_id = $j;
+                    $model->save();
+                }
+            }
+        }
+        
         // $max_user_id = User::orderBy('id', 'desc')->first()->id;
 
         // for ($i = 1;$i <= $max_user_id;$i++) {

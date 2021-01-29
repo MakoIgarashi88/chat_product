@@ -65,8 +65,8 @@ class TopicController extends Controller
             if ($image_id) {
                 $topic->image_id = $image_id;
             }
-            Image::destroy(true);
             $topic->save();
+            Image::destroy(true);
             return $topic;
         });
     }

@@ -25,7 +25,7 @@ class TopicMessage extends JsonResource
             'body' => $this->body,
             'is_myself' => $is_myself,
             'user' => new UserResource($this->user),
-            'created_at' => Carbon::parse($this->created_at)->format('m/d h:i'),
+            'created_at' => Carbon::parse($this->created_at)->format('m/d G:i'),
         ];
     }
 }

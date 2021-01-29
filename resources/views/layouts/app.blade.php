@@ -24,8 +24,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script type="text/javascript">
+        window.addEventListener("load", function(){
+            document.body.style.display = 'inline'
+        }, false)
+    </script>
 </head>
-<body>
+<body style="display:none;">
     <v-app id="app">
         <v-app-bar app color="secondary" dark dense absolute>
             <v-toolbar-title>

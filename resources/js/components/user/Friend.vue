@@ -6,7 +6,7 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{fp_user.name}}のページ
+                                {{fp_user.nickname}}のページ
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col class="text-right">
@@ -132,7 +132,7 @@ export default {
             this.$router.push({ name: 'chat.private', params: {'friend_id': friend_id} }) 
         },
         addFriend () {
-            if(confirm('友達申請をしますか？')) {
+            if(confirm('友達に追加しますか？')) {
                 axios.post('/api/friend/add/', {
                     friend_id: this.user_id,
                 }).then(res => {

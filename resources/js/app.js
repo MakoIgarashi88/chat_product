@@ -32,7 +32,7 @@ Vue.component('MgPaginate', MgPaginate)
 Vue.component('main-component', require('./components/MainComponent.vue').default);
 Vue.component('default-modal', require('./components/commons/DefaultModal.vue').default);
 Vue.component('b-loading', require('./components/commons/BlueLoading.vue').default);
-Vue.component('GroupCreate', require('./components/commons/GroupCreate.vue').default);
+Vue.component('GroupCreate', require('./components/user/tabs/group/GroupCreate.vue').default);
 Vue.component('image-uploder', require('./components/commons/ImageUploder.vue').default);
 Vue.component('FileUp', require('./components/commons/FileUp').default);
 Vue.component('Message', require('./components/chat/Message.vue').default);

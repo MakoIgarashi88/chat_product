@@ -47,7 +47,7 @@
                                         <Member />
                                     </v-tab-item>
                                     <v-tab-item>
-                                        <Invite />
+                                        <Invite @close="dialog=false" />
                                     </v-tab-item>
                                     <v-tab-item>
                                         <Edit @change="onEdit" />

@@ -17,19 +17,19 @@ class ImagesTableSeeder extends Seeder
         $model->save();
 
         $model = new Image;
-        $model->name = 'storage/images/02.png';
+        $model->name = 'storage/images/02.jpg';
         $model->save();
                 
         $model = new Image;
-        $model->name = 'storage/images/03.png';
+        $model->name = 'storage/images/03.jpg';
         $model->save();  
              
         $model = new Image;
-        $model->name = 'storage/images/04.png';
+        $model->name = 'storage/images/04.jpg';
         $model->save();     
 
         $model = new Image;
-        $model->name = 'storage/images/05.png';
+        $model->name = 'storage/images/05.jpg';
         $model->save();      
 
         $model = new Image;
@@ -37,7 +37,7 @@ class ImagesTableSeeder extends Seeder
         $model->save();     
 
         $model = new Image;
-        $model->name = 'storage/images/07.png';
+        $model->name = 'storage/images/07.jpeg';
         $model->save();
 
         $model = new Image;
@@ -45,8 +45,73 @@ class ImagesTableSeeder extends Seeder
         $model->save();
 
         $model = new Image;
-        $model->name = 'storage/images/09.png';
+        $model->name = 'storage/images/09.jpeg';
         $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/10.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/11.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/12.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/13.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/14.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/15.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/16.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/17.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/18.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/19.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/20.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/21.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/22.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/23.jpg';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/24.png';
+        $model->save();
+
+        $model = new Image;
+        $model->name = 'storage/images/25.png';
+        $model->save();
+
 
     }
 }

@@ -3,7 +3,7 @@
         <v-dialog v-model="dialog" max-width="600px">
             <template v-slot:activator="{ on, attrs }">
                 <v-btn v-bind="attrs" v-on="on" color="primary">
-                    <i class="far fa-plus-square"></i>
+                    トピックを作る
                 </v-btn>
             </template>
 
@@ -17,82 +17,77 @@
                 </v-card-title>
 
                 <v-card-text>
-                    <FileUp @change="entryImage"/>
-                    <v-row justify="center">
-                        <v-col>
-                            <v-text-field
-                             label="トピックタイトル"
-                              outlined rows="1"
-                              row-height="15"
-                              hide-details
-                              v-model="topic_title"
-                              ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-textarea
-                             label="詳細" 
-                             outlined rows="2" 
-                             row-height="15" 
-                             hide-details
-                             v-model="detail"
-                             ></v-textarea>
-                        </v-col>
-                    </v-row>
-                    <form @submit.prevent="onAddTag">
+                    <v-form lazy-validation ref="form">
+                        <FileUp @change="entryImage"/>
+                        <v-row justify="center">
+                            <v-col>
+                                <v-text-field
+                                label="トピックタイトル"
+                                required
+                                :rules="nameRules"
+                                outlined rows="1"
+                                row-height="15"
+                                v-model="topic_title"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-textarea
+                                label="詳細" 
+                                required
+                                :rules="detailRules"
+                                outlined rows="2" 
+                                row-height="15" 
+                                v-model="detail"
+                                ></v-textarea>
+                            </v-col>
+                        </v-row>
                         <v-row align="center">
                             <v-col>
                                 <v-text-field
-                                 v-if="tags.length < 3"
-                                 label="タグ" 
+                                 :disabled="tags.length >= 3"
+                                 :label="tags.length >= 3 ? 'タグの設定は３件までです' :'タグ'" 
                                  v-model="tag" 
                                  outlined 
                                  hide-details 
                                  required
-                                 />
-                                <v-text-field
-                                 v-else
-                                 label="タグの設定は３件までです"  
-                                 outlined 
-                                 hide-details 
-                                 required
-                                 disabled
+                                 @keyup.enter="onAddTag"
                                  />
                             </v-col>
                             <v-col cols="auto">
-                                <v-btn type="submit" color="primary">追加</v-btn>
+                                <v-btn @click="onAddTag" color="primary">追加</v-btn>
                             </v-col>
                         </v-row>
-                    </form>
-                    <v-row>
-                        <v-col>
-                            <v-card outlined>
-                                <v-row>
-                                    <v-col>
-                                        <v-chip-group>
-                                            <v-chip
-                                             v-for="(tag,index) in tags" :key="index"
-                                             @click:close="onRemove(index)"
-                                             close
-                                             class="ml-2"
-                                             small
-                                             color="tag" 
-                                             text-color="white" 
-                                             >
-                                                {{tag}}
-                                            </v-chip>
-                                        </v-chip-group>
-                                    </v-col>
-                                </v-row>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col class="text-center">
-                            <v-btn color="primary" @click="onAdd()">作成</v-btn>
-                        </v-col>
-                    </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-card outlined>
+                                    <v-row>
+                                        <v-col>
+                                            <v-chip-group>
+                                                <v-chip
+                                                v-for="(tag,index) in tags" :key="index"
+                                                @click:close="onRemove(index)"
+                                                close
+                                                class="ml-2"
+                                                small
+                                                color="tag" 
+                                                text-color="white" 
+                                                >
+                                                    {{tag}}
+                                                </v-chip>
+                                            </v-chip-group>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col class="text-center">
+                                <v-btn :disabled="!valid" color="primary" @click="onAdd">作成</v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -110,6 +105,15 @@ export default {
             detail: "",
             tag: "",
             tags: [],
+            valid: true,
+            nameRules: [
+                v => !!v || 'タイトルを入力してください',
+                v => (v && v.length <= 20) || '20文字以内で入力してください',
+            ],
+            detailRules: [
+                v => !!v || '詳細を入力してください',
+                v => (v && v.length <= 100) || '100文字以内で入力してください',
+            ],
         }
     },
     computed: mapState([ 'isLoading' ]),
@@ -119,6 +123,7 @@ export default {
             this.upload_image = file
         },
         onAdd () {
+            if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
             axios.post('/api/topic/', {
                 upload_image: this.upload_image,
@@ -129,10 +134,7 @@ export default {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.dialog = false,
-                this.upload_image = null,
-                this.topic_title = "",
-                this.detail = "",
-                this.tag = "",
+                this.$refs.form.reset()
                 this.tags = [],
                 this.$emit('update')
                 this.$store.commit('finishLoading')

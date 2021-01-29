@@ -14,27 +14,27 @@ class GroupsTableSeeder extends Seeder
     public function run()
     {
         $group = new Group;
-        $group->name = 'アニメ';
-        $group->detail = 'アニメ大好き';
-        $group->image_id = 6;
+        $group->name = '夜久さん推し';
+        $group->detail = 'トピックでは話せないような事も気兼ねなく話そう！';
+        $group->image_id = 22;
         $group->save();
         
         $group = new Group;
-        $group->name = '韓国組';
-        $group->detail = '韓国～';
-        $group->image_id = 4;
+        $group->name = 'ONE PIECE!!';
+        $group->detail = 'トピックに人が多かったので、よく話してた人たち集めました';
+        $group->image_id = 23;
         $group->save();
 
         $group = new Group;
-        $group->name = '東海オンエア';
-        $group->detail = 'めでる';
-        $group->image_id = 1;
+        $group->name = '2年3組';
+        $group->detail = 'リア友だけ';
+        $group->image_id = 24;
         $group->save();
 
         $group = new Group;
-        $group->name = '少女漫画';
-        $group->detail = 'だいすき';
-        $group->image_id = 5;
+        $group->name = 'バスケ部';
+        $group->detail = '';
+        $group->image_id = 25;
         $group->save();
     }
 }
