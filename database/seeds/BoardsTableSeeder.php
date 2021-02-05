@@ -14,8 +14,8 @@ class BoardsTableSeeder extends Seeder
     {
         $model = new Board;
         $model->user_id = 1;
-        $model->name = '掲示板タイトル';
-        $model->detail = '掲示板詳細';
+        $model->name = '掲示板にタイトルをつけてください';
+        $model->detail = '気になる話題や趣味を書いて、自己紹介してみよう';
         $model->save();
 
         $model = new Board;

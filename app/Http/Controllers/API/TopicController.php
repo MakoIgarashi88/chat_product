@@ -100,9 +100,7 @@ class TopicController extends Controller
                     $topic->image_id = $image_id;
                 }
             }
-            if ($request->tags) {
-                $topic->tags = json_encode($request->tags);
-            }
+            $topic->tags = json_encode($request->tags);
             $topic->save();
             Image::destroy(true);
             return new TopicResource($topic);

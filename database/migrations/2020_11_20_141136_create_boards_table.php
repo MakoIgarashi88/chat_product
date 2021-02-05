@@ -16,7 +16,7 @@ class CreateBoardsTable extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable();
-            $table->string('name')->unique()->comment('掲示板タイトル');
+            $table->string('name')->comment('掲示板タイトル');
             $table->longText('detail')->nullable()->comment('詳細');
             $table->timestamps();
         });

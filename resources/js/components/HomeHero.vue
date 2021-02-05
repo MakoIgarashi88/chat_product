@@ -4,8 +4,7 @@
     <v-container fluid fill-height class="home-hero__content">
       <v-row>
         <v-col class="home-hero__content-text">
-          <p>面白そうなトピックを見つけて、意見を発信しよう！<br>
-                気が合う人を見つけて友達を作り、Pooseライフを楽しみましょう！</p>
+          <p>面白そうなトピックを見つけて、意見を発信しよう！<br>気が合う人を見つけて友達を作り、<br>Pooseライフを楽しみましょう！</p>
         </v-col>
       </v-row>
     </v-container>

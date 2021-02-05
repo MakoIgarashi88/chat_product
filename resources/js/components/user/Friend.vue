@@ -6,11 +6,11 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{fp_user.nickname}}のページ
+                                {{user.nickname}}のページ
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col class="text-right">
-                                <div v-if="fp_user.is_friend"><GoChatButton :id="fp_user.id" @goChat="onRoot"/></div>
+                                <div v-if="user.is_friend"><GoChatButton :id="user.id" @goChat="onRoot"/></div>
                                 <v-btn color="primary" @click="addFriend" v-else>友だち追加</v-btn>
                             </v-col>
                         </v-row>
@@ -19,7 +19,7 @@
                         <v-row align="center">
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" class="text-center">
-                                <IconLg :src="fp_user.image_name" />
+                                <IconLg :src="user.image_name" />
                             </v-col>
 
                             <v-col cols="12" sm="9">
@@ -27,17 +27,17 @@
                                 <v-row align="center">
                                     <v-col>
                                         <v-text-field
-                                            :label="fp_user.nickname"
+                                            :label="user.nickname"
                                             disabled
                                             outlined
                                         />
                                     </v-col>
                                 </v-row>
-                                <!--自己紹介欄-->
+                                <!--一言-->
                                 <v-row justify="center">
-                                    <v-col v-if="fp_user.detail.length">
+                                    <v-col v-if="user.detail">
                                         <v-textarea
-                                            :label="fp_user.detail.length ? fp_user.detail : null"
+                                            :label="user.detail.length ? user.detail : null"
                                             disabled
                                             auto-grow
                                             outlined
@@ -53,14 +53,14 @@
                     <v-row>
                         <v-col>
                             <v-card-text>
-                                <Detail :board="fp_b_detail"/>
+                                <Detail :board="b_detail"/>
                             </v-card-text>
                         </v-col>
                     </v-row>
-                    <v-row v-show="fp_b_messages.length">
+                    <v-row v-show="b_messages.length">
                         <v-col>
                             <v-card-text>
-                                <CommentList :messages="fp_b_messages" :pageSize="pageSize"/>
+                                <CommentList :messages="b_messages" :pageSize="pageSize" place="board" />
                             </v-card-text>
                         </v-col>
                     </v-row>
@@ -91,7 +91,7 @@ export default {
             pageSize: 5,
         }
     },
-    computed: mapState([ 'isLoading', 'fp_user', 'fp_b_detail', 'fp_b_messages' ]),
+    computed: mapState([ 'isLoading', 'user', 'b_detail', 'b_messages' ]),
     mounted () {
         this.getItems()
     },

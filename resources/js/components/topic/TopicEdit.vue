@@ -46,30 +46,24 @@
                                 ></v-textarea>
                             </v-col>
                         </v-row>
-                        <v-row align="center">
-                            <v-col>
-                                <v-text-field
-                                    v-if="tags.length < 3"
-                                    label="タグ" 
+                        <v-form ref="form2">
+                            <v-row align="center">
+                                <v-col>
+                                    <v-text-field
+                                    :disabled="tags.length >= 3"
+                                    :label="tags.length >= 3 ? 'タグの設定は３件までです' :'タグ'" 
+                                    :error-messages="tag.length >= 30 ? '30文字以内で入力してください' : ''"
                                     v-model="tag" 
                                     outlined 
-                                    hide-details 
                                     required
+                                    @keyup.enter="onAddTag"
                                     />
-                                <v-text-field
-                                    v-else
-                                    label="タグの設定は３件までです"  
-                                    outlined 
-                                    hide-details 
-                                    required
-                                    disabled
-                                    />
-                            </v-col>
-                            <v-col cols="auto">
-                                <v-btn color="primary" @click="onAddTag">追加</v-btn>
-                            </v-col>
-                        </v-row>
-                    
+                                </v-col>
+                                <v-col cols="auto">
+                                    <v-btn color="primary" @click="onAddTag" :disabled="tag.length>=30">追加</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
                         <v-row>
                             <v-col>
                                 <v-card outlined>
@@ -146,6 +140,11 @@ export default {
                 alert('送信に失敗しました。')
             }).finally(res => {
                 this.dialog = false
+                this.$refs.form.reset()
+                this.topic_title = ''
+                this.detail = ''
+                this.tag = ''
+                this.tags = [],
                 this.$store.commit('finishLoading')
             })
         },
@@ -153,6 +152,7 @@ export default {
             this.image_name = file
         },
         onAddTag () {
+            if (!this.$refs.form2.validate()) return
             if ( this.tag ) {
                 this.tags.push(this.tag)
                 this.tag = ""
@@ -160,17 +160,22 @@ export default {
         },
         onRemove (index) {
             this.tags.splice(index, 1)
+            // if (!this.tags.length) {
+            //     this.tags = []
+            // }
         },
     },
     watch: {
-        old_title (old_title) {
-            this.name = _.cloneDeep(old_title)
-        },
-        old_detail (old_detail) {
-            this.detail = _.cloneDeep(old_detail)
-        },
-        old_tags (old_tags) {
-            this.tags = _.cloneDeep(old_tags)
+        dialog (dialog) {
+            if (dialog) {
+                this.name   = _.cloneDeep(this.old_title)
+                this.detail = _.cloneDeep(this.old_detail)
+                this.tags   = _.cloneDeep(this.old_tags)
+            } else {
+                this.name   = ""
+                this.detail = ""
+                this.tags   = ""
+            }
         },
     }
 }

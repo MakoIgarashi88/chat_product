@@ -33,7 +33,7 @@ class GroupsTableSeeder extends Seeder
 
         $group = new Group;
         $group->name = 'バスケ部';
-        $group->detail = '';
+        $group->detail = '漫画好きトピックのバスケ部集めました';
         $group->image_id = 25;
         $group->save();
     }

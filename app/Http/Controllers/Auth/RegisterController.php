@@ -53,11 +53,25 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255', 'unique:users'],
+        $rules = [
+            'name' => ['required', 'string', 'max:255', 'min:4', 'unique:users', 'regex:/^[a-zA-Z0-9-]+$/'],
             // 'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ];
+        $messages = [
+            'name.required' => '必須入力です',
+            'name.string' => '英数字で入力してください',
+            'name.max' => '255文字以内で入力してください',
+            'name.min' => '4文字以上で入力してください',
+            'name.unique' => '既に登録されているIDです',
+            'name.regex' => '英数字で入力してください',
+            'password.required' => '必須入力です',
+            'password.string' => '英数字で入力してください',
+            'password.min' => '8文字以上の英数字で入力してください',
+            'password.confirmed' => '入力されたパスワードが一致していません',
+
+        ];
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
@@ -78,8 +92,8 @@ class RegisterController extends Controller
             ]);
             $board = new Board;
             $board->user_id = $user->id;
-            $board->name = "";
-            $board->detail = "";
+            $board->name = "掲示板にタイトルをつけてください";
+            $board->detail = "気になる話題や趣味を書いて、自己紹介してみよう";
             $board->save();
 
             return $user;

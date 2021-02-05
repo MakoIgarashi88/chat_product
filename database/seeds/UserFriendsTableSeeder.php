@@ -15,7 +15,7 @@ class UserFriendsTableSeeder extends Seeder
     public function run()
     {
         // ユーザー1は2~4番と友だち
-        for ($id = 2; $id <= 9; $id++) {
+        for ($id = 2; $id <= 4; $id++) {
             $model = new UserFriend;
             $model->user_id = 1;
             $model->friend_id = $id;

@@ -75,9 +75,24 @@ const app = new Vue({
             },
           },
     }),
+    data () {
+      return {
+        show1: false,
+        show2: false,
+        password: 'Password',
+        rules: {
+          required: value => !!value || '必須入力です',
+          min: v => v.length >= 4 || '4文字以上の英数字で入力してください',
+          passmin: v => v.length >= 8 || '8文字以上の英数字で入力してください',
+        },
+      }
+    },
     watch: {
-        '$route': function () {
+        '$route': function (route) {
             Echo.leave('chat')
+            if (route.name == 'user') {
+              this.$store.commit('userInit')
+            }
         }
     }
 });

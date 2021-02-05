@@ -1,9 +1,15 @@
 <template>
-    <v-btn color="primary" @click="onPush">送信</v-btn>
+    <v-btn color="primary" @click="onPush" :disabled="disabled">送信</v-btn>
 </template>
 
 <script>
 export default {
+    props: { 
+        disabled: {
+            type: Boolean,
+            default: false,
+        }
+    },
     data () {
         return {
         }

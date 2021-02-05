@@ -28,7 +28,7 @@
                                 </v-col>
                             </v-row>
                             <v-list-item-subtitle>{{message.created_at}}</v-list-item-subtitle>
-                            <v-list-item-title>{{message.body}}</v-list-item-title>
+                            <v-list-item-title class="text-wrap" v-text="message.body"></v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider :key="'key'+index"></v-divider>
@@ -43,7 +43,7 @@
                         <v-list-item-avatar>
                             <IconSm :src="message.user.image_name" />
                         </v-list-item-avatar>
-                        <v-list-item-content class="pa-1">
+                        <v-list-item-content class="pa-1 v-list-item-pre">
                             <v-row class="justify-space-between">
                                 <v-col class="py-1">
                                     <div v-if="message.is_myself">
@@ -139,10 +139,15 @@ export default {
                         alert('削除に失敗しました。')
                     })
                 }                
-            } else {
-                console.log('bbb');
-            }
+            } 
         }
     },
 }
 </script>
+<style lang="scss" scoped>
+@import 'resources/sass/variables';
+.headline {
+    text-overflow: inherit;
+    white-space: unset;
+}
+</style>

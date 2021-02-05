@@ -11,19 +11,16 @@ export default new Vuex.Store({
         // home
         all_topics: [],
 
+        // mypage friendpage 共有
+        user: {},
+        b_detail: {},
+        b_messages: [],
+
         // mypage
-        mp_user: {detail: "",},
         mp_friends: [],
         mp_groups: [],
         mp_invites: [],
         mp_f_topics: [],
-        mp_b_detail: {},
-        mp_b_messages: [],
-
-        // friendpage
-        fp_user: {detail: "",},
-        fp_b_detail: {},
-        fp_b_messages: [],
 
         // topicpage
         topic: {},
@@ -49,25 +46,32 @@ export default new Vuex.Store({
         homeInit (state,payload) {
             state.all_topics = payload
         },
+        // userの初期化
+        userInit (state) {
+            state.user = {
+                nickname: '○○',
+                detail: '○○',
+            }
+        },
 
         // マイページ
         mypageInit (state, payload) {
             // console.log(payload)
-            state.mp_user       = payload.user
+            state.user          = payload.user
             state.mp_friends    = payload.friends
             state.mp_groups     = payload.groups
             state.mp_invites    = payload.invites
             state.mp_f_topics   = payload.favorite_topics
-            state.mp_b_detail   = payload.board_detail
-            state.mp_b_messages = payload.board_messages
+            state.b_detail   = payload.board_detail
+            state.b_messages = payload.board_messages
             // console.log(state)
         },
         // マイページから変更された内容で上書き
         mypageUserUpdate (state, payload) {
-            const user_id = state.mp_user.id
-            state.mp_user = payload
+            const user_id = state.user.id
+            state.user = payload
             // 併せてメッセージの内容も上書き
-            state.mp_b_messages.forEach(message => {
+            state.b_messages.forEach(message => {
                 if (message.user.id == user_id) message.user = payload
             })
         },
@@ -75,14 +79,14 @@ export default new Vuex.Store({
             state.mp_groups.push(payload.file)
         },
         boardUpdate (state, payload) {
-            state.mp_b_detail = payload
+            state.b_detail = payload
         },
         boardMessagePush (state, payload) {
-            state.mp_b_messages.push(payload)
+            state.b_messages.push(payload)
         },
         boardMessageRemove (state, message_id) {
             // storeから、DBから削除されたメッセージIDのmessageを削除
-            state.mp_b_messages = state.mp_b_messages.filter(message => message.id != message_id)
+            state.b_messages = state.b_messages.filter(message => message.id != message_id)
         },
         joinPush (state, groups) {
             groups.forEach(group => {
@@ -102,18 +106,18 @@ export default new Vuex.Store({
         // フレンドページ
         friendpageInit (state, payload) {
             // console.log(payload)
-            state.fp_user       = payload.user
-            state.fp_b_detail   = payload.board_detail
-            state.fp_b_messages = payload.board_messages
+            state.user       = payload.user
+            state.b_detail      = payload.board_detail
+            state.b_messages = payload.board_messages
             // console.log(state)
         },
         friendBoardMessagePush (state, payload) {
-            state.fp_b_messages.push(payload)
+            state.b_messages.push(payload)
         },
         friendAdd (state,payload) {
-            state.fp_user       = payload.user
-            state.fp_b_detail   = payload.board_detail
-            state.fp_b_messages = payload.board_messages
+            state.user       = payload.user
+            state.b_detail   = payload.board_detail
+            state.b_messages = payload.board_messages
         },
 
         // トピックページ

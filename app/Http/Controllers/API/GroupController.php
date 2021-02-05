@@ -102,14 +102,15 @@ class GroupController extends Controller
                 $group_user->group_id = $group_id;
                 $group_user->user_id = Auth::id();
                 $group_user->save();
-
-                $delete_invite_ids = [];
-                $invites = GroupInvite::where('group_id', $group_id)->where('friend_id', Auth::id())->get();
-                foreach ($invites as $invite) {
-                    array_push($delete_invite_ids, $invite->id);
-                    $invite->delete();
-                }
             }
+
+            $delete_invite_ids = [];
+            $invites = GroupInvite::where('friend_id', Auth::id())->whereIn('group_id', $group_ids)->get();
+            foreach ($invites as $invite) {
+                array_push($delete_invite_ids, $invite->id);
+                $invite->delete();
+            }
+
             $groups = Group::whereIn('id', $group_ids)->get();
 
             return [

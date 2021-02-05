@@ -24,16 +24,14 @@
                 <v-row justify="center" align="center">
                     <v-col class="pa-2">
                         <v-textarea
-                            auto-grow 
                             outlined 
-                            rows="1" 
-                            row-height="10"
-                            hide-details
+                            rows="2"
                             v-model="message"
+                            :error-messages="errorMessage(message)"
                             ></v-textarea>
                     </v-col>
                     <v-col cols="auto" class="py-2">
-                        <SendButton @submit="onStore"/>
+                        <SendButton @submit="onStore" :disabled="!message || message.length > 200" />
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -63,7 +61,14 @@ export default {
     mounted () {
         this.getItems()
     },
-    computed: mapState([ 'isLoading' ]),
+    computed: {
+        ...mapState([ 'isLoading' ]),
+        errorMessage () {
+            return function (message) {
+                return message.length > 200 ? "200文字以内で入力してください" : ""
+            }
+        }
+    },
     methods: {
         getItems () {
             axios.get('/api/friend/' + this.friend_id) 
@@ -88,19 +93,10 @@ export default {
             })
         },
         onStore () {
-            if (!this.message) {
-                alert('メッセージを入力してください。')
-                return
-            }
-            if (this.message.length >= 200) {
-                alert('メッセージは200文字以下で入力してください。')
-                return
-            }
             axios.post('/api/private/message/', {
                 friend_id: this.friend_id,
                 body: this.message,
             }).then(resp => {
-                this.message = null
                 this.scrollToEnd()
             }).catch(error => {
                 alert('送信に失敗しました。')
@@ -117,24 +113,5 @@ export default {
     },
 }
 </script>
-<style lang="scss">
-.top-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    top: 48px; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    height: 72px
-}
-.middle-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    top: 120px; /* 基準の位置を画面の一番下に指定する */
-    bottom: 85px; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    overflow: auto;
-}
-.bottom-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    bottom: 0; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    height: 85px;
-}
+<style lang="scss" scoped>
 </style>

@@ -44,5 +44,25 @@ class TopicMessagesTableSeeder extends Seeder
             $model->body = 'こんばんは';
             $model->save();
         }
+
+        // topic10,11,12　30件のコメント（ページネーションを見せるため）
+        for ($i = 10; $i <= 12; $i++) {
+            for ($j = 1; $j <= $max_user_id; $j++) {
+                $model = new TopicMessage;
+                $model->topic_id = $i;
+                $model->user_id = $j;
+                $model->body = 'こんばんは';
+                $model->save();
+            }
+        }
+        for ($i = 10; $i <= 12; $i++) {
+            for ($j = 1; $j <= $max_user_id; $j++) {
+                $model = new TopicMessage;
+                $model->topic_id = $i;
+                $model->user_id = $j;
+                $model->body = 'おはよう';
+                $model->save();
+            }
+        }
     }
 }

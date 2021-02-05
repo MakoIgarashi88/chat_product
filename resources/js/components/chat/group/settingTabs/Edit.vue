@@ -83,7 +83,6 @@ export default {
                 alert('送信に失敗しました')
             }).finally(res => {
                 this.$emit('change')
-                this.$store.commit('finishLoading')
             })
         }
     }

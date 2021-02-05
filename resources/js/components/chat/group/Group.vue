@@ -3,13 +3,13 @@
         <v-card class="top-fixed">
             <v-card-title class="pa-2">
                 <v-row>
-                    <v-col class="text-center">
+                    <v-col cols="2" class="text-center">
                         <HomeButton />
                     </v-col>
-                    <v-col class="text-center">
+                    <v-col cols="8" class="text-center">
                         {{group.name}}
                     </v-col>
-                    <v-col class="text-center">
+                    <v-col cols="2" class="text-center">
                         <!-- <GroupSetting @change="getItems" /> -->
                         <v-dialog v-model="dialog" persistent max-width="600px">
                             <template v-slot:activator="{ on, attrs }">
@@ -76,21 +76,21 @@
         </v-card>
         <v-card class="bottom-fixed">
             <v-card-text class="pa-2">
-                <v-row justify="center" align="center">
-                    <v-col class="pa-2">
-                        <v-textarea
-                        auto-grow 
-                        outlined 
-                        rows="1" 
-                        row-height="10" 
-                        hide-details
-                        v-model="message"
-                        ></v-textarea>
-                    </v-col>
-                    <v-col cols="auto" class="py-2">
-                        <SendButton @submit="onStore"/>
-                    </v-col>
-                </v-row>
+                <v-form ref="form">
+                    <v-row justify="center">
+                        <v-col class="py-2 pl-4 pr-0">
+                            <v-textarea
+                            outlined 
+                            rows="2"
+                            v-model="message"
+                            :error-messages="errorMessage(message)"
+                            ></v-textarea>
+                        </v-col>
+                        <v-col cols="auto" class="px-3 py-2">
+                            <SendButton @submit="onStore" :disabled="!message || message.length > 200" />
+                        </v-col>
+                    </v-row>
+                </v-form>
             </v-card-text>
         </v-card>
 
@@ -125,7 +125,18 @@ export default {
     mounted () {
         this.getItems()
     },
-    computed: mapState([ 'isLoading' ]),
+    computed: mapState([ 'isLoading', 'group' ]),
+    computed: {
+        isLoading: {
+            get () { return this.$store.state.isLoading },
+            set () {}
+        },
+        errorMessage () {
+            return function (message) {
+                return message.length > 200 ? "200文字以内で入力してください" : ""
+            }
+        }
+    },
     methods: {
         getItems () {
             this.$store.commit('startLoading')
@@ -161,19 +172,11 @@ export default {
             })
         },
         onStore () {
-            if (!this.message) {
-                alert('メッセージを入力してください。')
-                return
-            }
-            if (this.message.length >= 200) {
-                alert('メッセージは200文字以下で入力してください。')
-                return
-            }
+            if (!this.$refs.form.validate()) return
             axios.post('/api/group/message/', {
                 group_id: this.group_id,
                 body: this.message,
             }).then(resp => {
-                this.message = null
                 this.scrollToEnd()
             }).catch(error => {
                 alert('送信に失敗しました。')
@@ -188,6 +191,7 @@ export default {
             document.getElementById("chat-window").scrollTop = scrollHeight;
         },
         onEdit () {
+            this.getItems()
             this.dialog = false
         },
     },
@@ -201,23 +205,4 @@ export default {
 }
 </script>
 <style lang="scss">
-.top-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    top: 48px; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    height: 72px
-}
-.middle-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    top: 120px; /* 基準の位置を画面の一番下に指定する */
-    bottom: 85px; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    overflow: auto;
-}
-.bottom-fixed {
-    position: fixed; /* 要素の位置を固定する */
-    bottom: 0; /* 基準の位置を画面の一番下に指定する */
-    width: 100%;
-    height: 85px;
-}
 </style>

@@ -30,6 +30,8 @@
                                     autocomplete="name"
                                     autofocus
                                     class="pb-0"
+                                    :rules="[rules.required, rules.min]"
+                                    hint="4文字以上の英数字で入力してください"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
@@ -38,7 +40,7 @@
                                 <v-text-field
                                     label="パスワード"
                                     outlined
-                                    type="password"
+                                    :type="show1 ? 'text' : 'password'"
                                     name="password"
                                     value="{{ old('password') }}"
                                     v-bind:error="@error('password') true @else false @enderror"
@@ -46,6 +48,10 @@
                                     required
                                     autocomplete="new-password"
                                     class="pb-0"
+                                    hint="8文字以上の英数字で入力してください"
+                                    :rules="[rules.required, rules.passmin]"
+                                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="show1 = !show1"
                                 ></v-text-field>
                             </v-col>
                         </v-row>
@@ -54,11 +60,13 @@
                                 <v-text-field
                                     label="パスワード確認"
                                     outlined
-                                    type="password"
+                                    :type="show2 ? 'text' : 'password'"
                                     name="password_confirmation"
                                     required
                                     autocomplete="new-password"
                                     class="pb-0"
+                                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="show2 = !show2"
                                 ></v-text-field>
                             </v-col>
                         </v-row>

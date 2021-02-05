@@ -12,6 +12,16 @@ export default {
         // if (window.Laravel.api_token == "Unauthorized") {
         //     alert("ゲストユーザーです。\nチャット機能を利用する場合は、ログインしてください。")
         // }
+        axios.interceptors.response.use(function (response) {
+            return response
+        }, function (error) {
+            if (401 === error.response.status) {
+                alert('ログイン情報が認識できません。\nもう一度ログインしてください。')
+                window.location = '/login'
+            } else {
+                return Promise.reject(error)
+            }
+        })
     }
 }
 </script>

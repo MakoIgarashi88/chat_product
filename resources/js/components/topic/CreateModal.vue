@@ -43,22 +43,23 @@
                                 ></v-textarea>
                             </v-col>
                         </v-row>
-                        <v-row align="center">
-                            <v-col>
-                                <v-text-field
-                                 :disabled="tags.length >= 3"
-                                 :label="tags.length >= 3 ? 'タグの設定は３件までです' :'タグ'" 
-                                 v-model="tag" 
-                                 outlined 
-                                 hide-details 
-                                 required
-                                 @keyup.enter="onAddTag"
-                                 />
-                            </v-col>
-                            <v-col cols="auto">
-                                <v-btn @click="onAddTag" color="primary">追加</v-btn>
-                            </v-col>
-                        </v-row>
+                        <v-form ref="form2">
+                            <v-row align="center">
+                                <v-col>
+                                    <v-text-field
+                                        :disabled="tags.length >= 3"
+                                        :label="tags.length >= 3 ? 'タグの設定は３件までです' :'タグ'"
+                                        :error-messages="tag.length >= 30 ? '30文字以内で入力してください' : ''"
+                                        v-model="tag" 
+                                        outlined 
+                                        @keyup.enter="onAddTag"
+                                        />
+                                </v-col>
+                                <v-col cols="auto">
+                                    <v-btn @click="onAddTag" color="primary" :disabled="tag.length>=30">追加</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
                         <v-row>
                             <v-col>
                                 <v-card outlined>
@@ -84,7 +85,7 @@
                         </v-row>
                         <v-row>
                             <v-col class="text-center">
-                                <v-btn :disabled="!valid" color="primary" @click="onAdd">作成</v-btn>
+                                <v-btn color="primary" @click="onAdd">作成</v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -105,14 +106,13 @@ export default {
             detail: "",
             tag: "",
             tags: [],
-            valid: true,
             nameRules: [
                 v => !!v || 'タイトルを入力してください',
-                v => (v && v.length <= 20) || '20文字以内で入力してください',
+                v => (v.length <= 20) || '20文字以内で入力してください',
             ],
             detailRules: [
                 v => !!v || '詳細を入力してください',
-                v => (v && v.length <= 100) || '100文字以内で入力してください',
+                v => (v.length <= 100) || '100文字以内で入力してください',
             ],
         }
     },
@@ -135,12 +135,16 @@ export default {
             }).finally(res => {
                 this.dialog = false,
                 this.$refs.form.reset()
+                this.topic_title = ''
+                this.detail = ''
+                this.tag = ''
                 this.tags = [],
                 this.$emit('update')
                 this.$store.commit('finishLoading')
             })
         },
         onAddTag () {
+            if (!this.$refs.form2.validate()) return
             if ( this.tag ) {
                 this.tags.push(this.tag)
                 this.tag = ""

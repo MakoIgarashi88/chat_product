@@ -6,7 +6,7 @@
                     <v-card-title>
                         <v-row class="justify-space-between">
                             <v-col cols="auto">
-                                {{mp_user.nickname}}のページ
+                                {{user.nickname}}のページ
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto">
@@ -18,31 +18,51 @@
                         <v-row>
                             <!--サムネイル-->
                             <v-col cols="12" sm="3" v-if="!is_edit">
-                                <IconLg :src="mp_user.image_name" />
+                                <IconLg :src="user.image_name" />
                             </v-col>
                             <v-col cols="12" sm="3" class="text-center" v-else>
-                                <FileUp :image_name="mp_user.image_name" @change="changeImage" />
+                                <FileUp :image_name="user.image_name" @change="changeImage" />
                             </v-col>
 
                             <v-col cols="12" sm="9">
                                 <!--ニックネーム-->
                                 <v-row>
                                     <v-col>
-                                        <v-text-field label="ニックネーム" disabled outlined type="text" v-model="mp_user.nickname" v-if="!is_edit"/>
-                                        <v-text-field label="ニックネーム" outlined type="text" v-model="nickname" v-else/>
+                                        <v-text-field label="ニックネーム" outlined type="text" v-model="user.nickname" disabled v-if="!is_edit"/>
+                                        <v-text-field label="ニックネーム" outlined type="text" v-model="nickname" :rules="nicknameRules" v-else/>
                                     </v-col>
                                 </v-row>
-                                <!--自己紹介欄-->
+                                <!--一言-->
                                 <v-row justify="center">
                                     <v-col>
-                                        <v-textarea label='自己紹介欄' auto-grow outlined rows="1" v-model="mp_user.detail" disabled v-if="!is_edit && mp_user.detail.length"/>
-                                        <v-textarea label='自己紹介欄' auto-grow outlined rows="1" v-model="detail" v-else-if="is_edit"/>
+                                        <v-textarea 
+                                        v-if="!is_edit && user.detail"
+                                        label='一言' 
+                                        auto-grow 
+                                        outlined 
+                                        rows="1" 
+                                        v-model="user.detail" 
+                                        disabled 
+                                        />
+                                        <v-textarea 
+                                        v-else-if="is_edit"
+                                        label='一言' 
+                                        auto-grow 
+                                        outlined 
+                                        rows="1" 
+                                        v-model="detail" 
+                                        :error-messages="detail.length >= 20 ? '20文字以内で入力してください' : ''" 
+                                        />
                                     </v-col>
                                 </v-row>
                             </v-col>
                             <v-row class="mt-4 justify-center" v-show="is_edit">
                                 <v-col cols="4">
-                                    <v-btn outlined color="primary" block @click="onUserUpdate">変更</v-btn>
+                                    <v-btn 
+                                    outlined color="primary" 
+                                    block @click="onUserUpdate" 
+                                    :disabled="(nickname.length == 0) || (detail.length >= 20)"
+                                    >変更</v-btn>
                                 </v-col>
                             </v-row>
                         </v-row>
@@ -59,7 +79,7 @@
                     </v-card-title>
                     <v-card-text>
                         <v-list>
-                            <v-list-item-group v-model="invites" multiple color="primary">
+                            <v-list-item-group v-model="checked" multiple color="primary">
                                 <v-list-item v-for="(invite, index) in mp_invites" :key="index">
                                     <template v-slot:default="{ active }">
                                         <v-list-item-icon>
@@ -141,17 +161,17 @@
                             <v-card outlined>
                                 <v-row>
                                     <v-col cols="12" sm="10" class="text-right">
-                                        <BoardEdit :old_title="mp_b_detail.name" :old_detail="mp_b_detail.detail" />
+                                        <BoardEdit :old_title="b_detail.name" :old_detail="b_detail.detail" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">
                                     <v-col cols="12" sm="8">
-                                        <Detail :board="mp_b_detail"/>
+                                        <Detail :board="b_detail"/>
                                     </v-col>
                                 </v-row>
-                                <v-row justify="center" v-show="mp_b_messages.length">
+                                <v-row justify="center" v-show="b_messages.length">
                                     <v-col cols="12" sm="8">
-                                        <CommentList :pageSize="pageSize" :messages="mp_b_messages" :place="'board'" />
+                                        <CommentList :pageSize="pageSize" :messages="b_messages" place="board" />
                                     </v-col>
                                 </v-row>
                                 <v-row justify="center">
@@ -199,10 +219,14 @@ export default {
             is_edit: false,
             pageSize: 5,       
             upload_image: null,
-            invites: [],
+            checked: [],
+            nicknameRules : [
+                v => !!v || 'ニックネームを設定してください',
+                v => (!!v && 12 >= v.length) || "12文字以内で設定してください"
+            ]
         }
     },
-    computed: mapState([ 'isLoading', 'mp_user', 'mp_b_messages', 'mp_b_detail', 'mp_invites', 'mp_groups']),
+    computed: mapState([ 'isLoading', 'user', 'b_messages', 'b_detail', 'mp_invites', 'mp_groups']),
 
     mounted () {
         this.getItems()
@@ -229,8 +253,8 @@ export default {
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
-                this.nickname = this.mp_user.nickname
-                this.detail = this.mp_user.detail
+                this.nickname = this.user.nickname
+                this.detail = this.user.detail
                 this.$store.commit('finishLoading')
             })
         },
@@ -240,7 +264,7 @@ export default {
         onUserUpdate () {
             this.$store.commit('startLoading')
             axios.put('/api/user/', {
-                id: this.mp_user.id,
+                id: this.user.id,
                 nickname: this.nickname,
                 detail: this.detail,
                 upload_image: this.upload_image,
@@ -257,7 +281,7 @@ export default {
             this.$store.commit('startLoading')
             axios.post('/api/board/message', {
                 message  : message,
-                board_id : this.mp_user.id,
+                board_id : this.user.id,
             }).then(res => {
                 this.$store.commit('boardMessagePush', res.data)
             }).catch(error => {
@@ -268,11 +292,11 @@ export default {
         },
         onJoin () {
             let group_ids = []
-            // console.log(this.invites)
+            // console.log(this.checked)
             // console.log(this.mp_invites)
-            //    invites = チェックされた招待グループのindex
+            //    checked = チェックされた招待グループのindex
             // mp_invites = 招待されているグループの情報集
-            this.invites.forEach(index => {
+            this.checked.forEach(index => {
                 group_ids.push(this.mp_invites[index].group_id)
             })
             this.$store.commit('startLoading')
@@ -281,7 +305,7 @@ export default {
             }).then(res=> {
                 this.$store.commit('joinPush', res.data.join_groups)
                 this.$store.commit('inviteDelete', res.data.delete_invite_ids)
-                this.invites = []
+                this.checked = []
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
@@ -290,15 +314,15 @@ export default {
         },
         onReject () {
             let group_ids = []
-            this.invites.forEach(index => {
+            this.checked.forEach(index => {
                 group_ids.push(this.mp_invites[index].group_id)
             })
             this.$store.commit('startLoading')
             axios.post('/api/group/reject', {
                 group_ids : group_ids,
             }).then(res=> {
-                console.log(res.data)
                 this.$store.commit('inviteDelete', res.data.delete_invite_ids)
+                this.checked = []
             }).catch(error => {
                 alert('送信に失敗しました。')
             }).finally(res => {
