@@ -16,6 +16,12 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
+                        <v-row>
+                            <v-col>
+                            <p>ゲスト用ID:guest</p>
+                            <p>パスワード:1234</p>
+                            </v-col>
+                        </v-row>
                         <v-row class="pt-3">
                             <v-col cols="12">
                                 <v-text-field

@@ -3,7 +3,7 @@ import Vue from 'vue';
 Vue.use(Vuex);
  
 export default new Vuex.Store({
-    strict: true, // strictは本番環境では必ず無効化してください
+    // strict: true, // strictは本番環境では必ず無効化してください
     state: {
         // commons
         isLoading: false,
