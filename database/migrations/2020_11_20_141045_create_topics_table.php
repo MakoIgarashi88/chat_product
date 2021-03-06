@@ -18,7 +18,7 @@ class CreateTopicsTable extends Migration
             $table->string('name')->comment('トピック名');
             $table->string('detail')->comment('詳細');
             $table->foreignId('image_id')->nullable();
-            $table->json('tags')->default('[]')->comment('タグ');
+            $table->json('tags')->comment('タグ');
             $table->timestamps();
         });
     }

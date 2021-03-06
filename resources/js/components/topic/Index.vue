@@ -59,7 +59,7 @@ export default {
     methods: {
         getItems () {
             this.$store.commit('startLoading')
-            axios.get('/api/topic/list/')
+            axios.get('/api/topic/list')
             .then(res => {
                 this.topics = res.data
             }).catch(error => {
