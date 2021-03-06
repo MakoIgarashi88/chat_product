@@ -93,7 +93,7 @@ export default {
             })
         },
         onStore () {
-            axios.post('/api/private/message/', {
+            axios.post('/api/private/message', {
                 friend_id: this.friend_id,
                 body: this.message,
             }).then(resp => {

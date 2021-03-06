@@ -63,7 +63,7 @@ export default {
             // }
         },
         onAddFriend () {
-            axios.post('/api/friend/add/', {
+            axios.post('/api/friend/add', {
                 friend_id: this.friend.id,
             }).then(resp => {
                 if (resp.data.message.length) {

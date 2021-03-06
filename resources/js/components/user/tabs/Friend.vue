@@ -73,9 +73,6 @@ export default {
             this.$router.push({ name: 'chat.private', params: {'friend_id': friend_id} }) 
         },
         pageChange: function (pageNumber) {
-            // pageSize: 5
-            // pageNumber: 1
-            // this.displayLists = this.mp_friends.splice(this.pageSize*(pageNumber-1), this.pageSize)
             this.displayLists = this.mp_friends.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
         }
     },

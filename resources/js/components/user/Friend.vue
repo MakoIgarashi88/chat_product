@@ -107,7 +107,6 @@ export default {
                     board_detail  : res.data.detail,
                     board_messages: res.data.messages,
                 })
-                // console.log(res.data.user)
             })).catch(error => {
                 alert(error)
             }).finally(resp => {
@@ -133,7 +132,7 @@ export default {
         },
         addFriend () {
             if(confirm('友達に追加しますか？')) {
-                axios.post('/api/friend/add/', {
+                axios.post('/api/friend/add', {
                     friend_id: this.user_id,
                 }).then(res => {
                     if (res.data.message.length) {
@@ -148,9 +147,6 @@ export default {
                 })
             }
         },
-        // onMessage: function () {
-        //     this.$router.push({ name: 'chat.private', params: { 'user_id': this.user.id} })
-        // },
     },
     components:{
         PrivateChat,

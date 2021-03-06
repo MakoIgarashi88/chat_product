@@ -64,9 +64,6 @@ export default {
     },
     methods: {
         pageChange: function (pageNumber) {
-            // pageSize: 5
-            // pageNumber: 1
-            // this.displayLists = this.mp_friends.splice(this.pageSize*(pageNumber-1), this.pageSize)
             this.displayLists = this.mp_f_topics.slice(this.pageSize*(pageNumber-1),this.pageSize*(pageNumber));
         }
     },

@@ -108,13 +108,12 @@ export default {
     computed: mapState([ 'isLoading', 'mp_friends', 'mp_groups']),
     methods: {
         entryImage: function (file)  {
-            // console.log(file)
             this.upload_image = file
         },
         onAdd () {
             if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
-            axios.post('/api/group/', {
+            axios.post('/api/group', {
                 name        : this.group_name,
                 detail      : this.detail,
                 upload_image: this.upload_image,

@@ -125,7 +125,7 @@ export default {
         onAdd () {
             if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
-            axios.post('/api/topic/', {
+            axios.post('/api/topic', {
                 upload_image: this.upload_image,
                 name        : this.topic_title,
                 detail      : this.detail,

@@ -77,7 +77,7 @@ export default {
         onEdit () {
             if (!this.$refs.form.validate()) return
             this.$store.commit('startLoading')
-            axios.post('/api/board/', {
+            axios.post('/api/board', {
                 name   : this.name,
                 detail : this.detail,
             }).then(res=> {

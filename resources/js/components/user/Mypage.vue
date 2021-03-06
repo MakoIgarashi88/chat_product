@@ -263,7 +263,7 @@ export default {
         },
         onUserUpdate () {
             this.$store.commit('startLoading')
-            axios.put('/api/user/', {
+            axios.put('/api/user', {
                 id: this.user.id,
                 nickname: this.nickname,
                 detail: this.detail,
@@ -292,10 +292,6 @@ export default {
         },
         onJoin () {
             let group_ids = []
-            // console.log(this.checked)
-            // console.log(this.mp_invites)
-            //    checked = チェックされた招待グループのindex
-            // mp_invites = 招待されているグループの情報集
             this.checked.forEach(index => {
                 group_ids.push(this.mp_invites[index].group_id)
             })

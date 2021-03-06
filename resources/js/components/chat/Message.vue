@@ -29,35 +29,6 @@
                 <p class="margin"><small>{{ message.created_at }}</small></p>
             </v-col>
         </v-row>
-
-
-
-        <!-- <v-list-item align="center" justify="end" v-if="message.is_myself">
-            <v-list-item-content>
-                <v-list-item-subtitle>
-                    {{message.body}}
-                </v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item>
-
-
-        <v-list-item v-else>
-            <v-list-item-avatar>
-                <IconSm :src="message.image"/>
-            </v-list-item-avatar>
-            <v-list-item-content>
-                <v-list-item-title>
-                    <router-link :to="{ name: 'friend.show', params: { 'user_id': message.user_id } }">
-                            {{message.nickname}}
-                        </router-link>
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                    {{message.body}}
-                </v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item> -->
-
-
     </div>
 </template>
 

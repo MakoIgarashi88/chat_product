@@ -173,7 +173,7 @@ export default {
         },
         onStore () {
             if (!this.$refs.form.validate()) return
-            axios.post('/api/group/message/', {
+            axios.post('/api/group/message', {
                 group_id: this.group_id,
                 body: this.message,
             }).then(resp => {
