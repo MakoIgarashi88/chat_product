@@ -35,7 +35,7 @@
         <v-app-bar app color="secondary" dark dense absolute>
             <v-toolbar-title>
                 <v-btn text href="/">
-                    {{ config('app.name', 'TOP') }}
+                    TOP
                 </v-btn>
             </v-toolbar-title>
             
